@@ -1,15 +1,23 @@
-export const categories = [
+export const themes = [
   "Getting In",
   "The Craft",
   "AI & Evals",
   "Growth",
   "Career",
-  "Templates",
+  "Templates & Tools",
 ] as const;
 
-export type Category = (typeof categories)[number];
+export type Theme = (typeof themes)[number];
 
-export type Format = "Essay" | "Newsletter" | "Guide" | "Library" | "Template";
+/** Format of the resource. Anything goes except an automated feed. */
+export type Media =
+  | "Article"
+  | "Newsletter"
+  | "Podcast"
+  | "Video"
+  | "Talk"
+  | "Guide"
+  | "Template";
 
 export type Resource = {
   /** Stable key for React lists and deep links. */
@@ -18,16 +26,19 @@ export type Resource = {
   /** Author or publisher, shown as the byline. */
   by: string;
   url: string;
-  category: Category;
-  format: Format;
-  /** One sentence on why it earns a place in the index. */
+  theme: Theme;
+  media: Media;
+  /** ISO date this entry was added — drives "new" badges and sorting. */
+  added: string;
+  /** One sentence on why it earns a place in the collection. */
   note: string;
 };
 
 /**
- * Entries point at canonical homes (a publication, an author's archive, a
- * specific essay) rather than at single posts that rot. Add new rows here —
- * the filter UI and sitemap derive everything else from this list.
+ * Entries point at canonical homes (a publication, a show, an author's
+ * archive, a specific essay) rather than at single posts that rot.
+ * Add new rows here — filtering, search, themes and the sitemap all
+ * derive from this list.
  */
 export const resources: readonly Resource[] = [
   // ── Getting In ────────────────────────────────────────────────────────────
@@ -36,17 +47,29 @@ export const resources: readonly Resource[] = [
     title: "Lenny's Newsletter",
     by: "Lenny Rachitsky",
     url: "https://www.lennysnewsletter.com/",
-    category: "Getting In",
-    format: "Newsletter",
+    theme: "Getting In",
+    media: "Newsletter",
+    added: "2026-05-02",
     note: "The default starting point. Deep, sourced answers to the questions every new PM asks in their first year.",
+  },
+  {
+    id: "lennys-podcast",
+    title: "Lenny's Podcast",
+    by: "Lenny Rachitsky",
+    url: "https://www.lennysnewsletter.com/podcast",
+    theme: "Getting In",
+    media: "Podcast",
+    added: "2026-08-01",
+    note: "Long-form interviews with operators who have actually done the thing. Worth the full hour rather than the summary.",
   },
   {
     id: "svpg-articles",
     title: "SVPG Articles",
     by: "Marty Cagan",
     url: "https://www.svpg.com/articles/",
-    category: "Getting In",
-    format: "Library",
+    theme: "Getting In",
+    media: "Article",
+    added: "2026-05-02",
     note: "The archive that defined the empowered product team. Opinionated, occasionally uncomfortable, still the baseline vocabulary.",
   },
   {
@@ -54,8 +77,9 @@ export const resources: readonly Resource[] = [
     title: "Product Talk",
     by: "Teresa Torres",
     url: "https://www.producttalk.org/",
-    category: "Getting In",
-    format: "Library",
+    theme: "Getting In",
+    media: "Article",
+    added: "2026-05-14",
     note: "Continuous discovery, taught properly. The opportunity solution tree alone will change how you run interviews.",
   },
   {
@@ -63,8 +87,9 @@ export const resources: readonly Resource[] = [
     title: "First Round Review",
     by: "First Round Capital",
     url: "https://review.firstround.com/",
-    category: "Getting In",
-    format: "Library",
+    theme: "Getting In",
+    media: "Article",
+    added: "2026-05-14",
     note: "Long-form operator interviews with the editorial standard of a magazine. Read for range before you specialise.",
   },
   {
@@ -72,9 +97,10 @@ export const resources: readonly Resource[] = [
     title: "Mind the Product",
     by: "Mind the Product",
     url: "https://www.mindtheproduct.com/",
-    category: "Getting In",
-    format: "Library",
-    note: "Broad community coverage. Useful for mapping the landscape and finding the sub-discipline that actually suits you.",
+    theme: "Getting In",
+    media: "Talk",
+    added: "2026-06-20",
+    note: "Conference talks and community writing. The keynote archive is genuinely good once you know whose sessions to pick.",
   },
 
   // ── The Craft ─────────────────────────────────────────────────────────────
@@ -83,17 +109,19 @@ export const resources: readonly Resource[] = [
     title: "Behind the Craft",
     by: "Peter Yang",
     url: "https://creatoreconomy.so/",
-    category: "The Craft",
-    format: "Newsletter",
-    note: "Teardowns and operator interviews, written up so you can act on them without listening to an hour of audio.",
+    theme: "The Craft",
+    media: "Newsletter",
+    added: "2026-05-02",
+    note: "Teardowns and operator interviews. Peter writes up the useful part so you can act on it the same week.",
   },
   {
     id: "beautiful-mess",
     title: "The Beautiful Mess",
     by: "John Cutler",
     url: "https://cutlefish.substack.com/",
-    category: "The Craft",
-    format: "Newsletter",
+    theme: "The Craft",
+    media: "Newsletter",
+    added: "2026-05-14",
     note: "Systems thinking about why product orgs behave the way they do. The best diagnosis of dysfunction you'll find written down.",
   },
   {
@@ -101,8 +129,9 @@ export const resources: readonly Resource[] = [
     title: "The Looking Glass",
     by: "Julie Zhuo",
     url: "https://lg.substack.com/",
-    category: "The Craft",
-    format: "Newsletter",
+    theme: "The Craft",
+    media: "Newsletter",
+    added: "2026-05-14",
     note: "Design-rooted writing on judgement and taste — the parts of the job that never make it into a competency framework.",
   },
   {
@@ -110,8 +139,9 @@ export const resources: readonly Resource[] = [
     title: "Melissa Perri",
     by: "Melissa Perri",
     url: "https://melissaperri.com/blog",
-    category: "The Craft",
-    format: "Library",
+    theme: "The Craft",
+    media: "Article",
+    added: "2026-06-20",
     note: "The build trap, product operations, and what product leadership means once you're past a single team.",
   },
   {
@@ -119,8 +149,9 @@ export const resources: readonly Resource[] = [
     title: "Bring the Donuts",
     by: "Ken Norton",
     url: "https://www.bringthedonuts.com/",
-    category: "The Craft",
-    format: "Library",
+    theme: "The Craft",
+    media: "Article",
+    added: "2026-06-20",
     note: "Essays and a reading list from a former Google PM turned coach. Short pieces, unusually high signal per word.",
   },
 
@@ -130,8 +161,9 @@ export const resources: readonly Resource[] = [
     title: "Your AI Product Needs Evals",
     by: "Hamel Husain",
     url: "https://hamel.dev/blog/posts/evals/",
-    category: "AI & Evals",
-    format: "Essay",
+    theme: "AI & Evals",
+    media: "Article",
+    added: "2026-07-11",
     note: "Start here. The argument for why shipping AI without an evaluation system is shipping blind, and what to build instead.",
   },
   {
@@ -139,8 +171,9 @@ export const resources: readonly Resource[] = [
     title: "LLM Evals: Everything You Need to Know",
     by: "Hamel Husain",
     url: "https://hamel.dev/blog/posts/evals-faq/",
-    category: "AI & Evals",
-    format: "Guide",
+    theme: "AI & Evals",
+    media: "Guide",
+    added: "2026-07-11",
     note: "The FAQ compiled from teaching thousands of PMs and engineers. Answers the questions you'd be embarrassed to ask.",
   },
   {
@@ -148,17 +181,29 @@ export const resources: readonly Resource[] = [
     title: "Hamel's Blog",
     by: "Hamel Husain",
     url: "https://hamel.dev/",
-    category: "AI & Evals",
-    format: "Library",
+    theme: "AI & Evals",
+    media: "Article",
+    added: "2026-07-11",
     note: "The full archive — error analysis, LLM-as-judge, and the failure modes that only show up in production.",
+  },
+  {
+    id: "how-i-ai",
+    title: "How I AI",
+    by: "Claire Vo",
+    url: "https://www.lennysnewsletter.com/p/introducing-how-i-ai",
+    theme: "AI & Evals",
+    media: "Podcast",
+    added: "2026-08-01",
+    note: "Thirty-minute episodes built around a live demo. You watch someone actually use the tool rather than describe it.",
   },
   {
     id: "anthropic-docs",
     title: "Claude Documentation",
     by: "Anthropic",
     url: "https://docs.claude.com/",
-    category: "AI & Evals",
-    format: "Guide",
+    theme: "AI & Evals",
+    media: "Guide",
+    added: "2026-07-25",
     note: "Read the primary source. Prompt design, tool use, and evaluation guidance straight from the people building the model.",
   },
   {
@@ -166,8 +211,9 @@ export const resources: readonly Resource[] = [
     title: "Claire Vo",
     by: "Claire Vo",
     url: "https://clairevo.com/",
-    category: "AI & Evals",
-    format: "Library",
+    theme: "AI & Evals",
+    media: "Article",
+    added: "2026-07-25",
     note: "A sitting CPO writing about running product with AI in the loop, rather than speculating about it from the sidelines.",
   },
 
@@ -177,8 +223,9 @@ export const resources: readonly Resource[] = [
     title: "Elena's Growth Scoop",
     by: "Elena Verna",
     url: "https://www.elenaverna.com/",
-    category: "Growth",
-    format: "Newsletter",
+    theme: "Growth",
+    media: "Newsletter",
+    added: "2026-05-02",
     note: "Product-led growth from someone who has run it at scale. Clear on what compounds and what only looks like it does.",
   },
   {
@@ -186,8 +233,9 @@ export const resources: readonly Resource[] = [
     title: "Reforge Blog",
     by: "Reforge",
     url: "https://www.reforge.com/blog",
-    category: "Growth",
-    format: "Library",
+    theme: "Growth",
+    media: "Article",
+    added: "2026-06-20",
     note: "Structured frameworks for growth loops, retention, and monetisation. Dense — read one piece properly rather than five quickly.",
   },
 
@@ -197,17 +245,19 @@ export const resources: readonly Resource[] = [
     title: "The Skip",
     by: "Nikhyl Singhal",
     url: "https://www.skip.show/",
-    category: "Career",
-    format: "Newsletter",
-    note: "Levels, scope, and the honest mechanics of promotion. The writing to read before your next career conversation.",
+    theme: "Career",
+    media: "Podcast",
+    added: "2026-05-02",
+    note: "Levels, scope, and the honest mechanics of promotion. Both the writing and the episodes are worth your time.",
   },
   {
     id: "pragmatic-engineer",
     title: "The Pragmatic Engineer",
     by: "Gergely Orosz",
     url: "https://newsletter.pragmaticengineer.com/",
-    category: "Career",
-    format: "Newsletter",
+    theme: "Career",
+    media: "Newsletter",
+    added: "2026-05-14",
     note: "Written for engineers, invaluable for PMs. The fastest way to understand what your counterparts are actually dealing with.",
   },
   {
@@ -215,19 +265,30 @@ export const resources: readonly Resource[] = [
     title: "Irrational Exuberance",
     by: "Will Larson",
     url: "https://lethain.com/",
-    category: "Career",
-    format: "Library",
+    theme: "Career",
+    media: "Article",
+    added: "2026-06-20",
     note: "Engineering leadership writing that transfers cleanly to product. Especially good on strategy documents and org design.",
   },
 
-  // ── Templates ─────────────────────────────────────────────────────────────
+  // ── Templates & Tools ─────────────────────────────────────────────────────
   {
     id: "chatprd",
     title: "ChatPRD",
     by: "Claire Vo",
     url: "https://www.chatprd.ai/",
-    category: "Templates",
-    format: "Template",
+    theme: "Templates & Tools",
+    media: "Template",
+    added: "2026-07-25",
     note: "Drafts and critiques PRDs on demand. Most useful as a second opinion on structure, not as a first draft you ship unread.",
   },
-] as const;
+];
+
+/** Entries added within this window of the last revision are flagged "New". */
+const NEW_WINDOW_DAYS = 45;
+
+export function isNew(resource: Resource, reference: Date): boolean {
+  const added = new Date(resource.added).getTime();
+  const days = (reference.getTime() - added) / 86_400_000;
+  return days >= 0 && days <= NEW_WINDOW_DAYS;
+}

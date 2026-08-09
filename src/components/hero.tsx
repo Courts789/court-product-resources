@@ -14,7 +14,7 @@ export function Hero() {
     <section className="border-b border-rule" aria-labelledby="hero-title">
       <div className="mx-auto max-w-[84rem] px-5 py-16 sm:px-8 sm:py-24 lg:px-12 lg:py-32">
         <p className="eyebrow text-brass-deep">
-          Curated for product people &middot; {site.edition}
+          Curated for product people &middot; by {site.author}
         </p>
 
         <h1

@@ -1,19 +1,17 @@
-import { SiteHeader } from "@/components/site-header";
 import { Hero } from "@/components/hero";
 import { Premise } from "@/components/premise";
+import { About } from "@/components/about";
 import { Voices } from "@/components/voices";
-import { Library } from "@/components/library";
-import { SiteFooter } from "@/components/site-footer";
-import { resources } from "@/data/resources";
+import { LibraryCallout } from "@/components/library-callout";
 import { site } from "@/lib/site";
 
 /**
- * Structured data: describes the page as a curated collection so search
- * engines can read the index as a list rather than as loose prose.
+ * Structured data: identifies the site and its author. The resource
+ * ItemList lives on /library, alongside the entries themselves.
  */
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "CollectionPage",
+  "@type": "WebSite",
   name: site.name,
   description: site.description,
   url: site.url,
@@ -22,18 +20,8 @@ const jsonLd = {
   author: {
     "@type": "Person",
     name: site.author,
-  },
-  mainEntity: {
-    "@type": "ItemList",
-    name: "The Library",
-    numberOfItems: resources.length,
-    itemListElement: resources.map((resource, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      name: resource.title,
-      description: resource.note,
-      url: resource.url,
-    })),
+    description:
+      "Product manager who spent a decade in another field before transitioning into product management.",
   },
 };
 
@@ -44,14 +32,13 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <SiteHeader />
       <main id="main" className="flex-1">
         <Hero />
         <Premise />
+        <About />
         <Voices />
-        <Library />
+        <LibraryCallout />
       </main>
-      <SiteFooter />
     </>
   );
 }
