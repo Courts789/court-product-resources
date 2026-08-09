@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+/*
+ * Editorial palette — warm ivory paper, near-black ink, brass as ornament.
+ * The design deliberately commits to a single light treatment, the way a
+ * printed publication does; there is no dark variant.
+ */
+@theme {
+  --color-paper: #faf8f5;
+  --color-paper-sunk: #f3f0ea;
+  --color-ink: #1c1917;
+  --color-ink-soft: #3d3835;
+  --color-ink-muted: #6b635c;
+  --color-brass: #b08d57;
+  /* Darkened brass for text: reaches AA on paper, where --color-brass cannot. */
+  --color-brass-deep: #8a6a3b;
+  --color-rule: rgba(28, 25, 23, 0.14);
+  --color-rule-strong: rgba(28, 25, 23, 0.32);
+
+  --font-display: var(--font-newsreader), ui-serif, Georgia, "Times New Roman",
+    serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    sans-serif;
+
+  --text-display: clamp(2.75rem, 1.4rem + 5.4vw, 6.25rem);
+  --text-section: clamp(1.75rem, 1.1rem + 2.4vw, 2.75rem);
+  --text-lede: clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Keep anchored sections clear of the sticky masthead. */
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background-color: var(--color-brass);
+    color: var(--color-paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brass-deep);
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Declared as utilities (not components) so Tailwind variants still apply. */
+
+/* Small tracked capitals used for eyebrows, labels and metadata. */
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/*
+ * Rows that scroll sideways on narrow screens (masthead nav, category
+ * filters). The bar itself is hidden so it doesn't cut across the layout;
+ * the row stays scrollable by touch, wheel and keyboard.
+ */
+@utility scroll-row {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Tabular figures for index numerals, so columns line up like print. */
+@utility numeral {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+/* Underline that draws itself in on hover rather than snapping on. */
+@utility rule-link {
+  background-image: linear-gradient(
+    to right,
+    var(--color-brass) 0%,
+    var(--color-brass) 100%
+  );
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  transition: background-size 400ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover,
+  &:focus-visible {
+    background-size: 100% 1px;
+  }
+}
