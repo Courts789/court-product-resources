@@ -11,11 +11,12 @@ export function Voices() {
       <div className="mx-auto max-w-[84rem] px-5 py-16 sm:px-8 sm:py-24 lg:px-12">
         <div className="grid gap-y-6 md:grid-cols-12 md:gap-x-16">
           <h2 id="voices-title" className="eyebrow text-brass-deep md:col-span-3">
-            Featured Voices
+            My Go-To Five
           </h2>
           <p className="max-w-[52ch] font-display text-[length:var(--text-lede)] leading-[1.45] text-ink-soft md:col-span-9">
-            Curated from people who actually know what they&rsquo;re talking
-            about &mdash; written and text content only.
+            The five people I come back to most. When I need a straight answer,
+            I start here &mdash; they actually know what they&rsquo;re talking
+            about.
           </p>
         </div>
 

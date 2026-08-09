@@ -1,119 +1,319 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { categories, resources, type Category } from "@/data/resources";
+import { useEffect, useMemo, useState } from "react";
+import {
+  isNew,
+  resources,
+  themes,
+  type Media,
+  type Resource,
+  type Theme,
+} from "@/data/resources";
+import { site } from "@/lib/site";
 import { ArrowUpRight } from "@/components/icons";
 
-type Filter = Category | "All";
+type ThemeFilter = Theme | "All";
+type Sort = "theme" | "newest";
 
-const filters: readonly Filter[] = ["All", ...categories];
+const themeFilters: readonly ThemeFilter[] = ["All", ...themes];
+
+const mediaFilters: readonly Media[] = [
+  "Article",
+  "Newsletter",
+  "Podcast",
+  "Video",
+  "Talk",
+  "Guide",
+  "Template",
+];
+
+/** "New" is measured against the last revision, so it's stable across renders. */
+const reference = new Date(site.lastUpdated);
+
+function matchesQuery(resource: Resource, query: string): boolean {
+  const haystack =
+    `${resource.title} ${resource.by} ${resource.note} ${resource.theme} ${resource.media}`.toLowerCase();
+  return query
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean)
+    .every((term) => haystack.includes(term));
+}
+
+/**
+ * The masthead wraps to two rows at narrow widths, so its height can't be
+ * hard-coded as a sticky offset for the controls below it. Measure it and
+ * keep the value current as the viewport changes.
+ */
+function useMastheadHeight(): number {
+  const [height, setHeight] = useState(0);
+
+  useEffect(() => {
+    const masthead = document.querySelector("header");
+    if (!masthead) return;
+
+    const observer = new ResizeObserver(([entry]) => {
+      setHeight(entry.target.getBoundingClientRect().height);
+    });
+    observer.observe(masthead);
+    return () => observer.disconnect();
+  }, []);
+
+  return height;
+}
 
 export function Library() {
-  const [active, setActive] = useState<Filter>("All");
+  const mastheadHeight = useMastheadHeight();
+  const [query, setQuery] = useState("");
+  const [theme, setTheme] = useState<ThemeFilter>("All");
+  const [media, setMedia] = useState<Media | null>(null);
+  const [sort, setSort] = useState<Sort>("theme");
 
-  const visible = useMemo(
+  const visible = useMemo(() => {
+    const filtered = resources.filter(
+      (resource) =>
+        (theme === "All" || resource.theme === theme) &&
+        (media === null || resource.media === media) &&
+        (query === "" || matchesQuery(resource, query)),
+    );
+
+    return sort === "newest"
+      ? [...filtered].sort((a, b) => b.added.localeCompare(a.added))
+      : filtered;
+  }, [query, theme, media, sort]);
+
+  /* Grouped headings only make sense when browsing the whole collection by
+     theme — searching or sorting by date produces one ranked list instead. */
+  const grouped = sort === "theme" && query === "";
+
+  const sections = useMemo(
     () =>
-      active === "All"
-        ? resources
-        : resources.filter((resource) => resource.category === active),
-    [active],
+      themes
+        .map((name) => ({
+          name,
+          items: visible.filter((resource) => resource.theme === name),
+        }))
+        .filter((section) => section.items.length > 0),
+    [visible],
   );
 
+  const isFiltered = query !== "" || theme !== "All" || media !== null;
+
+  function reset() {
+    setQuery("");
+    setTheme("All");
+    setMedia(null);
+  }
+
   return (
-    <section
-      id="library"
-      aria-labelledby="library-title"
-      className="border-b border-rule"
-    >
-      <div className="mx-auto max-w-[84rem] px-5 py-16 sm:px-8 sm:py-24 lg:px-12">
-        <div className="grid gap-y-6 md:grid-cols-12 md:gap-x-16">
-          <h2
-            id="library-title"
-            className="eyebrow text-brass-deep md:col-span-3"
-          >
-            The Library
-          </h2>
-          <p className="max-w-[52ch] font-display text-[length:var(--text-lede)] leading-[1.45] text-ink-soft md:col-span-9">
-            Canonical sources rather than single posts, so the links keep
-            working. Filter by what you need this week.
+    <>
+      <div className="border-b border-rule">
+        <div className="mx-auto max-w-[84rem] px-5 py-12 sm:px-8 sm:py-16 lg:px-12">
+          <p className="eyebrow text-brass-deep">The Library</p>
+          <h1 className="mt-6 max-w-[16ch] text-[length:var(--text-section)] leading-[1.1] text-ink">
+            Everything worth your time, in one place.
+          </h1>
+          <p className="mt-6 max-w-[58ch] font-display text-[length:var(--text-lede)] leading-[1.45] text-ink-soft">
+            Articles, newsletters, podcasts, talks and templates. Grouped by
+            theme, searchable, and sorted by hand rather than by an algorithm.
           </p>
         </div>
+      </div>
 
-        <div className="mt-12 flex flex-col gap-4 border-y border-rule py-5 sm:flex-row sm:items-center sm:justify-between">
-          <div
-            role="group"
-            aria-label="Filter resources by category"
-            className="scroll-row -mx-5 flex gap-x-6 gap-y-3 overflow-x-auto px-5 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0"
-          >
-            {filters.map((filter) => {
-              const isActive = filter === active;
-              return (
+      {/* Controls stick under the masthead so filters stay reachable while
+          scrolling a long list. */}
+      <div
+        style={{ top: mastheadHeight }}
+        className="sticky z-30 border-b border-rule bg-paper"
+      >
+        <div className="mx-auto max-w-[84rem] px-5 sm:px-8 lg:px-12">
+          <div className="flex flex-col gap-4 border-b border-rule py-5 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
+            <div className="flex-1 lg:max-w-md">
+              <label htmlFor="library-search" className="sr-only">
+                Search the library
+              </label>
+              <input
+                id="library-search"
+                type="search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Search by title, person or topic"
+                className="w-full border-b border-rule bg-transparent pb-2 font-display text-lg text-ink outline-none transition-colors duration-300 placeholder:text-ink-muted focus:border-brass"
+              />
+            </div>
+
+            <div className="flex items-center gap-6">
+              <div
+                role="group"
+                aria-label="Sort the library"
+                className="flex items-center gap-4"
+              >
+                {(
+                  [
+                    ["theme", "By theme"],
+                    ["newest", "Newest"],
+                  ] as const
+                ).map(([value, label]) => (
+                  <button
+                    key={value}
+                    type="button"
+                    onClick={() => setSort(value)}
+                    aria-pressed={sort === value}
+                    className={`eyebrow cursor-pointer border-b py-1 transition-colors duration-300 ${
+                      sort === value
+                        ? "border-brass text-ink"
+                        : "border-transparent text-ink-muted hover:text-ink"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+
+              <p aria-live="polite" className="eyebrow shrink-0 text-ink-muted">
+                <span className="numeral">
+                  {String(visible.length).padStart(2, "0")}
+                </span>{" "}
+                {visible.length === 1 ? "entry" : "entries"}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-3 py-4">
+            <div
+              role="group"
+              aria-label="Filter by theme"
+              className="scroll-row -mx-5 flex gap-x-6 overflow-x-auto px-5 sm:mx-0 sm:flex-wrap sm:gap-y-2 sm:overflow-visible sm:px-0"
+            >
+              {themeFilters.map((name) => (
                 <button
-                  key={filter}
+                  key={name}
                   type="button"
-                  onClick={() => setActive(filter)}
-                  aria-pressed={isActive}
+                  onClick={() => setTheme(name)}
+                  aria-pressed={theme === name}
                   className={`eyebrow shrink-0 cursor-pointer whitespace-nowrap border-b py-1 transition-colors duration-300 ${
-                    isActive
+                    theme === name
                       ? "border-brass text-ink"
                       : "border-transparent text-ink-muted hover:border-rule-strong hover:text-ink"
                   }`}
                 >
-                  {filter}
+                  {name}
                 </button>
-              );
-            })}
-          </div>
+              ))}
+            </div>
 
-          <p aria-live="polite" className="eyebrow shrink-0 text-ink-muted">
-            <span className="numeral">
-              {String(visible.length).padStart(2, "0")}
-            </span>{" "}
-            {visible.length === 1 ? "entry" : "entries"}
-          </p>
-        </div>
-
-        <ol className="mt-2">
-          {visible.map((resource, index) => (
-            <li key={resource.id}>
-              <a
-                href={resource.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group grid gap-x-8 gap-y-3 border-b border-rule py-7 transition-colors duration-300 hover:bg-paper-sunk md:grid-cols-12"
-              >
-                <span
-                  aria-hidden="true"
-                  className="numeral text-sm text-brass md:col-span-1"
+            <div
+              role="group"
+              aria-label="Filter by format"
+              className="scroll-row -mx-5 flex items-center gap-x-4 overflow-x-auto px-5 sm:mx-0 sm:flex-wrap sm:gap-y-2 sm:overflow-visible sm:px-0"
+            >
+              <span className="eyebrow shrink-0 text-ink-muted/70">Format</span>
+              {mediaFilters.map((name) => {
+                const active = media === name;
+                return (
+                  <button
+                    key={name}
+                    type="button"
+                    onClick={() => setMedia(active ? null : name)}
+                    aria-pressed={active}
+                    className={`shrink-0 cursor-pointer whitespace-nowrap border px-3 py-1 text-xs transition-colors duration-300 ${
+                      active
+                        ? "border-ink bg-ink text-paper"
+                        : "border-rule text-ink-muted hover:border-rule-strong hover:text-ink"
+                    }`}
+                  >
+                    {name}
+                  </button>
+                );
+              })}
+              {isFiltered && (
+                <button
+                  type="button"
+                  onClick={reset}
+                  className="eyebrow rule-link shrink-0 cursor-pointer text-brass-deep"
                 >
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-
-                <div className="md:col-span-4">
-                  <h3 className="flex items-baseline gap-2 font-display text-xl leading-snug text-ink lg:text-2xl">
-                    <span className="rule-link">{resource.title}</span>
-                    <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-ink-muted transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                  </h3>
-                  <p className="mt-2 text-sm text-ink-muted">{resource.by}</p>
-                </div>
-
-                <p className="max-w-[54ch] text-sm leading-relaxed text-ink-soft md:col-span-5">
-                  {resource.note}
-                </p>
-
-                <div className="flex gap-x-4 md:col-span-2 md:flex-col md:items-end md:gap-y-3 md:text-right">
-                  <span className="eyebrow text-ink">{resource.category}</span>
-                  <span className="eyebrow text-ink-muted">
-                    {resource.format}
-                  </span>
-                </div>
-
-                <span className="sr-only">(opens in a new tab)</span>
-              </a>
-            </li>
-          ))}
-        </ol>
+                  Clear all
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
-    </section>
+
+      <div className="mx-auto max-w-[84rem] px-5 py-12 sm:px-8 sm:py-16 lg:px-12">
+        {visible.length === 0 && (
+          <p className="py-16 text-center font-display text-xl text-ink-muted">
+            Nothing matches that yet.{" "}
+            <button
+              type="button"
+              onClick={reset}
+              className="rule-link cursor-pointer text-ink"
+            >
+              Clear the filters
+            </button>{" "}
+            to see everything.
+          </p>
+        )}
+
+        {grouped
+          ? sections.map((section) => (
+              <section key={section.name} className="mb-14 last:mb-0">
+                <h2 className="eyebrow border-b border-rule-strong pb-3 text-brass-deep">
+                  {section.name}
+                </h2>
+                <ResourceList items={section.items} />
+              </section>
+            ))
+          : visible.length > 0 && <ResourceList items={visible} />}
+      </div>
+    </>
+  );
+}
+
+function ResourceList({ items }: { items: readonly Resource[] }) {
+  return (
+    <ol>
+      {items.map((resource, index) => (
+        <li key={resource.id}>
+          <a
+            href={resource.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group grid gap-x-8 gap-y-3 border-b border-rule py-7 transition-colors duration-300 hover:bg-paper-sunk md:grid-cols-12"
+          >
+            <span
+              aria-hidden="true"
+              className="numeral text-sm text-brass md:col-span-1"
+            >
+              {String(index + 1).padStart(2, "0")}
+            </span>
+
+            <div className="md:col-span-4">
+              <h3 className="flex flex-wrap items-baseline gap-x-2 gap-y-1 font-display text-xl leading-snug text-ink lg:text-2xl">
+                <span className="rule-link">{resource.title}</span>
+                <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-ink-muted transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                {isNew(resource, reference) && (
+                  <span className="eyebrow border border-brass px-1.5 py-0.5 text-brass-deep">
+                    New
+                  </span>
+                )}
+              </h3>
+              <p className="mt-2 text-sm text-ink-muted">{resource.by}</p>
+            </div>
+
+            <p className="max-w-[54ch] text-sm leading-relaxed text-ink-soft md:col-span-5">
+              {resource.note}
+            </p>
+
+            <div className="flex gap-x-4 md:col-span-2 md:flex-col md:items-end md:gap-y-3 md:text-right">
+              <span className="eyebrow text-ink">{resource.theme}</span>
+              <span className="eyebrow text-ink-muted">{resource.media}</span>
+            </div>
+
+            <span className="sr-only">(opens in a new tab)</span>
+          </a>
+        </li>
+      ))}
+    </ol>
   );
 }

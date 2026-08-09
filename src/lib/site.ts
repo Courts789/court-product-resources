@@ -4,21 +4,22 @@
  */
 export const site = {
   name: "Court's Product Resources",
-  shortName: "Court's Product Resources",
   tagline: "Curated product management resources, without the noise.",
   description:
-    "A curated index of product management resources for people transitioning in, upskilling, and navigating the industry's largest change ever. No clickbait, no overwhelming feed — just conversations, templates, and summaries.",
+    "A curated collection of product management resources for people transitioning, upskilling, and navigating the industry's largest change ever. Conversations, templates, and summaries — chosen by hand, never by algorithm.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://courtsproductresources.com",
-  author: "Court Bain",
+  author: "Courtney Bain",
   locale: "en_AU",
-  /** Shown in the masthead and colophon. */
-  edition: "Volume One",
   lastUpdated: "2026-08-09",
 } as const;
 
+/**
+ * Hash targets are prefixed with "/" so they resolve from any route,
+ * including the library page.
+ */
 export const navigation = [
-  { href: "#premise", label: "The Premise" },
-  { href: "#voices", label: "Featured Voices" },
-  { href: "#library", label: "The Library" },
-  { href: "#colophon", label: "Colophon" },
+  { href: "/#premise", label: "The Premise" },
+  { href: "/#about", label: "About" },
+  { href: "/#voices", label: "My Go-To Five" },
+  { href: "/library", label: "The Library" },
 ] as const;

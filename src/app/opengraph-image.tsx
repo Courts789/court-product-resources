@@ -37,7 +37,7 @@ export default function OpenGraphImage() {
               fontFamily: "Helvetica, Arial, sans-serif",
             }}
           >
-            {site.edition}
+            {`Curated by ${site.author}`}
           </div>
         </div>
 

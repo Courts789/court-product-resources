@@ -12,8 +12,8 @@ export type Voice = {
 };
 
 /**
- * Written/text output only — no podcast episodes, per the editorial rule.
- * Where a voice also hosts a show, we link their writing, not the feed.
+ * Courtney's five go-to people. Each links to their main home — whether
+ * that's writing, a show, or both.
  */
 export const voices: readonly Voice[] = [
   {

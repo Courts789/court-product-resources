@@ -3,11 +3,11 @@ import { Asterisk } from "@/components/icons";
 const columns = [
   {
     heading: "What this is",
-    body: "Conversations, templates, and summaries. Things written down, so you can skim them, save them, and come back when the problem is actually in front of you.",
+    body: "Conversations, templates, and summaries. Articles, podcasts, talks and recordings — whatever format the good stuff happens to arrive in.",
   },
   {
     heading: "What this isn't",
-    body: "A feed. There is no algorithm here, nothing to scroll past, and no keynote recording where the useful part arrives at minute forty-one.",
+    body: "An automated feed. Nothing lands here because it trended, and nothing is here to be scrolled past on the way to something else.",
   },
   {
     heading: "Who it's for",
@@ -42,9 +42,9 @@ export function Premise() {
           <div className="flex items-start md:col-span-4 md:col-start-9">
             <Asterisk className="mt-1 h-4 w-4 shrink-0 text-brass" />
             <p className="ml-4 text-sm leading-relaxed text-ink-muted">
-              Everything listed here is text you can read at your own pace.
-              Where a contributor also hosts a show, the link points at their
-              writing rather than the audio feed.
+              There are podcast episodes, videos and keynote recordings in here
+              &mdash; the good ones. Every entry was picked by a person who
+              read, watched or listened to it first.
             </p>
           </div>
         </div>
