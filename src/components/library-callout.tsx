@@ -18,8 +18,8 @@ export function LibraryCallout() {
               The full collection, grouped by theme.
             </h2>
             <p className="mt-6 max-w-[54ch] leading-relaxed text-ink-soft">
-              Articles, newsletters, podcasts, talks and templates &mdash;
-              searchable, filterable, and sorted by whatever you need this week.
+              Articles, newsletters, podcasts, talks and templates. Searchable,
+              filterable, and sorted by whatever you need this week.
             </p>
 
             <Link

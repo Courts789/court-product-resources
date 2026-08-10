@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /*
- * Editorial palette — warm ivory paper, near-black ink, brass as ornament.
+ * Editorial palette: warm ivory paper, near-black ink, brass as ornament.
  * The design deliberately commits to a single light treatment, the way a
  * printed publication does; there is no dark variant.
  */
@@ -16,7 +16,7 @@
   --color-brass-deep: #8a6a3b;
 
   /*
-   * Editorial accent set — one colour per theme, the way a print magazine
+   * Editorial accent set, one colour per theme, the way a print magazine
    * gives each section its own ink. All are dark enough to carry text on
    * paper, so they can be used for headings and labels, not just ornament.
    */

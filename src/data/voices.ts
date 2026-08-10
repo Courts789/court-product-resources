@@ -12,7 +12,7 @@ export type Voice = {
 };
 
 /**
- * Courtney's five go-to people. Each links to their main home — whether
+ * Courtney's five go-to people. Each links to their main home, whether
  * that's writing, a show, or both.
  */
 export const voices: readonly Voice[] = [
@@ -53,7 +53,7 @@ export const voices: readonly Voice[] = [
     role: "VP of Product at Meta",
     publication: "The Skip",
     url: "https://www.skip.show/",
-    note: "Career architecture for product people — levels, scope, and the unglamorous mechanics of getting promoted or getting out.",
+    note: "Career architecture for product people: levels, scope, and the unglamorous mechanics of getting promoted or getting out.",
     topics: ["Career", "Levelling", "Leadership"],
   },
 ] as const;

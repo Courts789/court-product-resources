@@ -2,7 +2,7 @@ import Link from "next/link";
 import { navigation } from "@/lib/site";
 
 export function SiteHeader() {
-  // Solid fill, not a translucent blur — the masthead sits on the page,
+  // Solid fill, not a translucent blur. The masthead sits on the page,
   // it doesn't float above it.
   return (
     <header className="sticky top-0 z-40 border-b border-rule bg-paper">
@@ -16,7 +16,7 @@ export function SiteHeader() {
 
         <nav aria-label="Sections">
           {/* Scrolls horizontally on narrow screens rather than collapsing
-              behind a menu button — every section stays one tap away. */}
+              behind a menu button. Every section stays one tap away. */}
           <ul className="scroll-row -mx-5 flex items-center gap-6 overflow-x-auto px-5 sm:mx-0 sm:gap-7 sm:overflow-visible sm:px-0">
             {navigation.map((item) => (
               <li key={item.href} className="shrink-0">

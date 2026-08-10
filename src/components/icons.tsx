@@ -1,5 +1,5 @@
 /**
- * Minimal line-icon set. Stroked, 1px, currentColor — no filled shapes,
+ * Minimal line-icon set. Stroked, 1px, currentColor, no filled shapes,
  * no emoji. Decorative by default; callers supply accessible text.
  */
 

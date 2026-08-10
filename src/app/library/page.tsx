@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     "The full collection: articles, newsletters, podcasts, talks and templates on product management, grouped by theme and searchable.",
   alternates: { canonical: "/library" },
   openGraph: {
-    title: `The Library — ${site.name}`,
+    title: `The Library · ${site.name}`,
     description:
       "The full collection: articles, newsletters, podcasts, talks and templates on product management, grouped by theme and searchable.",
     url: `${site.url}/library`,
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  name: `The Library — ${site.name}`,
+  name: `The Library · ${site.name}`,
   description: metadata.description,
   url: `${site.url}/library`,
   inLanguage: "en-AU",

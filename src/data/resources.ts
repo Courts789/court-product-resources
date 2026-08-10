@@ -28,7 +28,7 @@ export type Resource = {
   url: string;
   theme: Theme;
   media: Media;
-  /** ISO date this entry was added — drives "new" badges and sorting. */
+  /** ISO date this entry was added, drives "new" badges and sorting. */
   added: string;
   /** One sentence on why it earns a place in the collection. */
   note: string;
@@ -37,7 +37,7 @@ export type Resource = {
 /**
  * Entries point at canonical homes (a publication, a show, an author's
  * archive, a specific essay) rather than at single posts that rot.
- * Add new rows here — filtering, search, themes and the sitemap all
+ * Add new rows here. Filtering, search, themes and the sitemap all
  * derive from this list.
  */
 export const resources: readonly Resource[] = [
@@ -132,7 +132,7 @@ export const resources: readonly Resource[] = [
     theme: "The Craft",
     media: "Newsletter",
     added: "2026-05-14",
-    note: "Design-rooted writing on judgement and taste — the parts of the job that never make it into a competency framework.",
+    note: "Design-rooted writing on judgement and taste, the parts of the job that never make it into a competency framework.",
   },
   {
     id: "melissa-perri",
@@ -184,7 +184,7 @@ export const resources: readonly Resource[] = [
     theme: "AI & Evals",
     media: "Article",
     added: "2026-07-11",
-    note: "The full archive — error analysis, LLM-as-judge, and the failure modes that only show up in production.",
+    note: "The full archive: error analysis, LLM-as-judge, and the failure modes that only show up in production.",
   },
   {
     id: "how-i-ai",
@@ -236,7 +236,7 @@ export const resources: readonly Resource[] = [
     theme: "Growth",
     media: "Article",
     added: "2026-06-20",
-    note: "Structured frameworks for growth loops, retention, and monetisation. Dense — read one piece properly rather than five quickly.",
+    note: "Structured frameworks for growth loops, retention, and monetisation. Dense, so read one piece properly rather than five quickly.",
   },
 
   // ── Career ────────────────────────────────────────────────────────────────
