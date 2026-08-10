@@ -1,5 +1,5 @@
 /**
- * Editorial plates — abstract compositions drawn in the site's inks, in
+ * Editorial plates: abstract compositions drawn in the site's inks, in
  * place of stock photography. Inline SVG so they cost no requests, scale
  * cleanly, and stay in palette. Shapes overlap with multiply blending to
  * get the ink-on-ink look of a printed cover.

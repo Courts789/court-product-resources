@@ -84,7 +84,7 @@ export function Library() {
   }, [query, theme, media, sort]);
 
   /* Grouped headings only make sense when browsing the whole collection by
-     theme — searching or sorting by date produces one ranked list instead. */
+     theme. Searching or sorting by date produces one ranked list instead. */
   const grouped = sort === "theme" && query === "";
 
   const sections = useMemo(
@@ -196,7 +196,9 @@ export function Library() {
                     onClick={() => setTheme(name)}
                     aria-pressed={active}
                     style={
-                      active ? { color: accent, borderColor: accent } : undefined
+                      active
+                        ? { color: accent, borderColor: accent }
+                        : undefined
                     }
                     className={`eyebrow shrink-0 cursor-pointer whitespace-nowrap border-b py-1 transition-colors duration-300 ${
                       active

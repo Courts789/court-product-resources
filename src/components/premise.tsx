@@ -4,7 +4,7 @@ const columns = [
   {
     heading: "What this is",
     accent: "var(--color-forest)",
-    body: "Conversations, templates, and summaries. Articles, podcasts, talks and recordings — whatever format the good stuff happens to arrive in.",
+    body: "Conversations, templates, and summaries. Articles, podcasts, talks and recordings, whatever format the good stuff happens to arrive in.",
   },
   {
     heading: "What this isn't",
@@ -38,16 +38,16 @@ export function Premise() {
             </p>
             <p className="mt-6 text-[length:var(--text-section)] font-display italic leading-[1.25] text-forest">
               Just conversations, templates, and summaries on product
-              management&nbsp;&mdash; to get you in, or lift you up.
+              management: to get you in, or lift you up.
             </p>
           </blockquote>
 
           <div className="flex items-start md:col-span-4 md:col-start-9">
             <Asterisk className="mt-1 h-4 w-4 shrink-0 text-brass" />
             <p className="ml-4 text-sm leading-relaxed text-ink-muted">
-              There are podcast episodes, videos and keynote recordings in here
-              &mdash; the good ones. Every entry was picked by a person who
-              read, watched or listened to it first.
+              There are podcast episodes, videos and keynote recordings in here.
+              The good ones. Every entry was picked by a person who read,
+              watched or listened to it first.
             </p>
           </div>
         </div>
