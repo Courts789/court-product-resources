@@ -10,6 +10,7 @@ import {
   type Theme,
 } from "@/data/resources";
 import { site } from "@/lib/site";
+import { themeAccent } from "@/lib/accents";
 import { ArrowUpRight } from "@/components/icons";
 
 type ThemeFilter = Theme | "All";
@@ -170,11 +171,10 @@ export function Library() {
                 ))}
               </div>
 
-              <p aria-live="polite" className="eyebrow shrink-0 text-ink-muted">
-                <span className="numeral">
-                  {String(visible.length).padStart(2, "0")}
-                </span>{" "}
-                {visible.length === 1 ? "entry" : "entries"}
+              {/* Kept for screen readers so filtering still announces a
+                  result, without putting a counter back on the page. */}
+              <p aria-live="polite" className="sr-only">
+                {visible.length} {visible.length === 1 ? "entry" : "entries"}
               </p>
             </div>
           </div>
@@ -185,21 +185,29 @@ export function Library() {
               aria-label="Filter by theme"
               className="scroll-row -mx-5 flex gap-x-6 overflow-x-auto px-5 sm:mx-0 sm:flex-wrap sm:gap-y-2 sm:overflow-visible sm:px-0"
             >
-              {themeFilters.map((name) => (
-                <button
-                  key={name}
-                  type="button"
-                  onClick={() => setTheme(name)}
-                  aria-pressed={theme === name}
-                  className={`eyebrow shrink-0 cursor-pointer whitespace-nowrap border-b py-1 transition-colors duration-300 ${
-                    theme === name
-                      ? "border-brass text-ink"
-                      : "border-transparent text-ink-muted hover:border-rule-strong hover:text-ink"
-                  }`}
-                >
-                  {name}
-                </button>
-              ))}
+              {themeFilters.map((name) => {
+                const active = theme === name;
+                const accent =
+                  name === "All" ? "var(--color-ink)" : themeAccent[name];
+                return (
+                  <button
+                    key={name}
+                    type="button"
+                    onClick={() => setTheme(name)}
+                    aria-pressed={active}
+                    style={
+                      active ? { color: accent, borderColor: accent } : undefined
+                    }
+                    className={`eyebrow shrink-0 cursor-pointer whitespace-nowrap border-b py-1 transition-colors duration-300 ${
+                      active
+                        ? ""
+                        : "border-transparent text-ink-muted hover:border-rule-strong hover:text-ink"
+                    }`}
+                  >
+                    {name}
+                  </button>
+                );
+              })}
             </div>
 
             <div
@@ -258,7 +266,18 @@ export function Library() {
         {grouped
           ? sections.map((section) => (
               <section key={section.name} className="mb-14 last:mb-0">
-                <h2 className="eyebrow border-b border-rule-strong pb-3 text-brass-deep">
+                <h2
+                  style={{
+                    color: themeAccent[section.name],
+                    borderColor: themeAccent[section.name],
+                  }}
+                  className="eyebrow flex items-center gap-3 border-b-2 pb-3"
+                >
+                  <span
+                    aria-hidden="true"
+                    style={{ backgroundColor: themeAccent[section.name] }}
+                    className="h-2.5 w-2.5 shrink-0"
+                  />
                   {section.name}
                 </h2>
                 <ResourceList items={section.items} />
@@ -283,7 +302,8 @@ function ResourceList({ items }: { items: readonly Resource[] }) {
           >
             <span
               aria-hidden="true"
-              className="numeral text-sm text-brass md:col-span-1"
+              style={{ color: themeAccent[resource.theme] }}
+              className="numeral text-sm md:col-span-1"
             >
               {String(index + 1).padStart(2, "0")}
             </span>
@@ -305,8 +325,13 @@ function ResourceList({ items }: { items: readonly Resource[] }) {
               {resource.note}
             </p>
 
-            <div className="flex gap-x-4 md:col-span-2 md:flex-col md:items-end md:gap-y-3 md:text-right">
-              <span className="eyebrow text-ink">{resource.theme}</span>
+            <div className="flex items-center gap-x-4 md:col-span-2 md:flex-col md:items-end md:gap-y-3 md:text-right">
+              <span
+                style={{ color: themeAccent[resource.theme] }}
+                className="eyebrow font-semibold"
+              >
+                {resource.theme}
+              </span>
               <span className="eyebrow text-ink-muted">{resource.media}</span>
             </div>
 

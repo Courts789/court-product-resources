@@ -73,7 +73,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en-AU"
       className={`${newsreader.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-paper text-ink">
+      {/*
+        Browser extensions commonly inject attributes onto <body> before
+        React hydrates (ColorZilla's cz-shortcut-listen, Grammarly, and
+        friends), which reads as a hydration mismatch. This suppresses the
+        warning for this element's own attributes only — mismatches inside
+        the tree still surface normally.
+      */}
+      <body
+        suppressHydrationWarning
+        className="min-h-full flex flex-col bg-paper text-ink"
+      >
         <a
           href="#main"
           className="eyebrow sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-ink focus:px-4 focus:py-3 focus:text-paper"

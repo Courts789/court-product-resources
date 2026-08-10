@@ -14,6 +14,17 @@
   --color-brass: #b08d57;
   /* Darkened brass for text: reaches AA on paper, where --color-brass cannot. */
   --color-brass-deep: #8a6a3b;
+
+  /*
+   * Editorial accent set — one colour per theme, the way a print magazine
+   * gives each section its own ink. All are dark enough to carry text on
+   * paper, so they can be used for headings and labels, not just ornament.
+   */
+  --color-forest: #2f4538;
+  --color-navy: #1b2a41;
+  --color-clay: #8c4a2f;
+  --color-teal: #1f4b4e;
+  --color-oxblood: #6e2a34;
   --color-rule: rgba(28, 25, 23, 0.14);
   --color-rule-strong: rgba(28, 25, 23, 0.32);
 

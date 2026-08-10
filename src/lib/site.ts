@@ -20,6 +20,6 @@ export const site = {
 export const navigation = [
   { href: "/#premise", label: "The Premise" },
   { href: "/#about", label: "About" },
-  { href: "/#voices", label: "My Go-To Five" },
+  { href: "/#voices", label: "Top Picks" },
   { href: "/library", label: "The Library" },
 ] as const;
