@@ -3,20 +3,12 @@ import { site } from "@/lib/site";
 
 export function About() {
   return (
-    <section
-      id="about"
-      aria-labelledby="about-title"
-      className="border-b border-rule"
-    >
+    <section>
       <div className="mx-auto max-w-[84rem] px-5 py-16 sm:px-8 sm:py-24 lg:px-12">
         <div className="grid gap-y-10 md:grid-cols-12 md:gap-x-16">
           <div className="md:col-span-3">
-            <h2 id="about-title" className="eyebrow text-brass-deep">
-              About Me
-            </h2>
-
             {/* Portrait sits on a teal block, offset like a printed plate. */}
-            <div className="relative mt-6 w-fit">
+            <div className="relative w-fit">
               <span
                 aria-hidden="true"
                 className="absolute -bottom-3 -right-3 h-full w-full bg-teal"

@@ -15,11 +15,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.9,
     },
-    {
-      url: `${site.url}/quiz`,
-      lastModified: new Date(site.lastUpdated),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
+    ...["/top-picks", "/quiz", "/premise", "/about", "/suggest"].map(
+      (path) => ({
+        url: `${site.url}${path}`,
+        lastModified: new Date(site.lastUpdated),
+        changeFrequency: "monthly" as const,
+        priority: 0.8,
+      }),
+    ),
   ];
 }
