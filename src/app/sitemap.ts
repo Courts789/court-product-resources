@@ -15,5 +15,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.9,
     },
+    {
+      url: `${site.url}/quiz`,
+      lastModified: new Date(site.lastUpdated),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
   ];
 }

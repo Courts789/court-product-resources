@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
 import { Library } from "@/components/library";
+import { SuggestSection } from "@/components/suggest-section";
 import { resources } from "@/data/resources";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "The Library",
   description:
-    "The full collection: articles, newsletters, podcasts, talks and templates on product management, grouped by theme and searchable.",
+    "The full collection: articles, podcasts, videos, books and templates on product management, grouped by theme and searchable.",
   alternates: { canonical: "/library" },
   openGraph: {
     title: `The Library · ${site.name}`,
     description:
-      "The full collection: articles, newsletters, podcasts, talks and templates on product management, grouped by theme and searchable.",
+      "The full collection: articles, podcasts, videos, books and templates on product management, grouped by theme and searchable.",
     url: `${site.url}/library`,
   },
 };
@@ -48,6 +49,7 @@ export default function LibraryPage() {
       />
       <main id="main" className="flex-1">
         <Library />
+        <SuggestSection />
       </main>
     </>
   );
