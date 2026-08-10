@@ -18,7 +18,13 @@ export function About() {
             <h2 id="about-title" className="eyebrow text-brass-deep">
               About Me
             </h2>
-            <p className="mt-6 font-display text-2xl leading-tight text-ink">
+            <span
+              aria-hidden="true"
+              className="mt-6 flex h-20 w-20 items-center justify-center bg-teal font-display text-2xl text-paper"
+            >
+              CB
+            </span>
+            <p className="mt-5 font-display text-2xl leading-tight text-ink">
               {site.author}
             </p>
           </div>
