@@ -13,12 +13,16 @@ export const site = {
   lastUpdated: "2026-08-09",
 } as const;
 
-/** Every section is its own route; the home page is an index of them. */
+/**
+ * Every section is its own route; the home page is an index of them.
+ * Ordered who and why first, then the content itself, with the call to
+ * action last.
+ */
 export const navigation = [
+  { href: "/about", label: "About" },
+  { href: "/premise", label: "The Premise" },
   { href: "/library", label: "The Library" },
   { href: "/top-picks", label: "Top Picks" },
   { href: "/quiz", label: "Find Your Fit" },
-  { href: "/premise", label: "The Premise" },
-  { href: "/about", label: "About" },
   { href: "/suggest", label: "Suggest" },
 ] as const;
