@@ -10,6 +10,7 @@ import {
   type Theme,
 } from "@/data/resources";
 import { site } from "@/lib/site";
+import { scoreItem } from "@/lib/fuzzy";
 import { themeAccent } from "@/lib/accents";
 import { ArrowUpRight } from "@/components/icons";
 
@@ -20,10 +21,9 @@ const themeFilters: readonly ThemeFilter[] = ["All", ...themes];
 
 const mediaFilters: readonly Media[] = [
   "Article",
-  "Newsletter",
   "Podcast",
   "Video",
-  "Talk",
+  "Book",
   "Guide",
   "Template",
 ];
@@ -31,14 +31,19 @@ const mediaFilters: readonly Media[] = [
 /** "New" is measured against the last revision, so it's stable across renders. */
 const reference = new Date(site.lastUpdated);
 
-function matchesQuery(resource: Resource, query: string): boolean {
-  const haystack =
-    `${resource.title} ${resource.by} ${resource.note} ${resource.theme} ${resource.media}`.toLowerCase();
-  return query
-    .toLowerCase()
-    .split(/\s+/)
-    .filter(Boolean)
-    .every((term) => haystack.includes(term));
+/**
+ * Fields the search reads, weighted so a match on a title or a person
+ * outranks one buried in a note. Title edges out byline so that searching
+ * a name surfaces that person's own entry above things they made.
+ */
+function searchFields(resource: Resource) {
+  return [
+    { value: resource.title, weight: 3.2 },
+    { value: resource.by, weight: 3 },
+    { value: resource.theme, weight: 1.5 },
+    { value: resource.media, weight: 1.5 },
+    { value: resource.note, weight: 1 },
+  ];
 }
 
 /**
@@ -71,16 +76,26 @@ export function Library() {
   const [sort, setSort] = useState<Sort>("theme");
 
   const visible = useMemo(() => {
-    const filtered = resources.filter(
-      (resource) =>
-        (theme === "All" || resource.theme === theme) &&
-        (media === null || resource.media === media) &&
-        (query === "" || matchesQuery(resource, query)),
-    );
+    const scored = resources
+      .filter(
+        (resource) =>
+          (theme === "All" || resource.theme === theme) &&
+          (media === null || resource.media === media),
+      )
+      .map((resource) => ({
+        resource,
+        score: query === "" ? 1 : scoreItem(searchFields(resource), query),
+      }))
+      .filter((entry) => entry.score > 0);
 
-    return sort === "newest"
-      ? [...filtered].sort((a, b) => b.added.localeCompare(a.added))
-      : filtered;
+    if (query !== "") {
+      // Relevance wins while searching, so the closest match leads.
+      scored.sort((a, b) => b.score - a.score);
+    } else if (sort === "newest") {
+      scored.sort((a, b) => b.resource.added.localeCompare(a.resource.added));
+    }
+
+    return scored.map((entry) => entry.resource);
   }, [query, theme, media, sort]);
 
   /* Grouped headings only make sense when browsing the whole collection by
@@ -115,177 +130,182 @@ export function Library() {
             Everything worth your time, in one place.
           </h1>
           <p className="mt-6 max-w-[58ch] font-display text-[length:var(--text-lede)] leading-[1.45] text-ink-soft">
-            Articles, newsletters, podcasts, talks and templates. Grouped by
-            theme, searchable, and sorted by hand rather than by an algorithm.
+            Articles, podcasts, videos, books and templates. Grouped by theme,
+            searchable, and sorted by hand rather than by an algorithm.
           </p>
         </div>
       </div>
 
-      {/* Controls stick under the masthead so filters stay reachable while
-          scrolling a long list. */}
-      <div
-        style={{ top: mastheadHeight }}
-        className="sticky z-30 border-b border-rule bg-paper"
-      >
-        <div className="mx-auto max-w-[84rem] px-5 sm:px-8 lg:px-12">
-          <div className="flex flex-col gap-4 border-b border-rule py-5 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
-            <div className="flex-1 lg:max-w-md">
-              <label htmlFor="library-search" className="sr-only">
-                Search the library
-              </label>
-              <input
-                id="library-search"
-                type="search"
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search by title, person or topic"
-                className="w-full border-b border-rule bg-transparent pb-2 font-display text-lg text-ink outline-none transition-colors duration-300 placeholder:text-ink-muted focus:border-brass"
-              />
-            </div>
-
-            <div className="flex items-center gap-6">
-              <div
-                role="group"
-                aria-label="Sort the library"
-                className="flex items-center gap-4"
-              >
-                {(
-                  [
-                    ["theme", "By theme"],
-                    ["newest", "Newest"],
-                  ] as const
-                ).map(([value, label]) => (
-                  <button
-                    key={value}
-                    type="button"
-                    onClick={() => setSort(value)}
-                    aria-pressed={sort === value}
-                    className={`eyebrow cursor-pointer border-b py-1 transition-colors duration-300 ${
-                      sort === value
-                        ? "border-brass text-ink"
-                        : "border-transparent text-ink-muted hover:text-ink"
-                    }`}
-                  >
-                    {label}
-                  </button>
-                ))}
+      {/* Wrapping the controls and the list together bounds the sticky
+          element to this block, so the filter bar releases at the end of
+          the list instead of hovering over whatever follows. */}
+      <div className="relative">
+        <div
+          style={{ top: mastheadHeight }}
+          className="sticky z-30 border-b border-rule bg-paper"
+        >
+          <div className="mx-auto max-w-[84rem] px-5 sm:px-8 lg:px-12">
+            <div className="flex flex-col gap-4 border-b border-rule py-5 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
+              <div className="flex-1 lg:max-w-md">
+                <label htmlFor="library-search" className="sr-only">
+                  Search the library
+                </label>
+                <input
+                  id="library-search"
+                  type="search"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Search by title, person or topic"
+                  className="w-full border-b border-rule bg-transparent pb-2 font-display text-lg text-ink outline-none transition-colors duration-300 placeholder:text-ink-muted focus:border-brass"
+                />
               </div>
 
-              {/* Kept for screen readers so filtering still announces a
-                  result, without putting a counter back on the page. */}
-              <p aria-live="polite" className="sr-only">
-                {visible.length} {visible.length === 1 ? "entry" : "entries"}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-3 py-4">
-            <div
-              role="group"
-              aria-label="Filter by theme"
-              className="scroll-row -mx-5 flex gap-x-6 overflow-x-auto px-5 sm:mx-0 sm:flex-wrap sm:gap-y-2 sm:overflow-visible sm:px-0"
-            >
-              {themeFilters.map((name) => {
-                const active = theme === name;
-                const accent =
-                  name === "All" ? "var(--color-ink)" : themeAccent[name];
-                return (
-                  <button
-                    key={name}
-                    type="button"
-                    onClick={() => setTheme(name)}
-                    aria-pressed={active}
-                    style={
-                      active
-                        ? { color: accent, borderColor: accent }
-                        : undefined
-                    }
-                    className={`eyebrow shrink-0 cursor-pointer whitespace-nowrap border-b py-1 transition-colors duration-300 ${
-                      active
-                        ? ""
-                        : "border-transparent text-ink-muted hover:border-rule-strong hover:text-ink"
-                    }`}
-                  >
-                    {name}
-                  </button>
-                );
-              })}
-            </div>
-
-            <div
-              role="group"
-              aria-label="Filter by format"
-              className="scroll-row -mx-5 flex items-center gap-x-4 overflow-x-auto px-5 sm:mx-0 sm:flex-wrap sm:gap-y-2 sm:overflow-visible sm:px-0"
-            >
-              <span className="eyebrow shrink-0 text-ink-muted/70">Format</span>
-              {mediaFilters.map((name) => {
-                const active = media === name;
-                return (
-                  <button
-                    key={name}
-                    type="button"
-                    onClick={() => setMedia(active ? null : name)}
-                    aria-pressed={active}
-                    className={`shrink-0 cursor-pointer whitespace-nowrap border px-3 py-1 text-xs transition-colors duration-300 ${
-                      active
-                        ? "border-ink bg-ink text-paper"
-                        : "border-rule text-ink-muted hover:border-rule-strong hover:text-ink"
-                    }`}
-                  >
-                    {name}
-                  </button>
-                );
-              })}
-              {isFiltered && (
-                <button
-                  type="button"
-                  onClick={reset}
-                  className="eyebrow rule-link shrink-0 cursor-pointer text-brass-deep"
+              <div className="flex items-center gap-6">
+                <div
+                  role="group"
+                  aria-label="Sort the library"
+                  className="flex items-center gap-4"
                 >
-                  Clear all
-                </button>
-              )}
+                  {(
+                    [
+                      ["theme", "By theme"],
+                      ["newest", "Newest"],
+                    ] as const
+                  ).map(([value, label]) => (
+                    <button
+                      key={value}
+                      type="button"
+                      onClick={() => setSort(value)}
+                      aria-pressed={sort === value}
+                      className={`eyebrow cursor-pointer border-b py-1 transition-colors duration-300 ${
+                        sort === value
+                          ? "border-brass text-ink"
+                          : "border-transparent text-ink-muted hover:text-ink"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Kept for screen readers so filtering still announces a
+                  result, without putting a counter back on the page. */}
+                <p aria-live="polite" className="sr-only">
+                  {visible.length} {visible.length === 1 ? "entry" : "entries"}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3 py-4">
+              <div
+                role="group"
+                aria-label="Filter by theme"
+                className="scroll-row -mx-5 flex gap-x-6 overflow-x-auto px-5 sm:mx-0 sm:flex-wrap sm:gap-y-2 sm:overflow-visible sm:px-0"
+              >
+                {themeFilters.map((name) => {
+                  const active = theme === name;
+                  const accent =
+                    name === "All" ? "var(--color-ink)" : themeAccent[name];
+                  return (
+                    <button
+                      key={name}
+                      type="button"
+                      onClick={() => setTheme(name)}
+                      aria-pressed={active}
+                      style={
+                        active
+                          ? { color: accent, borderColor: accent }
+                          : undefined
+                      }
+                      className={`eyebrow shrink-0 cursor-pointer whitespace-nowrap border-b py-1 transition-colors duration-300 ${
+                        active
+                          ? ""
+                          : "border-transparent text-ink-muted hover:border-rule-strong hover:text-ink"
+                      }`}
+                    >
+                      {name}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div
+                role="group"
+                aria-label="Filter by format"
+                className="scroll-row -mx-5 flex items-center gap-x-4 overflow-x-auto px-5 sm:mx-0 sm:flex-wrap sm:gap-y-2 sm:overflow-visible sm:px-0"
+              >
+                <span className="eyebrow shrink-0 text-ink-muted/70">
+                  Format
+                </span>
+                {mediaFilters.map((name) => {
+                  const active = media === name;
+                  return (
+                    <button
+                      key={name}
+                      type="button"
+                      onClick={() => setMedia(active ? null : name)}
+                      aria-pressed={active}
+                      className={`shrink-0 cursor-pointer whitespace-nowrap border px-3 py-1 text-xs transition-colors duration-300 ${
+                        active
+                          ? "border-ink bg-ink text-paper"
+                          : "border-rule text-ink-muted hover:border-rule-strong hover:text-ink"
+                      }`}
+                    >
+                      {name}
+                    </button>
+                  );
+                })}
+                {isFiltered && (
+                  <button
+                    type="button"
+                    onClick={reset}
+                    className="eyebrow rule-link shrink-0 cursor-pointer text-brass-deep"
+                  >
+                    Clear all
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="mx-auto max-w-[84rem] px-5 py-12 sm:px-8 sm:py-16 lg:px-12">
-        {visible.length === 0 && (
-          <p className="py-16 text-center font-display text-xl text-ink-muted">
-            Nothing matches that yet.{" "}
-            <button
-              type="button"
-              onClick={reset}
-              className="rule-link cursor-pointer text-ink"
-            >
-              Clear the filters
-            </button>{" "}
-            to see everything.
-          </p>
-        )}
+        <div className="mx-auto max-w-[84rem] px-5 py-12 sm:px-8 sm:py-16 lg:px-12">
+          {visible.length === 0 && (
+            <p className="py-16 text-center font-display text-xl text-ink-muted">
+              Nothing matches that yet.{" "}
+              <button
+                type="button"
+                onClick={reset}
+                className="rule-link cursor-pointer text-ink"
+              >
+                Clear the filters
+              </button>{" "}
+              to see everything.
+            </p>
+          )}
 
-        {grouped
-          ? sections.map((section) => (
-              <section key={section.name} className="mb-14 last:mb-0">
-                <h2
-                  style={{
-                    color: themeAccent[section.name],
-                    borderColor: themeAccent[section.name],
-                  }}
-                  className="eyebrow flex items-center gap-3 border-b-2 pb-3"
-                >
-                  <span
-                    aria-hidden="true"
-                    style={{ backgroundColor: themeAccent[section.name] }}
-                    className="h-2.5 w-2.5 shrink-0"
-                  />
-                  {section.name}
-                </h2>
-                <ResourceList items={section.items} />
-              </section>
-            ))
-          : visible.length > 0 && <ResourceList items={visible} />}
+          {grouped
+            ? sections.map((section) => (
+                <section key={section.name} className="mb-14 last:mb-0">
+                  <h2
+                    style={{
+                      color: themeAccent[section.name],
+                      borderColor: themeAccent[section.name],
+                    }}
+                    className="eyebrow flex items-center gap-3 border-b-2 pb-3"
+                  >
+                    <span
+                      aria-hidden="true"
+                      style={{ backgroundColor: themeAccent[section.name] }}
+                      className="h-2.5 w-2.5 shrink-0"
+                    />
+                    {section.name}
+                  </h2>
+                  <ResourceList items={section.items} />
+                </section>
+              ))
+            : visible.length > 0 && <ResourceList items={visible} />}
+        </div>
       </div>
     </>
   );

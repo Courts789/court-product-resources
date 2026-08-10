@@ -11,13 +11,7 @@ export type Theme = (typeof themes)[number];
 
 /** Format of the resource. Anything goes except an automated feed. */
 export type Media =
-  | "Article"
-  | "Newsletter"
-  | "Podcast"
-  | "Video"
-  | "Talk"
-  | "Guide"
-  | "Template";
+  "Article" | "Podcast" | "Video" | "Book" | "Guide" | "Template";
 
 export type Resource = {
   /** Stable key for React lists and deep links. */
@@ -48,7 +42,7 @@ export const resources: readonly Resource[] = [
     by: "Lenny Rachitsky",
     url: "https://www.lennysnewsletter.com/",
     theme: "Getting In",
-    media: "Newsletter",
+    media: "Article",
     added: "2026-05-02",
     note: "The default starting point. Deep, sourced answers to the questions every new PM asks in their first year.",
   },
@@ -98,7 +92,7 @@ export const resources: readonly Resource[] = [
     by: "Mind the Product",
     url: "https://www.mindtheproduct.com/",
     theme: "Getting In",
-    media: "Talk",
+    media: "Video",
     added: "2026-06-20",
     note: "Conference talks and community writing. The keynote archive is genuinely good once you know whose sessions to pick.",
   },
@@ -110,7 +104,7 @@ export const resources: readonly Resource[] = [
     by: "Peter Yang",
     url: "https://creatoreconomy.so/",
     theme: "The Craft",
-    media: "Newsletter",
+    media: "Article",
     added: "2026-05-02",
     note: "Teardowns and operator interviews. Peter writes up the useful part so you can act on it the same week.",
   },
@@ -120,7 +114,7 @@ export const resources: readonly Resource[] = [
     by: "John Cutler",
     url: "https://cutlefish.substack.com/",
     theme: "The Craft",
-    media: "Newsletter",
+    media: "Article",
     added: "2026-05-14",
     note: "Systems thinking about why product orgs behave the way they do. The best diagnosis of dysfunction you'll find written down.",
   },
@@ -130,7 +124,7 @@ export const resources: readonly Resource[] = [
     by: "Julie Zhuo",
     url: "https://lg.substack.com/",
     theme: "The Craft",
-    media: "Newsletter",
+    media: "Article",
     added: "2026-05-14",
     note: "Design-rooted writing on judgement and taste, the parts of the job that never make it into a competency framework.",
   },
@@ -224,7 +218,7 @@ export const resources: readonly Resource[] = [
     by: "Elena Verna",
     url: "https://www.elenaverna.com/",
     theme: "Growth",
-    media: "Newsletter",
+    media: "Article",
     added: "2026-05-02",
     note: "Product-led growth from someone who has run it at scale. Clear on what compounds and what only looks like it does.",
   },
@@ -256,7 +250,7 @@ export const resources: readonly Resource[] = [
     by: "Gergely Orosz",
     url: "https://newsletter.pragmaticengineer.com/",
     theme: "Career",
-    media: "Newsletter",
+    media: "Article",
     added: "2026-05-14",
     note: "Written for engineers, invaluable for PMs. The fastest way to understand what your counterparts are actually dealing with.",
   },
@@ -281,6 +275,40 @@ export const resources: readonly Resource[] = [
     media: "Template",
     added: "2026-07-25",
     note: "Drafts and critiques PRDs on demand. Most useful as a second opinion on structure, not as a first draft you ship unread.",
+  },
+
+  // ── Books ─────────────────────────────────────────────────────────────────
+  // Links point at each author's own site. Swap in a preferred bookseller
+  // link if you would rather send people somewhere specific.
+  {
+    id: "inspired",
+    title: "Inspired",
+    by: "Marty Cagan",
+    url: "https://www.svpg.com/books/",
+    theme: "Getting In",
+    media: "Book",
+    added: "2026-08-10",
+    note: "The one most teams have half-read. Worth finishing properly, because the second half is where the operating model actually lives.",
+  },
+  {
+    id: "continuous-discovery-habits",
+    title: "Continuous Discovery Habits",
+    by: "Teresa Torres",
+    url: "https://www.producttalk.org/",
+    theme: "The Craft",
+    media: "Book",
+    added: "2026-08-10",
+    note: "The most practical book on talking to customers weekly without it becoming a research project nobody has time for.",
+  },
+  {
+    id: "escaping-the-build-trap",
+    title: "Escaping the Build Trap",
+    by: "Melissa Perri",
+    url: "https://melissaperri.com/",
+    theme: "Career",
+    media: "Book",
+    added: "2026-08-10",
+    note: "Shipping output is not the same as producing value. The clearest articulation of why, and what to change structurally.",
   },
 ];
 

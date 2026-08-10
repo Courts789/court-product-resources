@@ -4,7 +4,7 @@ const columns = [
   {
     heading: "What this is",
     accent: "var(--color-forest)",
-    body: "Conversations, templates, and summaries. Articles, podcasts, talks and recordings, whatever format the good stuff happens to arrive in.",
+    body: "Conversations, templates, and summaries. Articles, podcasts, videos and books, whatever format the good stuff happens to arrive in.",
   },
   {
     heading: "What this isn't",
