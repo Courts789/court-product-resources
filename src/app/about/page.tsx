@@ -41,7 +41,8 @@ export default function AboutPage() {
         <PageHeader
           eyebrow="About Me"
           title="Everything here is curated by me."
-          accent="var(--color-teal)"
+          stock="var(--color-lilac)"
+          ink="var(--color-plum)"
         />
         <About />
       </main>

@@ -24,7 +24,8 @@ export default function PremisePage() {
         eyebrow="The Premise"
         title="Why this exists."
         intro="A person picked every entry here, and can tell you why. That is the whole idea."
-        accent="var(--color-clay)"
+        stock="var(--color-blush)"
+        ink="var(--color-rust)"
       />
       <Premise />
     </main>

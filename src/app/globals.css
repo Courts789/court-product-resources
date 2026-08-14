@@ -1,41 +1,95 @@
 @import "tailwindcss";
 
 /*
- * Editorial palette: warm ivory paper, near-black ink, brass as ornament.
- * The design deliberately commits to a single light treatment, the way a
- * printed publication does; there is no dark variant.
+ * ─────────────────────────────────────────────────────────────────────────
+ * FIELD PRESS
+ * ─────────────────────────────────────────────────────────────────────────
+ *
+ * A field guide, not a feed. Cream stock, near-black ink with a green bias,
+ * pine green carrying every deliberate act on the page, and a set of six
+ * pastel stocks so each theme reads as its own printed section.
+ *
+ * Type is web-safe throughout: no font files, no network request, no layout
+ * shift on load. Condensed grotesque for headlines, the system UI face for
+ * everything read at length, Georgia italic reserved for quotation.
+ *
+ * The design commits to a single light treatment, the way a printed guide
+ * does. There is no dark variant, and nothing here should acquire one
+ * piecemeal.
  */
+
 @theme {
-  --color-paper: #faf8f5;
-  --color-paper-sunk: #f3f0ea;
-  --color-ink: #1c1917;
-  --color-ink-soft: #3d3835;
-  --color-ink-muted: #6b635c;
-  --color-brass: #b08d57;
-  /* Darkened brass for text: reaches AA on paper, where --color-brass cannot. */
-  --color-brass-deep: #8a6a3b;
+  /* ── Stock and ink ──────────────────────────────────────────────────── */
+  --color-paper: #efece1;
+  --color-paper-sunk: #e5e1d2;
+  --color-ink: #14180f;
+  --color-ink-soft: #3b4033;
+  --color-ink-muted: #5c6153;
+
+  --color-rule: rgba(20, 24, 15, 0.16);
+  --color-rule-strong: rgba(20, 24, 15, 0.34);
+
+  /* ── Primary ────────────────────────────────────────────────────────── */
+  /* Pine carries every deliberate act: links, buttons, the active state. */
+  --color-pine: #1d4a31;
+  /* Pressed and hover states, and pine set as text on a pine tint. */
+  --color-pine-deep: #143523;
 
   /*
-   * Editorial accent set, one colour per theme, the way a print magazine
-   * gives each section its own ink. All are dark enough to carry text on
-   * paper, so they can be used for headings and labels, not just ornament.
+   * ── Section stocks ────────────────────────────────────────────────────
+   * One pastel per theme, used as a card fill with --color-ink set on top.
+   * Chosen so all six stay distinct at a glance, including the two warm
+   * neighbours (blush is pink, apricot is orange).
    */
-  --color-forest: #2f4538;
-  --color-navy: #1b2a41;
-  --color-clay: #8c4a2f;
-  --color-teal: #1f4b4e;
-  --color-oxblood: #6e2a34;
-  --color-rule: rgba(28, 25, 23, 0.14);
-  --color-rule-strong: rgba(28, 25, 23, 0.32);
+  --color-sage: #d3e0c9;
+  --color-butter: #eee0ab;
+  --color-lilac: #ddd6ea;
+  --color-blush: #eed8cd;
+  --color-sky: #cfdde6;
+  --color-apricot: #f0dcc0;
 
-  --font-display: var(--font-newsreader), ui-serif, Georgia, "Times New Roman",
-    serif;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+  /*
+   * ── Section inks ──────────────────────────────────────────────────────
+   * The same six hues taken dark enough to carry text, on paper and on
+   * their own stock. Used for labels, rules and numerals, never for body
+   * copy, which always stays --color-ink-soft.
+   */
+  --color-olive: #5e5417;
+  --color-plum: #533268;
+  --color-rust: #8a4326;
+  --color-slate: #2c4a63;
+  --color-ember: #7e4a18;
+
+  /* Failure state, on cream. Distinct from rust, which is decorative. */
+  --color-alarm: #9b2c2c;
+
+  /* ── Type ───────────────────────────────────────────────────────────── */
+  /*
+   * Condensed grotesque, web-safe. Ships with macOS and with Windows;
+   * Roboto Condensed and Liberation Sans Narrow cover Android and Linux.
+   * font-stretch in the base layer nudges variable-width fallbacks in.
+   */
+  --font-condensed: "Helvetica Neue Condensed Bold", "HelveticaNeue-CondensedBold",
+    "Arial Narrow", "Roboto Condensed", "Liberation Sans Narrow", Impact,
+    Helvetica, Arial, sans-serif;
+
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
     sans-serif;
 
-  --text-display: clamp(2.75rem, 1.4rem + 5.4vw, 6.25rem);
-  --text-section: clamp(1.75rem, 1.1rem + 2.4vw, 2.75rem);
-  --text-lede: clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
+  /* Quotation only. Georgia is on every platform that matters. */
+  --font-serif: Georgia, "Times New Roman", Times, serif;
+
+  /*
+   * Condensed capitals set much larger than a normal-width face for the
+   * same measure, so the display step is smaller than the ceiling a
+   * grotesque this wide would otherwise take.
+   */
+  --text-display: clamp(2.75rem, 1.3rem + 5.6vw, 5.25rem);
+  --text-section: clamp(1.875rem, 1.1rem + 3vw, 3.25rem);
+  --text-lede: clamp(1.0625rem, 1rem + 0.4vw, 1.25rem);
+
+  /* Cards are the one rounded thing in the system. Everything else is cut. */
+  --radius-card: 14px;
 }
 
 @layer base {
@@ -54,23 +108,40 @@
     text-rendering: optimizeLegibility;
   }
 
+  /*
+   * Headlines are condensed and bold everywhere. h1 and h2 also go to
+   * capitals, which is the voice of the thing; h3 stays in sentence case
+   * so a list of sixty resource titles is still scannable.
+   */
   h1,
   h2,
   h3 {
-    font-family: var(--font-display);
-    font-weight: 400;
-    letter-spacing: -0.02em;
+    font-family: var(--font-condensed);
+    font-stretch: 75%;
+    font-weight: 700;
+    letter-spacing: 0.005em;
+    line-height: 0.95;
+  }
+
+  h1,
+  h2 {
+    text-transform: uppercase;
+  }
+
+  h3 {
+    letter-spacing: -0.005em;
+    line-height: 1.02;
   }
 
   ::selection {
-    background-color: var(--color-brass);
-    color: var(--color-paper);
+    background-color: var(--color-butter);
+    color: var(--color-ink);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-brass-deep);
+    outline: 2px solid var(--color-pine);
     outline-offset: 3px;
-    border-radius: 1px;
+    border-radius: 2px;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -90,14 +161,31 @@
 
 /* Declared as utilities (not components) so Tailwind variants still apply. */
 
-/* Small tracked capitals used for eyebrows, labels and metadata. */
+/*
+ * Small tracked capitals for eyebrows, labels and metadata. Set in the UI
+ * face rather than the condensed one: at this size condensed capitals close
+ * up and stop being readable.
+ */
 @utility eyebrow {
   font-family: var(--font-sans);
   font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   line-height: 1;
+}
+
+/*
+ * Condensed capitals for anything that needs the headline voice without
+ * being a heading, chiefly the wordmark and the ticker.
+ */
+@utility headline {
+  font-family: var(--font-condensed);
+  font-stretch: 75%;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  line-height: 0.95;
 }
 
 /*
@@ -116,25 +204,50 @@
 
 /* Tabular figures for index numerals, so columns line up like print. */
 @utility numeral {
-  font-family: var(--font-display);
+  font-family: var(--font-condensed);
+  font-stretch: 75%;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0;
+  letter-spacing: 0.02em;
 }
 
 /* Underline that draws itself in on hover rather than snapping on. */
 @utility rule-link {
   background-image: linear-gradient(
     to right,
-    var(--color-brass) 0%,
-    var(--color-brass) 100%
+    var(--color-pine) 0%,
+    var(--color-pine) 100%
   );
   background-repeat: no-repeat;
   background-position: 0 100%;
-  background-size: 0% 1px;
+  background-size: 0% 2px;
   transition: background-size 400ms cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover,
   &:focus-visible {
-    background-size: 100% 1px;
+    background-size: 100% 2px;
+  }
+}
+
+/*
+ * The one motion in the system: a standing rule that runs, marking the
+ * seam between sections the way a printed band does. Paused entirely for
+ * anyone who has asked for reduced motion, where it becomes a static band.
+ */
+@utility ticker-track {
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 100%;
+  animation: ticker-run 34s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    padding-left: 0;
+  }
+}
+
+@keyframes ticker-run {
+  to {
+    transform: translateX(-100%);
   }
 }

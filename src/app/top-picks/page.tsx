@@ -43,7 +43,8 @@ export default function TopPicksPage() {
           eyebrow="Top Picks"
           title="My five go-to people."
           intro="When I need a straight answer, I start here, because they actually know what they're talking about."
-          accent="var(--color-forest)"
+          stock="var(--color-butter)"
+          ink="var(--color-olive)"
         />
         <div className="pt-14">
           <Voices />

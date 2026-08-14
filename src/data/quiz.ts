@@ -190,7 +190,10 @@ export const questions: readonly Question[] = [
 
 export type Result = {
   title: string;
+  /** Section ink: dark enough to set as type, on paper or on its stock. */
   accent: string;
+  /** Section stock: a pastel fill that always carries --color-ink on top. */
+  stock: string;
   /** One line naming the pattern in their answers. */
   summary: string;
   body: string;
@@ -203,7 +206,8 @@ export type Result = {
 export const results: Record<Specialism, Result> = {
   discovery: {
     title: "Discovery and Research",
-    accent: "var(--color-forest)",
+    accent: "var(--color-pine)",
+    stock: "var(--color-sage)",
     summary: "You want to be sure the problem is real before anyone builds.",
     body: "You are drawn to the part of the job that happens before a solution exists. That is rarer than it should be, because most validation runs backwards: teams build, then test to confirm a decision already made. Your instinct is the other way round, which makes you valuable on any team about to spend six months on a guess.",
     strengths: [
@@ -215,7 +219,8 @@ export const results: Record<Specialism, Result> = {
   },
   growth: {
     title: "Growth and Monetisation",
-    accent: "var(--color-clay)",
+    accent: "var(--color-rust)",
+    stock: "var(--color-blush)",
     summary:
       "You reach for the commercial question before the feature question.",
     body: "You think in loops, funnels and unit economics, and you are uncomfortable when work ships without a number attached. This is the specialism most product people avoid and most businesses need. It also ages well: as AI drops the cost of building, the interesting question stops being what can we build and becomes what is worth building.",
@@ -228,7 +233,8 @@ export const results: Record<Specialism, Result> = {
   },
   platform: {
     title: "Platform and Technical",
-    accent: "var(--color-navy)",
+    accent: "var(--color-slate)",
+    stock: "var(--color-sky)",
     summary: "You care what it costs to run, not just what it costs to build.",
     body: "You are happiest close to the system: what it can do, where it strains, and what today's shortcut costs in two years. With AI in the stack this has become a first-class product specialism rather than a supporting one, because the hard questions are now about evaluation, reliability and cost per call.",
     strengths: [
@@ -240,7 +246,8 @@ export const results: Record<Specialism, Result> = {
   },
   marketing: {
     title: "Product Marketing",
-    accent: "var(--color-oxblood)",
+    accent: "var(--color-plum)",
+    stock: "var(--color-lilac)",
     summary: "You think about who hears it, not only who uses it.",
     body: "You start from the market and work inwards: who this is for, why they would switch, and what makes the story land. Product people often treat this as someone else's job right up until a good product launches to silence. Coming at product from this direction is an advantage, not a detour.",
     strengths: [
@@ -252,7 +259,8 @@ export const results: Record<Specialism, Result> = {
   },
   delivery: {
     title: "Delivery and Systems",
-    accent: "var(--color-teal)",
+    accent: "var(--color-ember)",
+    stock: "var(--color-apricot)",
     summary: "You turn ambiguity into something a team can actually execute.",
     body: "You are the person who makes the plan real: dependencies mapped, sequence clear, blockers surfaced before they bite. This is the natural bridge from business analysis into product, and the trap is stopping there. The step up is owning the outcome as well as the plan, which means arguing about what goes on the list, not only the order.",
     strengths: [
@@ -264,7 +272,8 @@ export const results: Record<Specialism, Result> = {
   },
   adoption: {
     title: "Customer and Adoption",
-    accent: "var(--color-brass-deep)",
+    accent: "var(--color-olive)",
+    stock: "var(--color-butter)",
     summary: "You measure success by what happens after the launch.",
     body: "You think about the part most roadmaps ignore: whether anyone actually got value from what shipped. Onboarding, activation, retention and the quiet reasons people leave. Customer-facing experience is an unusually strong foundation for product, because you have watched real people fail to use software and you never forget it.",
     strengths: [

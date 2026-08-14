@@ -1,22 +1,14 @@
 import type { Metadata } from "next";
-import { Inter, Newsreader } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-const newsreader = Newsreader({
-  variable: "--font-newsreader",
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  display: "swap",
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
+/*
+ * No webfonts. The whole type system is web-safe (condensed grotesque,
+ * system UI, Georgia), so there is nothing to download, nothing to
+ * preload, and no swap flash on first paint. See globals.css.
+ */
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -69,10 +61,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en-AU"
-      className={`${newsreader.variable} ${inter.variable} h-full antialiased`}
-    >
+    <html lang="en-AU" className="h-full antialiased">
       {/*
         Browser extensions commonly inject attributes onto <body> before
         React hydrates (ColorZilla's cz-shortcut-listen, Grammarly, and
@@ -86,7 +75,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       >
         <a
           href="#main"
-          className="eyebrow sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-ink focus:px-4 focus:py-3 focus:text-paper"
+          className="eyebrow sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:text-butter"
         >
           Skip to content
         </a>
