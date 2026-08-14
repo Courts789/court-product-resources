@@ -1,26 +1,46 @@
 import type { Theme } from "@/data/resources";
 
 /**
- * One ink per theme, in the spirit of a magazine giving each section its
- * own colour. Values are dark enough to carry text on the ivory paper, so
- * they work as headings and labels rather than decoration alone.
+ * Each theme is a printed section with its own stock and its own ink.
+ *
+ * `themeStock` fills cards and blocks, and always carries --color-ink on
+ * top. `themeInk` is the same hue taken dark enough to set as type, on
+ * paper or on its own stock; it is for labels, rules and numerals, never
+ * for body copy, which stays --color-ink-soft everywhere.
  */
-export const themeAccent: Record<Theme, string> = {
-  "Getting In": "var(--color-forest)",
-  "The Craft": "var(--color-navy)",
-  "AI & Evals": "var(--color-brass-deep)",
-  Growth: "var(--color-clay)",
-  Career: "var(--color-teal)",
-  "Templates & Tools": "var(--color-oxblood)",
+export const themeStock: Record<Theme, string> = {
+  "Getting In": "var(--color-sage)",
+  "The Craft": "var(--color-butter)",
+  "AI & Evals": "var(--color-lilac)",
+  Growth: "var(--color-blush)",
+  Career: "var(--color-sky)",
+  "Templates & Tools": "var(--color-apricot)",
 };
 
-/** Accent per featured voice, keyed by name, in running order. */
-export const voiceAccents = [
-  "var(--color-forest)",
-  "var(--color-clay)",
-  "var(--color-navy)",
-  "var(--color-oxblood)",
-  "var(--color-teal)",
+export const themeInk: Record<Theme, string> = {
+  "Getting In": "var(--color-pine)",
+  "The Craft": "var(--color-olive)",
+  "AI & Evals": "var(--color-plum)",
+  Growth: "var(--color-rust)",
+  Career: "var(--color-slate)",
+  "Templates & Tools": "var(--color-ember)",
+};
+
+/** Stock and ink per featured voice, in running order. */
+export const voiceStocks = [
+  "var(--color-sage)",
+  "var(--color-butter)",
+  "var(--color-blush)",
+  "var(--color-sky)",
+  "var(--color-lilac)",
+] as const;
+
+export const voiceInks = [
+  "var(--color-pine)",
+  "var(--color-olive)",
+  "var(--color-rust)",
+  "var(--color-slate)",
+  "var(--color-plum)",
 ] as const;
 
 /** Initials for the monogram plates on the voices list. */

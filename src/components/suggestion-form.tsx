@@ -13,7 +13,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="eyebrow mt-8 cursor-pointer bg-forest px-6 py-4 text-paper transition-colors duration-300 hover:bg-ink disabled:cursor-wait disabled:opacity-70"
+      className="eyebrow mt-8 cursor-pointer rounded-full bg-pine px-7 py-4 text-paper transition-colors duration-300 hover:bg-ink disabled:cursor-wait disabled:opacity-70"
     >
       {pending ? "Sending" : "Send suggestion"}
     </button>
@@ -41,7 +41,7 @@ function Field({
       {hint && <p className="mt-2 text-xs text-ink-muted">{hint}</p>}
       <div className="mt-2">{children}</div>
       {error && (
-        <p id={`${id}-error`} className="mt-2 text-xs text-oxblood">
+        <p id={`${id}-error`} className="mt-2 text-xs text-alarm">
           {error}
         </p>
       )}
@@ -50,7 +50,7 @@ function Field({
 }
 
 const inputClass =
-  "w-full border-b border-rule bg-transparent pb-2 font-display text-lg text-ink outline-none transition-colors duration-300 placeholder:text-ink-muted focus:border-brass";
+  "w-full border-b-2 border-rule bg-transparent pb-2 text-lg text-ink outline-none transition-colors duration-300 placeholder:text-ink-muted focus:border-pine";
 
 export function SuggestionForm() {
   const [state, formAction] = useActionState(submitSuggestion, initialState);
@@ -74,8 +74,8 @@ export function SuggestionForm() {
 
   if (state.status === "success") {
     return (
-      <div className="border-l-2 border-forest pl-6">
-        <p className="font-display text-[length:var(--text-lede)] leading-[1.4] text-ink">
+      <div className="rounded-card bg-sage p-7">
+        <p className="text-[length:var(--text-lede)] leading-[1.45] text-ink">
           {state.message}
         </p>
       </div>
@@ -168,7 +168,7 @@ export function SuggestionForm() {
       </div>
 
       {state.status === "error" && !state.errors && (
-        <p role="alert" className="mt-6 text-sm text-oxblood">
+        <p role="alert" className="mt-6 text-sm text-alarm">
           {state.message}
         </p>
       )}

@@ -1,6 +1,6 @@
 import { voices } from "@/data/voices";
 import { ArrowUpRight } from "@/components/icons";
-import { initials, voiceAccents } from "@/lib/accents";
+import { initials, voiceInks, voiceStocks } from "@/lib/accents";
 
 export function Voices() {
   return (
@@ -8,7 +8,8 @@ export function Voices() {
       <div className="mx-auto max-w-[84rem] px-5 pb-16 sm:px-8 sm:pb-24 lg:px-12">
         <ol className="border-t border-rule">
           {voices.map((voice, index) => {
-            const accent = voiceAccents[index % voiceAccents.length];
+            const stock = voiceStocks[index % voiceStocks.length];
+            const ink = voiceInks[index % voiceInks.length];
             return (
               <li key={voice.name}>
                 <a
@@ -21,14 +22,14 @@ export function Voices() {
                       and no licensing question. */}
                   <span
                     aria-hidden="true"
-                    style={{ backgroundColor: accent }}
-                    className="flex h-14 w-14 shrink-0 items-center justify-center font-display text-lg text-paper transition-transform duration-300 group-hover:-translate-y-0.5 md:col-span-1 md:h-16 md:w-16"
+                    style={{ backgroundColor: stock }}
+                    className="headline flex h-14 w-14 shrink-0 items-center justify-center rounded-full text-xl text-ink transition-transform duration-300 group-hover:-translate-y-0.5 md:col-span-1 md:h-16 md:w-16"
                   >
                     {initials(voice.name)}
                   </span>
 
                   <div className="md:col-span-4">
-                    <h3 className="flex items-baseline gap-2 font-display text-2xl leading-tight text-ink lg:text-[1.75rem]">
+                    <h3 className="flex items-baseline gap-2 text-2xl text-ink lg:text-[1.75rem]">
                       <span className="rule-link">{voice.name}</span>
                       <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-ink-muted transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                     </h3>
@@ -43,8 +44,8 @@ export function Voices() {
 
                   <div className="md:col-span-2 md:text-right">
                     <span
-                      style={{ color: accent }}
-                      className="eyebrow block font-semibold"
+                      style={{ color: ink }}
+                      className="eyebrow block"
                     >
                       {voice.publication}
                     </span>

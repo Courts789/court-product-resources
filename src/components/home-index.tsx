@@ -6,6 +6,10 @@ import { ArrowUpRight } from "@/components/icons";
 /**
  * The home page is a shop window rather than a container: each destination
  * shows a genuine taste of what's behind it, not a generic blurb.
+ *
+ * Each takes one of the section stocks, so the home page is where the
+ * whole palette is seen at once and the rest of the site is recognisable
+ * as coming from it.
  */
 const destinations = [
   {
@@ -14,7 +18,8 @@ const destinations = [
     title: "Everything worth your time, in one place.",
     teaser:
       "Articles, podcasts, videos, books and templates. Searchable, filterable, grouped by theme.",
-    accent: "var(--color-forest)",
+    stock: "var(--color-sage)",
+    ink: "var(--color-pine)",
     taste: themes,
   },
   {
@@ -23,7 +28,8 @@ const destinations = [
     title: "The five people I come back to most.",
     teaser:
       "When I need a straight answer, I start here, because they actually know what they're talking about.",
-    accent: "var(--color-clay)",
+    stock: "var(--color-butter)",
+    ink: "var(--color-olive)",
     taste: voices.map((voice) => voice.name),
   },
   {
@@ -32,7 +38,8 @@ const destinations = [
     title: "Which product specialism fits you?",
     teaser:
       "Six questions on the work you actually reach for. No personality test, and nobody gets matched to an influencer.",
-    accent: "var(--color-navy)",
+    stock: "var(--color-sky)",
+    ink: "var(--color-slate)",
     taste: [
       "Discovery",
       "Growth",
@@ -48,7 +55,8 @@ const destinations = [
     title: "No clickbait. No overwhelming feed.",
     teaser:
       "Just conversations, templates, and summaries on product management: to get you in, or lift you up.",
-    accent: "var(--color-oxblood)",
+    stock: "var(--color-blush)",
+    ink: "var(--color-rust)",
     taste: ["Picked by a person", "Never by an algorithm"],
   },
   {
@@ -57,59 +65,52 @@ const destinations = [
     title: "Curated by Courtney Bain.",
     teaser:
       "Group Product Manager for Small Business at MYOB, who came to product through marketing and never stopped asking whether people would pay for it.",
-    accent: "var(--color-teal)",
+    stock: "var(--color-lilac)",
+    ink: "var(--color-plum)",
     taste: ["MYOB", "Cashrewards", "Rokt"],
   },
 ] as const;
 
 export function HomeIndex() {
   return (
-    <section aria-labelledby="index-title" className="border-b border-rule">
+    <section aria-labelledby="index-title">
       <div className="mx-auto max-w-[84rem] px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
-        <h2 id="index-title" className="eyebrow text-brass-deep">
+        <h2 id="index-title" className="eyebrow text-ink-muted">
           What&rsquo;s Inside
         </h2>
 
-        <ol className="mt-10 border-t border-rule">
-          {destinations.map((destination, index) => (
+        <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {destinations.map((destination) => (
             <li key={destination.href}>
               <Link
                 href={destination.href}
-                className="group grid gap-x-8 gap-y-4 border-b border-rule py-8 transition-colors duration-300 hover:bg-paper-sunk md:grid-cols-12 md:py-10"
+                style={{ backgroundColor: destination.stock }}
+                className="group flex h-full flex-col rounded-card p-7 transition-transform duration-300 hover:-translate-y-1"
               >
-                <span
-                  aria-hidden="true"
-                  style={{ color: destination.accent }}
-                  className="numeral text-sm md:col-span-1"
+                <p
+                  style={{ color: destination.ink }}
+                  className="eyebrow"
                 >
-                  {String(index + 1).padStart(2, "0")}
-                </span>
+                  {destination.eyebrow}
+                </p>
 
-                <div className="md:col-span-5">
-                  <p
-                    style={{ color: destination.accent }}
-                    className="eyebrow font-semibold"
-                  >
-                    {destination.eyebrow}
-                  </p>
-                  <h3 className="mt-3 flex items-baseline gap-2 font-display text-2xl leading-tight text-ink lg:text-[1.75rem]">
-                    <span className="rule-link">{destination.title}</span>
-                    <ArrowUpRight className="h-4 w-4 shrink-0 text-ink-muted transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                  </h3>
-                </div>
+                <h3 className="mt-4 flex items-start gap-2 text-2xl text-ink lg:text-[1.75rem]">
+                  <span>{destination.title}</span>
+                  <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </h3>
 
-                <p className="max-w-[52ch] text-sm leading-relaxed text-ink-soft md:col-span-4">
+                <p className="mt-4 max-w-[40ch] text-sm leading-relaxed text-ink-soft">
                   {destination.teaser}
                 </p>
 
                 <ul
                   aria-hidden="true"
-                  className="flex flex-wrap gap-x-3 gap-y-2 self-start md:col-span-2 md:justify-end"
+                  className="mt-auto flex flex-wrap gap-1.5 pt-8"
                 >
                   {destination.taste.map((item) => (
                     <li
                       key={item}
-                      className="border border-rule px-2 py-1 text-xs text-ink-muted transition-colors duration-300 group-hover:border-rule-strong"
+                      className="rounded-full border border-ink/20 px-2.5 py-1 text-xs text-ink-soft transition-colors duration-300 group-hover:border-ink/45"
                     >
                       {item}
                     </li>
@@ -118,7 +119,7 @@ export function HomeIndex() {
               </Link>
             </li>
           ))}
-        </ol>
+        </ul>
       </div>
     </section>
   );

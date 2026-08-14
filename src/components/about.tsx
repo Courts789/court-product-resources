@@ -7,11 +7,11 @@ export function About() {
       <div className="mx-auto max-w-[84rem] px-5 py-16 sm:px-8 sm:py-24 lg:px-12">
         <div className="grid gap-y-10 md:grid-cols-12 md:gap-x-16">
           <div className="md:col-span-3">
-            {/* Portrait sits on a teal block, offset like a printed plate. */}
+            {/* Portrait sits on a lilac block, offset like a pasted plate. */}
             <div className="relative w-fit">
               <span
                 aria-hidden="true"
-                className="absolute -bottom-3 -right-3 h-full w-full bg-teal"
+                className="absolute -bottom-3 -right-3 h-full w-full rounded-card bg-lilac"
               />
               <Image
                 src="/courtney-bain.jpg"
@@ -19,11 +19,11 @@ export function About() {
                 width={400}
                 height={400}
                 priority
-                className="relative h-40 w-40 object-cover sm:h-48 sm:w-48"
+                className="relative h-40 w-40 rounded-card object-cover sm:h-48 sm:w-48"
               />
             </div>
 
-            <p className="mt-8 font-display text-2xl leading-tight text-ink">
+            <p className="headline mt-8 text-2xl text-ink">
               {site.author}
             </p>
             <p className="mt-2 text-sm leading-relaxed text-ink-muted">
@@ -32,7 +32,7 @@ export function About() {
           </div>
 
           <div className="md:col-span-8 lg:col-span-7">
-            <p className="font-display text-[length:var(--text-lede)] leading-[1.5] text-ink">
+            <p className="text-[length:var(--text-lede)] leading-[1.5] text-ink">
               I came to product management through marketing, which means
               I&rsquo;ve always understood something most product teams learn
               too late: customers don&rsquo;t care about your roadmap, your

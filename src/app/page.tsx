@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Hero } from "@/components/hero";
 import { HomeIndex } from "@/components/home-index";
+import { Ticker } from "@/components/ticker";
 import { ArrowUpRight } from "@/components/icons";
 import { site } from "@/lib/site";
 
@@ -33,27 +34,38 @@ export default function Home() {
       />
       <main id="main" className="flex-1">
         <Hero />
+
+        <Ticker
+          items={[
+            "Curated, not crawled",
+            "Six themes",
+            "No algorithm",
+            "Updated by hand",
+            "Read, watched or listened to first",
+          ]}
+        />
+
         <HomeIndex />
 
         <section aria-labelledby="home-suggest" className="bg-paper-sunk">
           <div className="mx-auto max-w-[84rem] px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
-            <div className="grid gap-y-6 md:grid-cols-12 md:gap-x-16">
+            <div className="grid items-end gap-y-8 md:grid-cols-12 md:gap-x-16">
               <div className="md:col-span-7">
-                <h2 id="home-suggest" className="eyebrow text-brass-deep">
+                <h2 id="home-suggest" className="eyebrow text-rust">
                   Suggest a Resource
                 </h2>
-                <p className="mt-6 max-w-[24ch] font-display text-[length:var(--text-section)] leading-[1.15] text-ink">
+                <p className="headline mt-6 max-w-[14ch] text-[length:var(--text-section)] text-ink">
                   Found something good?
                 </p>
               </div>
 
-              <div className="flex items-end md:col-span-5">
+              <div className="md:col-span-5">
                 <Link
                   href="/suggest"
-                  className="group inline-flex items-baseline gap-3 border-b border-ink pb-2 font-display text-xl text-ink transition-colors duration-300 hover:border-brass hover:text-brass-deep"
+                  className="group inline-flex items-baseline gap-3 rounded-full bg-pine px-7 py-4 text-paper transition-colors duration-300 hover:bg-ink"
                 >
-                  Send it in
-                  <ArrowUpRight className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  <span className="eyebrow">Send it in</span>
+                  <ArrowUpRight className="h-3.5 w-3.5 shrink-0 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </Link>
               </div>
             </div>

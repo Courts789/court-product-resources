@@ -1,36 +1,38 @@
-import { RuleMark } from "@/components/plate";
-
 type PageHeaderProps = {
   eyebrow: string;
   title: string;
   intro?: string;
-  /** Accent ink for the eyebrow, so each page has its own colour. */
-  accent?: string;
+  /** Section stock behind the block, so each page opens in its own colour. */
+  stock?: string;
+  /** Section ink for the eyebrow, dark enough to set on that stock. */
+  ink?: string;
 };
 
-/** Shared masthead block so every page opens the same way. */
+/**
+ * Shared masthead block so every page opens the same way: a stocked slab,
+ * a tracked label, and a condensed headline set as large as it will go.
+ */
 export function PageHeader({
   eyebrow,
   title,
   intro,
-  accent = "var(--color-brass-deep)",
+  stock = "var(--color-sage)",
+  ink = "var(--color-pine)",
 }: PageHeaderProps) {
   return (
-    <section className="border-b border-rule">
+    <section style={{ backgroundColor: stock }}>
       <div className="mx-auto max-w-[84rem] px-5 py-14 sm:px-8 sm:py-20 lg:px-12">
-        <p style={{ color: accent }} className="eyebrow">
+        <p style={{ color: ink }} className="eyebrow">
           {eyebrow}
         </p>
-        <h1 className="mt-6 max-w-[20ch] text-[length:var(--text-section)] leading-[1.1] text-ink">
+        <h1 className="mt-6 max-w-[16ch] text-[length:var(--text-section)] text-ink">
           {title}
         </h1>
         {intro ? (
-          <p className="mt-6 max-w-[58ch] font-display text-[length:var(--text-lede)] leading-[1.45] text-ink-soft">
+          <p className="mt-6 max-w-[54ch] text-[length:var(--text-lede)] leading-[1.5] text-ink-soft">
             {intro}
           </p>
-        ) : (
-          <RuleMark className="mt-8 h-3 w-28" />
-        )}
+        ) : null}
       </div>
     </section>
   );

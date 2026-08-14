@@ -24,7 +24,8 @@ export default function SuggestPage() {
         eyebrow="Suggest a Resource"
         title="Found something good?"
         intro="Every entry here was picked by a person, and that includes the ones people send me."
-        accent="var(--color-oxblood)"
+        stock="var(--color-apricot)"
+        ink="var(--color-ember)"
       />
 
       <section className="bg-paper-sunk">

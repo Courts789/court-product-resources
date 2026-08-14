@@ -76,16 +76,13 @@ export function Quiz() {
 
     return (
       <div className="mx-auto max-w-[84rem] px-5 py-16 sm:px-8 sm:py-24 lg:px-12">
-        <p className="eyebrow text-brass-deep">Your result</p>
+        <p className="eyebrow text-ink-muted">Your result</p>
 
-        <h2
-          style={{ color: result.accent }}
-          className="mt-6 max-w-[18ch] text-[length:var(--text-section)] leading-[1.1]"
-        >
+        <h2 className="mt-6 max-w-[18ch] text-[length:var(--text-section)] text-ink">
           {result.title}
         </h2>
 
-        <p className="mt-6 max-w-[52ch] font-display text-[length:var(--text-lede)] leading-[1.45] text-ink">
+        <p className="mt-6 max-w-[52ch] text-[length:var(--text-lede)] leading-[1.5] text-ink-soft">
           {result.summary}
         </p>
 
@@ -96,10 +93,12 @@ export function Quiz() {
             </p>
 
             <div
-              style={{ borderColor: result.accent }}
-              className="mt-8 border-l-2 pl-6"
+              style={{ backgroundColor: result.stock }}
+              className="mt-8 rounded-card p-6"
             >
-              <p className="eyebrow text-ink">Coming from: {role}</p>
+              <p style={{ color: result.accent }} className="eyebrow">
+                Coming from: {role}
+              </p>
               <p className="mt-3 max-w-[56ch] text-sm leading-relaxed text-ink-soft">
                 {role ? bridges[role] : null}
               </p>
@@ -125,7 +124,7 @@ export function Quiz() {
 
         {reading.length > 0 && (
           <div className="mt-14 border-t border-rule pt-10">
-            <p className="eyebrow text-brass-deep">Read next</p>
+            <p className="eyebrow text-ink-muted">Read next</p>
             <ol className="mt-6">
               {reading.map((resource) => (
                 <li key={resource.id}>
@@ -135,7 +134,7 @@ export function Quiz() {
                     rel="noopener noreferrer"
                     className="group flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-rule py-4 transition-colors duration-300 hover:bg-paper-sunk"
                   >
-                    <span className="font-display text-xl text-ink">
+                    <span className="text-xl text-ink">
                       <span className="rule-link">{resource.title}</span>
                     </span>
                     <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-ink-muted transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
@@ -154,7 +153,7 @@ export function Quiz() {
           <button
             type="button"
             onClick={restart}
-            className="eyebrow cursor-pointer bg-ink px-6 py-4 text-paper transition-colors duration-300 hover:bg-forest"
+            className="eyebrow cursor-pointer rounded-full bg-pine px-7 py-4 text-paper transition-colors duration-300 hover:bg-ink"
           >
             Take it again
           </button>
@@ -171,7 +170,7 @@ export function Quiz() {
   return (
     <div className="mx-auto max-w-[84rem] px-5 py-16 sm:px-8 sm:py-24 lg:px-12">
       <div className="flex items-center justify-between border-b border-rule pb-4">
-        <p className="eyebrow text-brass-deep">
+        <p className="eyebrow text-pine">
           Question {boundedStep + 1} of {totalSteps}
         </p>
         {boundedStep > 0 && (
@@ -191,14 +190,14 @@ export function Quiz() {
           <span
             key={index}
             className={`h-0.5 flex-1 transition-colors duration-500 ${
-              index <= boundedStep ? "bg-brass" : "bg-rule"
+              index <= boundedStep ? "bg-pine" : "bg-rule"
             }`}
           />
         ))}
       </div>
 
       <fieldset className="mt-10">
-        <legend className="max-w-[26ch] text-[length:var(--text-section)] font-display leading-[1.15] text-ink">
+        <legend className="headline max-w-[22ch] text-[length:var(--text-section)] text-ink">
           {boundedStep === 0
             ? "Where are you starting from today?"
             : question?.prompt}
@@ -217,7 +216,7 @@ export function Quiz() {
                   aria-pressed={role === option}
                   className="group border-b border-rule py-5 text-left transition-colors duration-300 hover:bg-paper-sunk sm:pr-8"
                 >
-                  <span className="font-display text-xl text-ink transition-colors duration-300 group-hover:text-forest">
+                  <span className="text-xl text-ink transition-colors duration-300 group-hover:text-pine">
                     {option}
                   </span>
                 </button>
@@ -230,7 +229,7 @@ export function Quiz() {
                   aria-pressed={answers[boundedStep - 1] === index}
                   className="group border-b border-rule py-5 text-left transition-colors duration-300 hover:bg-paper-sunk sm:pr-8"
                 >
-                  <span className="block max-w-[38ch] font-display text-lg leading-snug text-ink transition-colors duration-300 group-hover:text-forest">
+                  <span className="block max-w-[38ch] text-lg leading-snug text-ink transition-colors duration-300 group-hover:text-pine">
                     {option.label}
                   </span>
                 </button>
