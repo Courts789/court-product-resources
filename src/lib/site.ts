@@ -14,14 +14,15 @@ export const site = {
 } as const;
 
 /**
- * Hash targets are prefixed with "/" so they resolve from any route,
- * including the library page.
+ * Every section is its own route; the home page is an index of them.
+ * Ordered who and why first, then the content itself, with the call to
+ * action last.
  */
 export const navigation = [
-  { href: "/#premise", label: "The Premise" },
-  { href: "/#about", label: "About" },
-  { href: "/#voices", label: "Top Picks" },
+  { href: "/about", label: "About" },
+  { href: "/premise", label: "The Premise" },
   { href: "/library", label: "The Library" },
+  { href: "/top-picks", label: "Top Picks" },
   { href: "/quiz", label: "Find Your Fit" },
-  { href: "/library#suggest", label: "Suggest" },
+  { href: "/suggest", label: "Suggest" },
 ] as const;

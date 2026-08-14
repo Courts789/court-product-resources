@@ -1,8 +1,7 @@
+import Link from "next/link";
 import { Hero } from "@/components/hero";
-import { Premise } from "@/components/premise";
-import { About } from "@/components/about";
-import { Voices } from "@/components/voices";
-import { LibraryCallout } from "@/components/library-callout";
+import { HomeIndex } from "@/components/home-index";
+import { ArrowUpRight } from "@/components/icons";
 import { site } from "@/lib/site";
 
 /**
@@ -21,7 +20,7 @@ const jsonLd = {
     "@type": "Person",
     name: site.author,
     description:
-      "Product manager who spent a decade in another field before transitioning into product management.",
+      "Group Product Manager for Small Business products at MYOB, who came to product management through marketing.",
   },
 };
 
@@ -34,10 +33,32 @@ export default function Home() {
       />
       <main id="main" className="flex-1">
         <Hero />
-        <Premise />
-        <About />
-        <Voices />
-        <LibraryCallout />
+        <HomeIndex />
+
+        <section aria-labelledby="home-suggest" className="bg-paper-sunk">
+          <div className="mx-auto max-w-[84rem] px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
+            <div className="grid gap-y-6 md:grid-cols-12 md:gap-x-16">
+              <div className="md:col-span-7">
+                <h2 id="home-suggest" className="eyebrow text-brass-deep">
+                  Suggest a Resource
+                </h2>
+                <p className="mt-6 max-w-[24ch] font-display text-[length:var(--text-section)] leading-[1.15] text-ink">
+                  Found something good?
+                </p>
+              </div>
+
+              <div className="flex items-end md:col-span-5">
+                <Link
+                  href="/suggest"
+                  className="group inline-flex items-baseline gap-3 border-b border-ink pb-2 font-display text-xl text-ink transition-colors duration-300 hover:border-brass hover:text-brass-deep"
+                >
+                  Send it in
+                  <ArrowUpRight className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
     </>
   );

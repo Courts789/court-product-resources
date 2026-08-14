@@ -4,27 +4,9 @@ import { initials, voiceAccents } from "@/lib/accents";
 
 export function Voices() {
   return (
-    <section
-      id="voices"
-      aria-labelledby="voices-title"
-      className="border-b border-rule"
-    >
-      <div className="mx-auto max-w-[84rem] px-5 py-16 sm:px-8 sm:py-24 lg:px-12">
-        <div className="grid gap-y-6 md:grid-cols-12 md:gap-x-16">
-          <h2
-            id="voices-title"
-            className="eyebrow text-brass-deep md:col-span-3"
-          >
-            Top Picks
-          </h2>
-          <p className="max-w-[52ch] font-display text-[length:var(--text-lede)] leading-[1.45] text-ink-soft md:col-span-9">
-            The five people I come back to most. When I need a straight answer,
-            I start here, because they actually know what they&rsquo;re talking
-            about.
-          </p>
-        </div>
-
-        <ol className="mt-14 border-t border-rule">
+    <section>
+      <div className="mx-auto max-w-[84rem] px-5 pb-16 sm:px-8 sm:pb-24 lg:px-12">
+        <ol className="border-t border-rule">
           {voices.map((voice, index) => {
             const accent = voiceAccents[index % voiceAccents.length];
             return (

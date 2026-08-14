@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Library } from "@/components/library";
-import { SuggestSection } from "@/components/suggest-section";
 import { resources } from "@/data/resources";
 import { site } from "@/lib/site";
 
@@ -49,7 +48,6 @@ export default function LibraryPage() {
       />
       <main id="main" className="flex-1">
         <Library />
-        <SuggestSection />
       </main>
     </>
   );

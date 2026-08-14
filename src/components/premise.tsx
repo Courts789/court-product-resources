@@ -20,17 +20,9 @@ const columns = [
 
 export function Premise() {
   return (
-    <section
-      id="premise"
-      aria-labelledby="premise-title"
-      className="border-b border-rule bg-paper-sunk"
-    >
+    <section className="bg-paper-sunk">
       <div className="mx-auto max-w-[84rem] px-5 py-16 sm:px-8 sm:py-24 lg:px-12">
-        <h2 id="premise-title" className="eyebrow text-brass-deep">
-          The Premise
-        </h2>
-
-        <div className="mt-10 grid gap-y-12 md:grid-cols-12 md:gap-x-16">
+        <div className="grid gap-y-12 md:grid-cols-12 md:gap-x-16">
           <blockquote className="border-l-2 border-brass pl-6 md:col-span-7 md:pl-8">
             <p className="text-[length:var(--text-section)] font-display leading-[1.25] text-ink">
               No clickbait. No overwhelming feed. No pointless conference
