@@ -137,11 +137,62 @@ any order and none of them can be a call to action.
 
 ---
 
+## Layout and breakpoints
+
+Tailwind's default steps, used at three points that matter:
+
+| Step | Width | What changes |
+| --- | --- | --- |
+| `sm` | 640px | Page padding opens up; home cards go to two columns |
+| `md` | 768px | Row layouts become the twelve-column grid |
+| `lg` | 1024px | **Navigation switches**: sections move from the menu panel into the masthead |
+
+`lg` is the navigation breakpoint rather than `md` because six section
+names plus the wordmark do not fit a tablet without shrinking the labels
+past reading. Tablets get the menu panel, and that is the right answer for
+them, not a compromise.
+
+The masthead is a fixed height — `h-14` below `lg`, `h-16` above — so the
+menu panel can sit flush beneath it without measuring anything. The
+library's sticky filter bar still measures the masthead at runtime, since
+its offset has to survive the change at `lg`.
+
+Two rules that keep narrow screens honest:
+
+- **Nothing scrolls the page sideways.** Wide content gets its own
+  `overflow-x: auto` container — the `scroll-row` utility exists for
+  exactly this. Verified at 320px on every page.
+- **Sticky chrome earns its height.** On a phone the library's chip rows
+  cost more vertical space than the entries they filter, so they fold
+  behind a disclosure and the button carries the active count. Header plus
+  filter bar is 167px at 320×720, not 314px.
+
+## Navigation
+
+[`site-nav.tsx`](src/components/site-nav.tsx) is the only client component
+in the chrome. Below `lg` it renders a menu button in the masthead and a
+full-height ink panel beneath it, with the section names in the display
+face at display size — the one place the headline voice is used for
+navigation rather than for a heading.
+
+It behaves like a dialog, and the details are the point:
+
+- Focus moves into the panel on open and back to the button on close
+- Tab cycles inside the panel; Escape closes it
+- The page behind cannot scroll, and the vanished scrollbar is compensated
+  so the masthead does not jump
+- Navigating closes it, keyed on the pathname so browser back closes it too
+- Widening past `lg` closes it, so the panel can never be hidden by the
+  breakpoint while the page behind it stays locked
+- The panel stays mounted and uses `hidden`, so `aria-controls` always
+  resolves and closed links stay out of the tab order
+
 ## Components
 
 | File | Notes |
 | --- | --- |
-| [`site-header.tsx`](src/components/site-header.tsx) | Ink bar. Suggest is the only ask on the site, so it is the only button. |
+| [`site-header.tsx`](src/components/site-header.tsx) | Ink bar, one row at every width. Suggest is the only ask on the site, so it is the only button. |
+| [`site-nav.tsx`](src/components/site-nav.tsx) | The menu button and panel below `lg`. See Navigation above. |
 | [`page-header.tsx`](src/components/page-header.tsx) | Every page opens with a stocked slab. Pass `stock` and `ink` as a matched pair from the table above. |
 | [`ticker.tsx`](src/components/ticker.tsx) | The running band between sections. |
 | [`plate.tsx`](src/components/plate.tsx) | Flat cut-paper SVG in the section stocks, in place of stock photography. |

@@ -48,7 +48,7 @@ function searchFields(resource: Resource) {
 }
 
 /**
- * The masthead wraps to two rows at narrow widths, so its height can't be
+ * The masthead changes height across breakpoints, so its height can't be
  * hard-coded as a sticky offset for the controls below it. Measure it and
  * keep the value current as the viewport changes.
  */
@@ -75,6 +75,9 @@ export function Library() {
   const [theme, setTheme] = useState<ThemeFilter>("All");
   const [media, setMedia] = useState<Media | null>(null);
   const [sort, setSort] = useState<Sort>("theme");
+  /* Narrow screens only: the chip rows are always shown from the large
+     step up, where they cost a single line. */
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const visible = useMemo(() => {
     const scored = resources
@@ -116,6 +119,11 @@ export function Library() {
 
   const isFiltered = query !== "" || theme !== "All" || media !== null;
 
+  /* Counted for the disclosure button, so a collapsed filter set can still
+     say how much of the collection it is hiding. Search is excluded: the
+     field it came from stays on screen and speaks for itself. */
+  const activeFilters = (theme !== "All" ? 1 : 0) + (media !== null ? 1 : 0);
+
   function reset() {
     setQuery("");
     setTheme("All");
@@ -139,7 +147,7 @@ export function Library() {
           className="sticky z-30 border-b border-rule bg-paper"
         >
           <div className="mx-auto max-w-[84rem] px-5 sm:px-8 lg:px-12">
-            <div className="flex flex-col gap-4 border-b border-rule py-5 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
+            <div className="flex flex-col gap-3 border-b border-rule py-4 lg:flex-row lg:items-center lg:justify-between lg:gap-8 lg:py-5">
               <div className="flex-1 lg:max-w-md">
                 <label htmlFor="library-search" className="sr-only">
                   Search the library
@@ -150,11 +158,11 @@ export function Library() {
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
                   placeholder="Search by title, person or topic"
-                  className="w-full border-b-2 border-rule bg-transparent pb-2 text-lg text-ink outline-none transition-colors duration-300 placeholder:text-ink-muted focus:border-pine"
+                  className="w-full border-b-2 border-rule bg-transparent pb-2 text-base text-ink outline-none transition-colors duration-300 placeholder:text-ink-muted focus:border-pine sm:text-lg"
                 />
               </div>
 
-              <div className="flex items-center gap-6">
+              <div className="flex items-center justify-between gap-3 sm:justify-start sm:gap-6">
                 <div
                   role="group"
                   aria-label="Sort the library"
@@ -171,7 +179,7 @@ export function Library() {
                       type="button"
                       onClick={() => setSort(value)}
                       aria-pressed={sort === value}
-                      className={`eyebrow cursor-pointer border-b-2 py-1 transition-colors duration-300 ${
+                      className={`eyebrow cursor-pointer whitespace-nowrap border-b-2 py-1 transition-colors duration-300 ${
                         sort === value
                           ? "border-pine text-ink"
                           : "border-transparent text-ink-muted hover:text-ink"
@@ -182,6 +190,26 @@ export function Library() {
                   ))}
                 </div>
 
+                {/*
+                  On a phone the chip rows are taller than the entries they
+                  filter, so they fold away behind this. The button carries
+                  the count, which is the part you need while they are shut.
+                */}
+                <button
+                  type="button"
+                  onClick={() => setFiltersOpen((value) => !value)}
+                  aria-expanded={filtersOpen}
+                  aria-controls="library-filters"
+                  className="eyebrow flex shrink-0 cursor-pointer items-center gap-2 whitespace-nowrap rounded-full border-2 border-rule px-3 py-2 text-ink transition-colors duration-300 hover:border-rule-strong sm:px-3.5 lg:hidden"
+                >
+                  Filters
+                  {activeFilters > 0 && (
+                    <span className="rounded-full bg-pine px-1.5 py-0.5 text-paper">
+                      {activeFilters}
+                    </span>
+                  )}
+                </button>
+
                 {/* Kept for screen readers so filtering still announces a
                   result, without putting a counter back on the page. */}
                 <p aria-live="polite" className="sr-only">
@@ -190,7 +218,10 @@ export function Library() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-3 py-4">
+            <div
+              id="library-filters"
+              className={`${filtersOpen ? "flex" : "hidden"} flex-col gap-3 py-4 lg:flex`}
+            >
               <div
                 role="group"
                 aria-label="Filter by theme"
@@ -230,9 +261,8 @@ export function Library() {
                 aria-label="Filter by format"
                 className="scroll-row -mx-5 flex items-center gap-x-4 overflow-x-auto px-5 sm:mx-0 sm:flex-wrap sm:gap-y-2 sm:overflow-visible sm:px-0"
               >
-                <span className="eyebrow shrink-0 text-ink-muted/70">
-                  Format
-                </span>
+                {/* Full-strength muted ink: at 70% this label fell to 2.97:1. */}
+                <span className="eyebrow shrink-0 text-ink-muted">Format</span>
                 {mediaFilters.map((name) => {
                   const active = media === name;
                   return (
