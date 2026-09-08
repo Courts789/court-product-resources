@@ -12,10 +12,15 @@ theme: "Getting In"
 media: "Article"
 time: "7 min read"
 added: "2026-05-02"
+verdict: "Start here"
 ---
 
-One sentence on why it earns a place in the collection.
+What it is and what you get, in two sentences at most.
 ```
+
+`verdict` is the call in a few words — "Worth it", "Start here", "Worth it for
+one chapter" — and never "it depends" without saying what it depends on. The
+note underneath describes the thing; the verdict is what you think of it.
 
 `theme` must be one of: Getting In, The Craft, AI & Evals, Growth, Career,
 Templates & Tools. `media` must be one of: Article, Podcast, Video, Book,

@@ -166,4 +166,5 @@ export const resources: readonly Resource[] = [${body ? `\n${body}\n` : ""}];
   "utf8",
 );
 
-console.log(`Library built: ${entries.length} entries → ${OUT}`);
+const plural = entries.length === 1 ? "entry" : "entries";
+console.log(`Library built: ${entries.length} ${plural} → ${OUT}`);
