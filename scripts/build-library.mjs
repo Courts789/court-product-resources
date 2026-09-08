@@ -77,7 +77,7 @@ for (const file of files) {
   }
   const { fields, note } = parsed;
 
-  for (const key of ["title", "by", "url", "theme", "media", "time", "added"]) {
+  for (const key of ["title", "by", "url", "theme", "media", "time", "added", "verdict"]) {
     if (!fields[key]) problems.push(`${file}: missing "${key}".`);
   }
   if (fields.theme && !themes.includes(fields.theme)) {
@@ -93,6 +93,21 @@ for (const file of files) {
     problems.push(`${file}: url "${fields.url}" is not an http(s) link.`);
   }
   if (!note) problems.push(`${file}: no note. Every entry needs its one sentence.`);
+
+  /*
+   * House style, enforced rather than remembered. The banned list and the
+   * em dash are the two things that reliably creep back in, and a note
+   * that runs past three sentences is two entries wearing one heading.
+   */
+  const banned =
+    /\b(game.?chang\w*|unlocks?|unlocking|supercharges?|elevates?|seamless\w*|cutting.edge|best.in.class|revolutionar\w*|leverages?|leveraging|robust|deep dive)\b/i;
+  const hit = banned.exec(note) ?? banned.exec(fields.verdict ?? "");
+  if (hit) problems.push(`${file}: "${hit[0]}" is on the banned word list.`);
+  if (/[\u2014]/.test(note) || /[\u2014]/.test(fields.verdict ?? "")) {
+    problems.push(`${file}: em dash. Use a period or a comma.`);
+  }
+  const sentences = note.split(/[.!?](?:\s|$)/).filter((s) => s.trim()).length;
+  if (sentences > 3) problems.push(`${file}: note runs to ${sentences} sentences, max is 3.`);
 
   entries.push({ id, ...fields, note });
 }
@@ -132,6 +147,7 @@ const body = entries
       `    media: ${str(e.media)},`,
       `    time: ${str(e.time)},`,
       `    added: ${str(e.added)},`,
+      `    verdict: ${str(e.verdict)},`,
       `    note: ${str(e.note)},`,
       "  },",
     ].join("\n"),
@@ -145,9 +161,7 @@ writeFileSync(
 
 import type { Resource } from "./resources";
 
-export const resources: readonly Resource[] = [
-${body}
-];
+export const resources: readonly Resource[] = [${body ? `\n${body}\n` : ""}];
 `,
   "utf8",
 );

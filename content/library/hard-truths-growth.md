@@ -6,6 +6,7 @@ theme: "Growth"
 media: "Article"
 time: "8 min read"
 added: "2026-05-02"
+verdict: "Read it before you take a growth role"
 ---
 
-Read this before you take a growth role. It is the honest job description nobody puts in the ad.
+Verna's honest job description for growth work, which is nothing like the job ad. Eight minutes that could save you a bad year.

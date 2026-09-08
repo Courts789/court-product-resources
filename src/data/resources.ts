@@ -30,7 +30,12 @@ export type Resource = {
   time: string;
   /** ISO date this entry was added, drives "new" badges and sorting. */
   added: string;
-  /** One sentence on why it earns a place in the collection. */
+  /**
+   * The call, in a few words: worth it, worth it for one thing only, or
+   * skip it. Never "it depends" without saying what it depends on.
+   */
+  verdict: string;
+  /** What it is and what you get, in two sentences at most. */
   note: string;
 };
 

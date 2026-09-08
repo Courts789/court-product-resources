@@ -6,6 +6,7 @@ theme: "Templates & Tools"
 media: "Guide"
 time: "12 min read"
 added: "2026-08-20"
+verdict: "Worth it if you keep losing what you read"
 ---
 
-A direct answer to the overwhelm this site is about: a system for holding everything you've read so you can actually retrieve it.
+A system for holding everything you have read so you can retrieve it later. A direct answer to the overwhelm this site is about.

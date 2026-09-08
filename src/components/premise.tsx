@@ -40,14 +40,20 @@ export function Premise() {
             </p>
 
             <p className="mt-8 max-w-[68ch] leading-relaxed text-ink-soft">
-              It isn&rsquo;t only that there is more. It&rsquo;s that so much of
-              it is the same thing said again, or thin, or quietly selling you
-              a course at the end. And the good stuff keeps getting longer:
-              podcasts that were forty minutes are now two and a half hours.
-              Keeping up with everything out there stopped being difficult and
-              became genuinely impossible, which means the useful skill is no
-              longer finding things. It&rsquo;s knowing which forty minutes are
-              worth your evening.
+              It isn&rsquo;t only that there is more. So much of it is the same
+              thing said again, or thin, or quietly selling you a course at the
+              end.
+            </p>
+
+            <p className="mt-6 max-w-[68ch] leading-relaxed text-ink-soft">
+              The good material keeps getting longer, too. Podcasts that ran
+              forty minutes now run two and a half hours, so keeping up with
+              everything stopped being hard and became impossible.
+            </p>
+
+            <p className="mt-6 max-w-[68ch] leading-relaxed text-ink-soft">
+              Which means the useful skill is no longer finding things.
+              It&rsquo;s knowing which forty minutes are worth your evening.
             </p>
 
             {/*

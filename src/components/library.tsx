@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import {
   isNew,
@@ -33,6 +34,20 @@ const mediaFilters: readonly Media[] = [
 const reference = new Date(site.lastUpdated);
 
 /**
+ * The human step, named rather than implied. "AI-assisted, human-reviewed"
+ * is exactly the vague claim the house style exists to cut, so each entry
+ * says which thing a person actually did to it.
+ */
+const humanStep: Record<Media, string> = {
+  Article: "Read in full",
+  Guide: "Read in full",
+  Book: "Read in full",
+  Podcast: "Listened in full",
+  Video: "Watched in full",
+  Template: "Tested on a real spec",
+};
+
+/**
  * Fields the search reads, weighted so a match on a title or a person
  * outranks one buried in a note. Title edges out byline so that searching
  * a name surfaces that person's own entry above things they made.
@@ -44,6 +59,7 @@ function searchFields(resource: Resource) {
     { value: resource.theme, weight: 1.5 },
     { value: resource.media, weight: 1.5 },
     { value: resource.note, weight: 1 },
+    { value: resource.verdict, weight: 1 },
   ];
 }
 
@@ -296,19 +312,31 @@ export function Library() {
         </div>
 
         <div className="mx-auto max-w-[84rem] px-5 py-12 sm:px-8 sm:py-16 lg:px-12">
-          {visible.length === 0 && (
-            <p className="py-16 text-center text-xl text-ink-muted">
-              Nothing matches that yet.{" "}
-              <button
-                type="button"
-                onClick={reset}
-                className="rule-link cursor-pointer text-ink"
-              >
-                Clear the filters
-              </button>{" "}
-              to see everything.
-            </p>
-          )}
+          {/* An empty library and an over-narrow filter look identical on
+              screen and are nothing alike: one is fixed by clearing the
+              filters, the other by adding an entry. Say which it is. */}
+          {visible.length === 0 &&
+            (resources.length === 0 ? (
+              <p className="py-16 text-center text-xl text-ink-muted">
+                The shelves are bare while the collection is rebuilt.{" "}
+                <Link href="/suggest" className="rule-link text-ink">
+                  Suggest something
+                </Link>{" "}
+                worth putting on them.
+              </p>
+            ) : (
+              <p className="py-16 text-center text-xl text-ink-muted">
+                Nothing matches that yet.{" "}
+                <button
+                  type="button"
+                  onClick={reset}
+                  className="rule-link cursor-pointer text-ink"
+                >
+                  Clear the filters
+                </button>{" "}
+                to see everything.
+              </p>
+            ))}
 
           {grouped
             ? sections.map((section) => (
@@ -370,9 +398,20 @@ function ResourceList({ items }: { items: readonly Resource[] }) {
               <p className="mt-2 text-sm text-ink-muted">{resource.by}</p>
             </div>
 
-            <p className="max-w-[54ch] text-sm leading-relaxed text-ink-soft md:col-span-5">
-              {resource.note}
-            </p>
+            <div className="md:col-span-5">
+              <p
+                style={{ color: themeInk[resource.theme] }}
+                className="eyebrow"
+              >
+                {resource.verdict}
+              </p>
+              <p className="mt-2 max-w-[54ch] text-sm leading-relaxed text-ink-soft">
+                {resource.note}
+              </p>
+              <p className="mt-2 text-xs text-ink-muted">
+                {humanStep[resource.media]} by {site.author}
+              </p>
+            </div>
 
             <div className="flex items-center gap-2 md:col-span-2 md:flex-col md:items-end">
               <span

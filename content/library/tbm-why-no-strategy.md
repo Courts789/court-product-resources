@@ -6,6 +6,7 @@ theme: "The Craft"
 media: "Article"
 time: "3 min read"
 added: "2026-05-14"
+verdict: "Worth it. Cheapest thing here"
 ---
 
-Three minutes, and it will explain the last two years of your working life. The cheapest thing in this library by a distance.
+Three minutes on why your company keeps saying it has a strategy when it does not. The shortest piece in the library and one of the most useful.

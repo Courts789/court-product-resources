@@ -6,6 +6,7 @@ theme: "Templates & Tools"
 media: "Video"
 time: "15 min watch"
 added: "2026-08-01"
+verdict: "Worth it. Follow along, do not watch"
 ---
 
-Follow along rather than watch. Fifteen minutes and you'll have shipped something, which is worth more than any amount of reading about it.
+Fifteen minutes to ship something small and real. You will have built a working app, which beats any amount of reading about it.

@@ -6,6 +6,7 @@ theme: "Templates & Tools"
 media: "Template"
 time: "10 min to set up"
 added: "2026-07-25"
+verdict: "Worth it as a second opinion, not a first draft"
 ---
 
-Drafts and critiques PRDs on demand. Most useful as a second opinion on structure, not as a first draft you ship unread.
+Drafts and critiques PRDs on demand. Tested on a real spec: useful for structure, and not something to ship unread.

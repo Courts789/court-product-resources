@@ -6,6 +6,7 @@ theme: "Growth"
 media: "Article"
 time: "7 min read"
 added: "2026-06-20"
+verdict: "Worth it"
 ---
 
-The playbooks genuinely have changed, and this is the clearest account of which parts and why. Short, specific, no hedging.
+Nine specific ways the playbooks have changed for AI products. Short, concrete, and no hedging about whether things are different now.

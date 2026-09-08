@@ -6,6 +6,7 @@ theme: "Templates & Tools"
 media: "Article"
 time: "6 min read"
 added: "2026-07-25"
+verdict: "Worth it. Six minutes to skip a month"
 ---
 
-Someone else has done the trialling so you don't have to. Six minutes to skip a month of tool tourism.
+Twenty-four tools ranked from essential to forgettable, with the trialling already done. Six minutes to avoid a month of tool tourism.

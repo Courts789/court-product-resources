@@ -6,6 +6,7 @@ theme: "Career"
 media: "Article"
 time: "9 min read"
 added: "2026-07-25"
+verdict: "Worth it"
 ---
 
-The question everyone is asking, answered without doom or hype. Nine minutes for the version of this argument that's actually thought through.
+The question everyone is asking, answered without doom or hype. Nine minutes for the version of this argument that is actually thought through.

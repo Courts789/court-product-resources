@@ -5,9 +5,15 @@ export function SiteFooter() {
   return (
     <footer className="mt-auto bg-ink text-paper">
       <div className="mx-auto max-w-[84rem] px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
-        {/* One row of sections, now that the standing rule and the
-            revision note have come out of the footer. */}
-        <p className="eyebrow text-paper/50">Sections</p>
+        {/*
+          Rule 06: the AI step is the reason to trust the site, not a
+          disclaimer to bury. It names what the person actually did.
+        */}
+        <p className="max-w-[34ch] text-[length:var(--text-lede)] leading-[1.4] text-paper">
+          Drafted with AI. Read by a human before it&rsquo;s listed.
+        </p>
+
+        <p className="eyebrow mt-12 text-paper/50">Sections</p>
         <ul className="mt-6 grid gap-x-8 gap-y-3 sm:grid-cols-2 lg:flex lg:flex-wrap lg:gap-x-10">
           {navigation.map((item) => (
             <li key={item.href}>

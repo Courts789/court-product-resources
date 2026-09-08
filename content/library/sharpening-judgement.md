@@ -6,6 +6,7 @@ theme: "The Craft"
 media: "Article"
 time: "13 min read"
 added: "2026-06-20"
+verdict: "Worth it"
 ---
 
-Judgement is the part of the job no competency framework can describe and no model can do for you. This is the best writing on how it's actually built.
+Judgement is the part of the job no competency framework describes and no model does for you. Zhuo is the clearest writer on how it gets built.

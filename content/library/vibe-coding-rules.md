@@ -6,6 +6,7 @@ theme: "Templates & Tools"
 media: "Article"
 time: "6 min read"
 added: "2026-07-25"
+verdict: "Read it before you start, not after"
 ---
 
-Read this before your first weekend of building, not after the third time you throw the whole project away.
+Twelve rules for building with AI without throwing the project away twice. Six minutes, and it saves the weekend.

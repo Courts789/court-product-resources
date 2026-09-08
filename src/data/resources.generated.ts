@@ -13,7 +13,8 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "7 min read",
     added: "2026-08-20",
-    note: "Actual hiring data rather than vibes. Where the openings are, which titles are growing, and what that means if you're job hunting right now.",
+    verdict: "Worth it for the data",
+    note: "Hiring numbers rather than opinions: where the openings are and which titles are growing. Skip the commentary and read the charts.",
   },
   {
     id: "verrilli-pm-regret",
@@ -24,7 +25,8 @@ export const resources: readonly Resource[] = [
     media: "Podcast",
     time: "85 min listen",
     added: "2026-08-20",
-    note: "Whatnot's CPO argues for fewer, more senior PMs doing real IC work. Uncomfortable listening if you're trying to get in, and the more useful for it.",
+    verdict: "Worth the 85 minutes, but pick your moment",
+    note: "Whatnot's CPO argues for fewer, more senior PMs doing real IC work. Uncomfortable listening if you are trying to break in, which is the reason to listen.",
   },
   {
     id: "inspired",
@@ -35,7 +37,8 @@ export const resources: readonly Resource[] = [
     media: "Book",
     time: "~8 hr read",
     added: "2026-08-10",
-    note: "The one most teams have half-read. Worth finishing properly, because the second half is where the operating model actually lives.",
+    verdict: "Worth finishing, not just starting",
+    note: "The book most teams have half-read. The second half is where the operating model lives, so the usual stopping point is the wrong one.",
   },
   {
     id: "how-to-hire-a-pm",
@@ -46,7 +49,8 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "12 min read",
     added: "2026-05-14",
-    note: "Written for hiring managers, which is exactly why candidates should read it. This is the scorecard you're being marked against.",
+    verdict: "Worth it if you are job hunting",
+    note: "Written for hiring managers, which is why candidates should read it. This is the scorecard you are being marked against.",
   },
   {
     id: "opportunity-solution-tree",
@@ -57,7 +61,8 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "16 min read",
     added: "2026-05-14",
-    note: "One diagram that fixes how you connect a business outcome to the thing you're about to build. Long, and worth every minute of it.",
+    verdict: "Worth the 16 minutes",
+    note: "One diagram for connecting a business outcome to the thing you are about to build. Long for a blog post, and the tree alone will change how you run interviews.",
   },
   {
     id: "product-vs-feature-teams",
@@ -68,7 +73,8 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "7 min read",
     added: "2026-05-02",
-    note: "The single clearest explanation of why two teams with identical job titles produce completely different work. Read this before your first interview.",
+    verdict: "Read it before your first interview",
+    note: "Cagan sets out why two teams with the same job titles produce completely different work. It gives you the vocabulary interviewers expect you to already have.",
   },
   {
     id: "netflix-systems-thinkers",
@@ -79,7 +85,8 @@ export const resources: readonly Resource[] = [
     media: "Podcast",
     time: "72 min listen",
     added: "2026-08-20",
-    note: "Netflix's CPTO on what she now hires for, and why breadth is beating depth in the AI era. The clearest signal I've heard on where the craft is heading.",
+    verdict: "Worth it. Skip to the hiring section",
+    note: "Netflix's CPTO on what she now hires for, and why breadth is beating depth. The clearest signal I have heard on where the craft is going.",
   },
   {
     id: "waterline-model",
@@ -90,7 +97,8 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "12 min read",
     added: "2026-08-20",
-    note: "The Waterline Model: a way to diagnose a struggling team that doesn't start and end with blaming the people in it.",
+    verdict: "Worth it if you lead a team",
+    note: "A way to diagnose a struggling team that does not start and end with blaming the people in it. The model is simple enough to use in your next retro.",
   },
   {
     id: "continuous-discovery-habits",
@@ -101,7 +109,8 @@ export const resources: readonly Resource[] = [
     media: "Book",
     time: "~5 hr read",
     added: "2026-08-10",
-    note: "The most practical book on talking to customers weekly without it becoming a research project nobody has time for.",
+    verdict: "Worth it",
+    note: "The most practical book on talking to customers weekly. It keeps discovery from becoming a research project nobody has time for.",
   },
   {
     id: "sharpening-judgement",
@@ -112,7 +121,8 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "13 min read",
     added: "2026-06-20",
-    note: "Judgement is the part of the job no competency framework can describe and no model can do for you. This is the best writing on how it's actually built.",
+    verdict: "Worth it",
+    note: "Judgement is the part of the job no competency framework describes and no model does for you. Zhuo is the clearest writer on how it gets built.",
   },
   {
     id: "tbm-feature-factory-practice",
@@ -123,7 +133,8 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "5 min read",
     added: "2026-06-20",
-    note: "For everyone whose org isn't the one in the books. How to build the craft anyway, without waiting for permission or a reorg.",
+    verdict: "Worth it if your org is not the one in the books",
+    note: "How to build the craft where you actually work, without waiting for a reorg or permission. Practical rather than aspirational.",
   },
   {
     id: "tbm-four-prioritization-jobs",
@@ -134,7 +145,8 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "11 min read",
     added: "2026-05-14",
-    note: "Why your prioritisation framework keeps failing: you're using one tool for four different jobs. Separating them is the whole fix.",
+    verdict: "Worth it",
+    note: "Cutler's case that your prioritisation framework fails because you are using one tool for four separate jobs. Separating them is the whole fix.",
   },
   {
     id: "tbm-why-no-strategy",
@@ -145,7 +157,8 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "3 min read",
     added: "2026-05-14",
-    note: "Three minutes, and it will explain the last two years of your working life. The cheapest thing in this library by a distance.",
+    verdict: "Worth it. Cheapest thing here",
+    note: "Three minutes on why your company keeps saying it has a strategy when it does not. The shortest piece in the library and one of the most useful.",
   },
   {
     id: "persistent-ai-coworkers",
@@ -156,7 +169,8 @@ export const resources: readonly Resource[] = [
     media: "Podcast",
     time: "82 min listen",
     added: "2026-09-01",
-    note: "On building for where the models will be in two years rather than where they are today. The most useful hour and a bit on AI product strategy I've spent.",
+    verdict: "Worth the 82 minutes",
+    note: "On building for where the models will be in two years rather than where they are today. The best case I have heard for planning past the current release.",
   },
   {
     id: "beyond-vibe-checks",
@@ -167,7 +181,8 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "14 min read",
     added: "2026-07-25",
-    note: "The PM-shaped version of the eval argument. If Hamel's writing is one level too technical for your week, read this one first.",
+    verdict: "Worth it if Hamel is one level too technical",
+    note: "The PM-shaped version of the eval argument, in a third of the time. Read this first, then go back to the source.",
   },
   {
     id: "pragmatic-evals",
@@ -178,7 +193,8 @@ export const resources: readonly Resource[] = [
     media: "Guide",
     time: "23 min read",
     added: "2026-07-25",
-    note: "What your engineers are reading about evals. Worth knowing so the conversation starts somewhere past the definitions.",
+    verdict: "Worth it for the shared vocabulary",
+    note: "What your engineers are reading about evals. Useful mostly so the conversation can start past the definitions.",
   },
   {
     id: "hamel-evals",
@@ -189,7 +205,8 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "14 min read",
     added: "2026-07-11",
-    note: "Start here. The argument for why shipping AI without an evaluation system is shipping blind, and what to build instead.",
+    verdict: "Start here",
+    note: "The argument for why shipping AI without an evaluation system is shipping blind. Read this before anything else in this theme.",
   },
   {
     id: "hamel-evals-faq",
@@ -200,7 +217,8 @@ export const resources: readonly Resource[] = [
     media: "Guide",
     time: "45 min read",
     added: "2026-07-11",
-    note: "The FAQ compiled from teaching thousands of PMs and engineers. Long, but it's a reference: skim the headings and read the three that apply to you.",
+    verdict: "Worth it as a reference, not a read-through",
+    note: "The FAQ compiled from teaching thousands of PMs and engineers. At 45 minutes it is a reference: skim the headings and read the three that apply to you.",
   },
   {
     id: "hamel-llm-judge",
@@ -211,7 +229,8 @@ export const resources: readonly Resource[] = [
     media: "Guide",
     time: "28 min read",
     added: "2026-07-11",
-    note: "The technique everyone name-drops and almost nobody sets up properly. This is the complete version, including how it goes wrong.",
+    verdict: "Worth it once you have run your first evals",
+    note: "The technique everyone name-drops and almost nobody sets up properly, including how it goes wrong. Too detailed to be your first read on evals.",
   },
   {
     id: "ai-freemium-playbooks",
@@ -222,7 +241,8 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "13 min read",
     added: "2026-08-20",
-    note: "When inference costs money per use, free stops being free. The best thing I've read on pricing an AI product properly.",
+    verdict: "Worth it if you price anything",
+    note: "When inference costs money per use, free stops being free. The best piece I have read on pricing an AI product.",
   },
   {
     id: "growth-in-ai-companies",
@@ -233,7 +253,8 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "7 min read",
     added: "2026-06-20",
-    note: "The playbooks genuinely have changed, and this is the clearest account of which parts and why. Short, specific, no hedging.",
+    verdict: "Worth it",
+    note: "Nine specific ways the playbooks have changed for AI products. Short, concrete, and no hedging about whether things are different now.",
   },
   {
     id: "retention-techniques",
@@ -244,7 +265,8 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "8 min read",
     added: "2026-06-20",
-    note: "Tactical rather than theoretical. You can take at least one of these into your next planning session and argue for it.",
+    verdict: "Worth it. Tactical",
+    note: "Five retention tactics you can take into your next planning session and argue for. Tactical rather than theoretical, which is rarer than it should be.",
   },
   {
     id: "duolingo-growth",
@@ -255,7 +277,8 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "20 min read",
     added: "2026-05-14",
-    note: "An older piece and still the best worked example of a growth model going from stalled to compounding. Read it as a case study, not a checklist.",
+    verdict: "Worth it as a case study",
+    note: "A worked example of a growth model going from stalled to compounding. It is an older piece, so read it for the reasoning and not the tactics.",
   },
   {
     id: "hard-truths-growth",
@@ -266,7 +289,8 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "8 min read",
     added: "2026-05-02",
-    note: "Read this before you take a growth role. It is the honest job description nobody puts in the ad.",
+    verdict: "Read it before you take a growth role",
+    note: "Verna's honest job description for growth work, which is nothing like the job ad. Eight minutes that could save you a bad year.",
   },
   {
     id: "next-career-move",
@@ -277,7 +301,8 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "21 min read",
     added: "2026-09-01",
-    note: "Six questions to work through when you know something needs to change but not what. Do it with a pen rather than skimming it.",
+    verdict: "Worth it, but do it with a pen",
+    note: "Six questions for when you know something needs to change but not what. Skimming this one defeats the point.",
   },
   {
     id: "ai-job-interview",
@@ -288,7 +313,8 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "20 min read",
     added: "2026-08-20",
-    note: "Practical prep rather than cheating: research, rehearsal and pressure-testing your own answers before someone else does.",
+    verdict: "Worth it if you are interviewing now",
+    note: "Practical prep rather than cheating: research, rehearsal, and pressure-testing your answers before someone else does. Twenty minutes, mostly worked examples.",
   },
   {
     id: "ic-career-flex",
@@ -299,7 +325,8 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "11 min read",
     added: "2026-08-20",
-    note: "Permission to stop treating management as the only way up, from someone who has done both at scale.",
+    verdict: "Worth it if you are being pushed to manage",
+    note: "Verna on why management is not the only way up, from someone who has done both at scale. Permission, with the reasoning attached.",
   },
   {
     id: "mosseri-authenticity",
@@ -310,7 +337,8 @@ export const resources: readonly Resource[] = [
     media: "Podcast",
     time: "68 min listen",
     added: "2026-08-20",
-    note: "Instagram's head on the product team structures emerging in 2026 and the traits he now hires for. Listen for the second half.",
+    verdict: "Worth it for the second half",
+    note: "Instagram's head on the product team structures emerging in 2026 and the traits he hires for. The first twenty minutes are warm-up.",
   },
   {
     id: "escaping-the-build-trap",
@@ -321,7 +349,8 @@ export const resources: readonly Resource[] = [
     media: "Book",
     time: "~4 hr read",
     added: "2026-08-10",
-    note: "Shipping output is not the same as producing value. The clearest articulation of why, and what to change structurally.",
+    verdict: "Worth it if you are arguing for change",
+    note: "Shipping output is not the same as producing value. The clearest account of why, and what to change structurally.",
   },
   {
     id: "what-happens-to-pm",
@@ -332,7 +361,8 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "9 min read",
     added: "2026-07-25",
-    note: "The question everyone is asking, answered without doom or hype. Nine minutes for the version of this argument that's actually thought through.",
+    verdict: "Worth it",
+    note: "The question everyone is asking, answered without doom or hype. Nine minutes for the version of this argument that is actually thought through.",
   },
   {
     id: "reality-of-tech-interviews",
@@ -343,7 +373,8 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "24 min read",
     added: "2026-07-11",
-    note: "What hiring processes actually look like now, with data. Sobering, and far more useful than another list of interview tips.",
+    verdict: "Worth it. Sobering",
+    note: "What hiring processes actually look like now, with data behind it. More useful than another list of interview tips.",
   },
   {
     id: "expertise-downfall",
@@ -354,7 +385,8 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "8 min read",
     added: "2026-06-20",
-    note: "The trap of being known for one thing, right at the moment the industry is redefining every role in it. Eight minutes, and it stings.",
+    verdict: "Worth it. Eight minutes and it stings",
+    note: "The trap of being known for one thing, just as the industry redefines every role in it. Short, and uncomfortable in a useful way.",
   },
   {
     id: "pm-second-brain",
@@ -365,7 +397,8 @@ export const resources: readonly Resource[] = [
     media: "Guide",
     time: "12 min read",
     added: "2026-08-20",
-    note: "A direct answer to the overwhelm this site is about: a system for holding everything you've read so you can actually retrieve it.",
+    verdict: "Worth it if you keep losing what you read",
+    note: "A system for holding everything you have read so you can retrieve it later. A direct answer to the overwhelm this site is about.",
   },
   {
     id: "claude-code-tutorial",
@@ -376,7 +409,8 @@ export const resources: readonly Resource[] = [
     media: "Video",
     time: "15 min watch",
     added: "2026-08-01",
-    note: "Follow along rather than watch. Fifteen minutes and you'll have shipped something, which is worth more than any amount of reading about it.",
+    verdict: "Worth it. Follow along, do not watch",
+    note: "Fifteen minutes to ship something small and real. You will have built a working app, which beats any amount of reading about it.",
   },
   {
     id: "ai-prototyping-guide",
@@ -387,7 +421,8 @@ export const resources: readonly Resource[] = [
     media: "Guide",
     time: "17 min read",
     added: "2026-07-25",
-    note: "From idea to something clickable in an afternoon. The highest-leverage skill a PM can pick up this year, taught step by step.",
+    verdict: "Worth it. Do it alongside",
+    note: "Idea to something clickable in an afternoon, taught step by step. The single most useful skill a PM can pick up this year.",
   },
   {
     id: "ai-tools-ranked",
@@ -398,7 +433,8 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "6 min read",
     added: "2026-07-25",
-    note: "Someone else has done the trialling so you don't have to. Six minutes to skip a month of tool tourism.",
+    verdict: "Worth it. Six minutes to skip a month",
+    note: "Twenty-four tools ranked from essential to forgettable, with the trialling already done. Six minutes to avoid a month of tool tourism.",
   },
   {
     id: "chatprd",
@@ -409,7 +445,8 @@ export const resources: readonly Resource[] = [
     media: "Template",
     time: "10 min to set up",
     added: "2026-07-25",
-    note: "Drafts and critiques PRDs on demand. Most useful as a second opinion on structure, not as a first draft you ship unread.",
+    verdict: "Worth it as a second opinion, not a first draft",
+    note: "Drafts and critiques PRDs on demand. Tested on a real spec: useful for structure, and not something to ship unread.",
   },
   {
     id: "vibe-coding-rules",
@@ -420,6 +457,7 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "6 min read",
     added: "2026-07-25",
-    note: "Read this before your first weekend of building, not after the third time you throw the whole project away.",
+    verdict: "Read it before you start, not after",
+    note: "Twelve rules for building with AI without throwing the project away twice. Six minutes, and it saves the weekend.",
   },
 ];

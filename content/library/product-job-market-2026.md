@@ -6,6 +6,7 @@ theme: "Getting In"
 media: "Article"
 time: "7 min read"
 added: "2026-08-20"
+verdict: "Worth it for the data"
 ---
 
-Actual hiring data rather than vibes. Where the openings are, which titles are growing, and what that means if you're job hunting right now.
+Hiring numbers rather than opinions: where the openings are and which titles are growing. Skip the commentary and read the charts.

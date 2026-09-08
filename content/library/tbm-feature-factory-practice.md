@@ -6,6 +6,7 @@ theme: "The Craft"
 media: "Article"
 time: "5 min read"
 added: "2026-06-20"
+verdict: "Worth it if your org is not the one in the books"
 ---
 
-For everyone whose org isn't the one in the books. How to build the craft anyway, without waiting for permission or a reorg.
+How to build the craft where you actually work, without waiting for a reorg or permission. Practical rather than aspirational.

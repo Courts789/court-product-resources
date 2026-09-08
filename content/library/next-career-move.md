@@ -6,6 +6,7 @@ theme: "Career"
 media: "Article"
 time: "21 min read"
 added: "2026-09-01"
+verdict: "Worth it, but do it with a pen"
 ---
 
-Six questions to work through when you know something needs to change but not what. Do it with a pen rather than skimming it.
+Six questions for when you know something needs to change but not what. Skimming this one defeats the point.

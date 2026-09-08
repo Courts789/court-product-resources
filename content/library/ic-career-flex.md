@@ -6,6 +6,7 @@ theme: "Career"
 media: "Article"
 time: "11 min read"
 added: "2026-08-20"
+verdict: "Worth it if you are being pushed to manage"
 ---
 
-Permission to stop treating management as the only way up, from someone who has done both at scale.
+Verna on why management is not the only way up, from someone who has done both at scale. Permission, with the reasoning attached.

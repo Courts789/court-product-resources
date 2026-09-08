@@ -6,6 +6,7 @@ theme: "Career"
 media: "Article"
 time: "20 min read"
 added: "2026-08-20"
+verdict: "Worth it if you are interviewing now"
 ---
 
-Practical prep rather than cheating: research, rehearsal and pressure-testing your own answers before someone else does.
+Practical prep rather than cheating: research, rehearsal, and pressure-testing your answers before someone else does. Twenty minutes, mostly worked examples.

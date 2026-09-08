@@ -25,7 +25,7 @@ export default function NotFound() {
         <p className="mt-8 max-w-[52ch] text-[length:var(--text-lede)] leading-[1.5] text-paper/80">
           This is one of them. The page you asked for does not exist, was
           quietly descoped, or is sitting in a backlog somewhere marked
-          &ldquo;P3 &mdash; revisit next quarter&rdquo;.
+          &ldquo;P3, revisit next quarter&rdquo;.
         </p>
 
         <p className="mt-6 max-w-[52ch] leading-relaxed text-paper/70">

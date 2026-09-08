@@ -6,6 +6,7 @@ theme: "Growth"
 media: "Article"
 time: "8 min read"
 added: "2026-06-20"
+verdict: "Worth it. Tactical"
 ---
 
-Tactical rather than theoretical. You can take at least one of these into your next planning session and argue for it.
+Five retention tactics you can take into your next planning session and argue for. Tactical rather than theoretical, which is rarer than it should be.

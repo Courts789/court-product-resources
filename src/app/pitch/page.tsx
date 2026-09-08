@@ -39,14 +39,15 @@ export default function PitchPage() {
             </p>
 
             <p className="max-w-[42ch] text-sm leading-relaxed text-ink-soft md:col-span-4 md:col-start-9">
-              So write your own instead. Five questions about your actual
-              work &mdash; what you do now, how you got here, why product,
-              what you&rsquo;re good at, and what you want more of &mdash; and
-              you leave with something you can say in thirty seconds. It
-              borrows Penny Locaso&rsquo;s brag-a-log idea, because nobody can
-              describe their own value from memory under pressure. I have
-              watched too many good people take ten minutes to introduce
-              themselves in an interview.
+              So write your own instead. Five questions about your real
+              work: what you do now, how you got here, why product, what
+              you&rsquo;re good at, and what you want more of.
+            </p>
+
+            <p className="mt-4 max-w-[42ch] text-sm leading-relaxed text-ink-soft md:col-span-4 md:col-start-9">
+              You leave with something you can say in thirty seconds. It
+              borrows Penny Locaso&rsquo;s brag-a-log idea, because nobody
+              describes their own value well from memory.
             </p>
           </div>
         </div>

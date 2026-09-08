@@ -6,6 +6,7 @@ theme: "Growth"
 media: "Article"
 time: "20 min read"
 added: "2026-05-14"
+verdict: "Worth it as a case study"
 ---
 
-An older piece and still the best worked example of a growth model going from stalled to compounding. Read it as a case study, not a checklist.
+A worked example of a growth model going from stalled to compounding. It is an older piece, so read it for the reasoning and not the tactics.

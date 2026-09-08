@@ -6,6 +6,7 @@ theme: "Getting In"
 media: "Article"
 time: "16 min read"
 added: "2026-05-14"
+verdict: "Worth the 16 minutes"
 ---
 
-One diagram that fixes how you connect a business outcome to the thing you're about to build. Long, and worth every minute of it.
+One diagram for connecting a business outcome to the thing you are about to build. Long for a blog post, and the tree alone will change how you run interviews.

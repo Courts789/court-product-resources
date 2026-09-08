@@ -6,6 +6,7 @@ theme: "AI & Evals"
 media: "Article"
 time: "14 min read"
 added: "2026-07-11"
+verdict: "Start here"
 ---
 
-Start here. The argument for why shipping AI without an evaluation system is shipping blind, and what to build instead.
+The argument for why shipping AI without an evaluation system is shipping blind. Read this before anything else in this theme.

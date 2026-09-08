@@ -6,6 +6,7 @@ theme: "AI & Evals"
 media: "Article"
 time: "14 min read"
 added: "2026-07-25"
+verdict: "Worth it if Hamel is one level too technical"
 ---
 
-The PM-shaped version of the eval argument. If Hamel's writing is one level too technical for your week, read this one first.
+The PM-shaped version of the eval argument, in a third of the time. Read this first, then go back to the source.

@@ -6,6 +6,7 @@ theme: "Templates & Tools"
 media: "Guide"
 time: "17 min read"
 added: "2026-07-25"
+verdict: "Worth it. Do it alongside"
 ---
 
-From idea to something clickable in an afternoon. The highest-leverage skill a PM can pick up this year, taught step by step.
+Idea to something clickable in an afternoon, taught step by step. The single most useful skill a PM can pick up this year.

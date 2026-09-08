@@ -6,6 +6,7 @@ theme: "The Craft"
 media: "Article"
 time: "11 min read"
 added: "2026-05-14"
+verdict: "Worth it"
 ---
 
-Why your prioritisation framework keeps failing: you're using one tool for four different jobs. Separating them is the whole fix.
+Cutler's case that your prioritisation framework fails because you are using one tool for four separate jobs. Separating them is the whole fix.

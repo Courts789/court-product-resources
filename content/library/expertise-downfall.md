@@ -6,6 +6,7 @@ theme: "Career"
 media: "Article"
 time: "8 min read"
 added: "2026-06-20"
+verdict: "Worth it. Eight minutes and it stings"
 ---
 
-The trap of being known for one thing, right at the moment the industry is redefining every role in it. Eight minutes, and it stings.
+The trap of being known for one thing, just as the industry redefines every role in it. Short, and uncomfortable in a useful way.
