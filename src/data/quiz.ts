@@ -10,12 +10,9 @@
  *
  * The alternative is a pitch you wrote yourself. Three parts: who you
  * are, the kind of product person you are, and what you want next. It
- * borrows the brag-a-log idea, which is that you cannot describe your
- * own value from memory under pressure, so you keep a record and work
- * from it.
- *
- * TODO(courtney): confirm the full attribution for the brag-a-log before
- * this goes live; the copy currently credits the idea, not the person.
+ * borrows Penny Locaso's brag-a-log idea, which is that you cannot
+ * describe your own value from memory under pressure, so you keep a
+ * record and work from it.
  *
  * Answers weight one or two specialisms each, so the middle line of the
  * pitch comes from a pattern rather than from a single question.

@@ -41,9 +41,9 @@ export default function PitchPage() {
             <p className="max-w-[42ch] text-sm leading-relaxed text-ink-soft md:col-span-4 md:col-start-9">
               So write your own instead. Seven questions, and you leave with
               three sentences: who you are, the kind of product person you
-              are, and what you want next. It borrows the brag-a-log idea,
-              because nobody can describe their own value from memory under
-              pressure. I have watched too many good people take ten minutes
+              are, and what you want next. It borrows Penny Locaso&rsquo;s brag-a-log
+              idea, because nobody can describe their own value from memory
+              under pressure. I have watched too many good people take ten minutes
               to introduce themselves in an interview. This takes thirty
               seconds.
             </p>

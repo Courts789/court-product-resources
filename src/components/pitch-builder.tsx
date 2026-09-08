@@ -183,8 +183,9 @@ export function PitchBuilder() {
             </ul>
             <p className="mt-5 max-w-[38ch] text-sm leading-relaxed text-ink-muted">
               Write down one time you did each of these, with a number
-              attached. That is your brag-a-log, and it is what turns the
-              pitch above into something you can defend.
+              attached. That is your brag-a-log, Penny Locaso&rsquo;s idea,
+              and it is what turns the pitch above into something you can
+              defend.
             </p>
           </div>
         </div>
