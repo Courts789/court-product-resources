@@ -37,7 +37,7 @@ const destinations = [
     eyebrow: "Your Pitch",
     title: "Stop explaining yourself in someone else's bucket.",
     teaser:
-      "Seven questions, and you leave with three sentences: who you are, the kind of product person you are, and what you want next.",
+      "Five questions on your own work, and you leave with a pitch: how you got here, the type of product person you are, and what you want more of.",
     stock: "var(--color-sky)",
     ink: "var(--color-slate)",
     taste: ["Who you are", "What you're best at", "What you want"],

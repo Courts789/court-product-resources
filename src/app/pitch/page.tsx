@@ -3,7 +3,7 @@ import { PitchBuilder } from "@/components/pitch-builder";
 import { site } from "@/lib/site";
 
 const description =
-  "Roles in product are splitting and being reinvented faster than the titles can keep up. Seven questions, and you leave with three sentences on who you are, the kind of product person you are, and what you want next.";
+  "Roles in product are splitting and being reinvented faster than the titles can keep up. Five questions on your own work, and you leave with a short pitch: who you are, how you got here, the type of product person you are, and what you want more of.";
 
 export const metadata: Metadata = {
   title: "Write Your Pitch",
@@ -39,13 +39,14 @@ export default function PitchPage() {
             </p>
 
             <p className="max-w-[42ch] text-sm leading-relaxed text-ink-soft md:col-span-4 md:col-start-9">
-              So write your own instead. Seven questions, and you leave with
-              three sentences: who you are, the kind of product person you
-              are, and what you want next. It borrows Penny Locaso&rsquo;s brag-a-log
-              idea, because nobody can describe their own value from memory
-              under pressure. I have watched too many good people take ten minutes
-              to introduce themselves in an interview. This takes thirty
-              seconds.
+              So write your own instead. Five questions about your actual
+              work &mdash; what you do now, how you got here, why product,
+              what you&rsquo;re good at, and what you want more of &mdash; and
+              you leave with something you can say in thirty seconds. It
+              borrows Penny Locaso&rsquo;s brag-a-log idea, because nobody can
+              describe their own value from memory under pressure. I have
+              watched too many good people take ten minutes to introduce
+              themselves in an interview.
             </p>
           </div>
         </div>

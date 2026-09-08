@@ -2,12 +2,13 @@
 
 import { useMemo, useState } from "react";
 import {
+  attractions,
   bridges,
   emptyScores,
-  origins,
-  questions,
+  MAX_STRENGTHS,
   results,
   startingRoles,
+  strengths,
   wantClauses,
   wantOptions,
   type Scores,
@@ -19,86 +20,105 @@ import { resources } from "@/data/resources";
 import { ArrowUpRight } from "@/components/icons";
 
 /**
- * Steps are: where you're coming from, the scored questions, and what you
- * want next. The first and last are the outer lines of the pitch; the
- * ones in between decide the middle line.
+ * Five steps, in the order a person would actually be asked them: what
+ * you do now, how you got here, why product, what you're good at, and
+ * what you want more of.
  */
-const totalSteps = questions.length + 2;
+const steps = ["role", "pathway", "attraction", "strengths", "want"] as const;
+const lastStep = steps.length - 1;
+
+const PATHWAY_MAX = 260;
+
+const prompts: Record<(typeof steps)[number], string> = {
+  role: "What do you do today?",
+  pathway: "Where did you start, and how did you get to product?",
+  attraction: "What drew you to product in the first place?",
+  strengths: "What are you actually good at?",
+  want: "And what do you want to do more of?",
+};
 
 export function PitchBuilder() {
   const [step, setStep] = useState(0);
   const [role, setRole] = useState<StartingRole | null>(null);
+  const [pathway, setPathway] = useState("");
+  const [attraction, setAttraction] = useState<string | null>(null);
+  const [picked, setPicked] = useState<readonly string[]>([]);
   const [want, setWant] = useState<Want | null>(null);
-  const [answers, setAnswers] = useState<(number | null)[]>(
-    Array.from({ length: questions.length }, () => null),
-  );
   const [copied, setCopied] = useState(false);
 
+  /* Pathway is the one optional answer: some people genuinely started in
+     product, and the rest can write it later. */
   const complete =
-    role !== null && want !== null && answers.every((answer) => answer !== null);
+    role !== null && attraction !== null && picked.length > 0 && want !== null;
 
-  /*
-   * Clamp the cursor so it can never point past the last step. Without
-   * this, an unanswered gap leaves the step counter running on into an
-   * empty fieldset instead of showing a question.
-   */
-  const lastStep = questions.length + 1;
   const boundedStep = Math.max(0, Math.min(step, lastStep));
 
   const winner = useMemo<Specialism | null>(() => {
-    if (!answers.every((answer) => answer !== null)) return null;
+    if (picked.length === 0) return null;
 
     const scores: Scores = emptyScores();
 
-    questions.forEach((question, index) => {
-      const choice = answers[index];
-      if (choice === null) return;
-      for (const [key, value] of Object.entries(
-        question.options[choice].weights,
-      )) {
+    const chosen = [
+      ...strengths.filter((strength) => picked.includes(strength.id)),
+      ...attractions.filter((option) => option.id === attraction),
+    ];
+
+    for (const option of chosen) {
+      for (const [key, value] of Object.entries(option.weights)) {
         scores[key as Specialism] += value ?? 0;
       }
-    });
+    }
 
     return (Object.entries(scores) as [Specialism, number][]).sort(
       (a, b) => b[1] - a[1],
     )[0][0];
-  }, [answers]);
+  }, [picked, attraction]);
 
-  function choose(index: number) {
-    setAnswers((previous) => {
-      const next = [...previous];
-      next[boundedStep - 1] = index;
-      return next;
+  function toggleStrength(id: string) {
+    setPicked((previous) => {
+      if (previous.includes(id)) {
+        return previous.filter((value) => value !== id);
+      }
+      /* At the cap, the newest choice pushes out the oldest rather than
+         silently doing nothing, which reads as a broken button. */
+      const next = [...previous, id];
+      return next.length > MAX_STRENGTHS ? next.slice(1) : next;
     });
-    setStep(boundedStep + 1);
   }
 
   function restart() {
     setStep(0);
     setRole(null);
+    setPathway("");
+    setAttraction(null);
+    setPicked([]);
     setWant(null);
     setCopied(false);
-    setAnswers(Array.from({ length: questions.length }, () => null));
   }
 
   if (complete && winner && role && want) {
     const result = results[winner];
+    const chosenStrengths = strengths.filter((strength) =>
+      picked.includes(strength.id),
+    );
+    const why = attractions.find((option) => option.id === attraction);
     const reading = result.reading
       .map((id) => resources.find((resource) => resource.id === id))
       .filter((resource) => resource !== undefined);
 
     /*
-     * Three sentences, written to be said rather than read. Kept as
-     * separate lines on the page so it is obvious which part is which,
-     * and joined into one paragraph when copied, because that is the
-     * shape it needs to be in a message or a profile.
+     * Written to be said rather than read. The route in is dropped in
+     * exactly as typed and never grafted onto a generated clause: it is
+     * the one sentence on the page that is entirely theirs, and stitching
+     * it into a template is how you get a pitch that sounds like a form.
      */
     const lines = [
-      `I'm ${origins[role]}.`,
+      `I'm a ${role.toLowerCase()}.`,
+      pathway.trim(),
+      why ? `What drew me to product was ${why.clause}.` : "",
       `I'm at my best ${result.pitch}.`,
-      `What I want next is ${wantClauses[want]}.`,
-    ];
+      `What I want to do more of is ${wantClauses[want]}.`,
+    ].filter((line) => line !== "");
 
     async function copyPitch() {
       try {
@@ -120,7 +140,7 @@ export function PitchBuilder() {
           className="mt-6 rounded-card p-7 sm:p-10"
         >
           <p style={{ color: result.accent }} className="eyebrow">
-            {result.title}
+            The type of product person you are: {result.title}
           </p>
 
           <blockquote className="mt-6">
@@ -160,7 +180,7 @@ export function PitchBuilder() {
             </p>
 
             <div className="mt-8 rounded-card bg-paper-sunk p-6">
-              <p className="eyebrow text-ink-muted">Coming from: {role}</p>
+              <p className="eyebrow text-ink-muted">Working as: {role}</p>
               <p className="mt-3 max-w-[56ch] text-sm leading-relaxed text-ink-soft">
                 {bridges[role]}
               </p>
@@ -169,15 +189,16 @@ export function PitchBuilder() {
 
           <div className="md:col-span-4 md:col-start-9">
             <p className="eyebrow text-ink-muted">Evidence to go and find</p>
-            {/* The brag-a-log half: a pitch without examples behind it
-                falls over on the first follow-up question. */}
+            {/* Their own strengths, handed back as homework. A pitch
+                without examples behind it falls over on the first
+                follow-up question. */}
             <ul className="mt-5">
-              {result.strengths.map((strength) => (
+              {chosenStrengths.map((strength) => (
                 <li
-                  key={strength}
+                  key={strength.id}
                   className="border-b border-rule py-3 text-sm leading-relaxed text-ink-soft first:border-t"
                 >
-                  {strength}
+                  {strength.label}
                 </li>
               ))}
             </ul>
@@ -236,23 +257,13 @@ export function PitchBuilder() {
     );
   }
 
-  const question =
-    boundedStep === 0 || boundedStep === lastStep
-      ? null
-      : questions[boundedStep - 1];
-
-  const legend =
-    boundedStep === 0
-      ? "Where are you coming from?"
-      : boundedStep === lastStep
-        ? "And what do you want next?"
-        : question?.prompt;
+  const current = steps[boundedStep];
 
   return (
     <div className="mx-auto max-w-[84rem] px-5 py-16 sm:px-8 sm:py-24 lg:px-12">
       <div className="flex items-center justify-between border-b border-rule pb-4">
         <p className="eyebrow text-pine">
-          Question {boundedStep + 1} of {totalSteps}
+          Question {boundedStep + 1} of {steps.length}
         </p>
         {boundedStep > 0 && (
           <button
@@ -267,9 +278,9 @@ export function PitchBuilder() {
 
       {/* Progress is decorative; the count above carries the same information. */}
       <div aria-hidden="true" className="mt-4 flex gap-1.5">
-        {Array.from({ length: totalSteps }).map((_, index) => (
+        {steps.map((name, index) => (
           <span
-            key={index}
+            key={name}
             className={`h-0.5 flex-1 transition-colors duration-500 ${
               index <= boundedStep ? "bg-pine" : "bg-rule"
             }`}
@@ -279,12 +290,12 @@ export function PitchBuilder() {
 
       <fieldset className="mt-10">
         <legend className="headline max-w-[22ch] text-[length:var(--text-section)] text-ink">
-          {legend}
+          {prompts[current]}
         </legend>
 
-        <div className="mt-10 grid gap-px sm:grid-cols-2">
-          {boundedStep === 0 &&
-            startingRoles.map((option) => (
+        {current === "role" && (
+          <div className="mt-10 grid gap-px sm:grid-cols-2">
+            {startingRoles.map((option) => (
               <button
                 key={option}
                 type="button"
@@ -300,9 +311,131 @@ export function PitchBuilder() {
                 </span>
               </button>
             ))}
+          </div>
+        )}
 
-          {boundedStep === lastStep &&
-            wantOptions.map((option) => (
+        {current === "pathway" && (
+          <div className="mt-8 max-w-2xl">
+            <p className="text-sm leading-relaxed text-ink-soft">
+              One or two sentences, in your words. This is the only part of
+              the pitch nobody else could write, so it goes in exactly as you
+              type it. Where you came from, and what moved you across.
+            </p>
+
+            <label htmlFor="pathway" className="sr-only">
+              Where you started, and how you got to product
+            </label>
+            <textarea
+              id="pathway"
+              value={pathway}
+              onChange={(event) =>
+                setPathway(event.target.value.slice(0, PATHWAY_MAX))
+              }
+              rows={3}
+              maxLength={PATHWAY_MAX}
+              placeholder="I started in agency media and moved into product because I kept selling things I couldn't fix."
+              className="mt-6 w-full resize-y border-b-2 border-rule bg-transparent pb-2 text-lg text-ink outline-none transition-colors duration-300 placeholder:text-ink-muted focus:border-pine"
+            />
+
+            <div className="mt-3 flex items-center justify-between">
+              <span className="numeral text-xs text-ink-muted">
+                {pathway.length} / {PATHWAY_MAX}
+              </span>
+            </div>
+
+            <div className="mt-8 flex flex-wrap items-center gap-6">
+              <button
+                type="button"
+                onClick={() => setStep(2)}
+                className="eyebrow cursor-pointer rounded-full bg-pine px-7 py-4 text-paper transition-colors duration-300 hover:bg-ink"
+              >
+                Continue
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setPathway("");
+                  setStep(2);
+                }}
+                className="eyebrow cursor-pointer text-ink-muted transition-colors duration-300 hover:text-ink"
+              >
+                Skip this one
+              </button>
+            </div>
+          </div>
+        )}
+
+        {current === "attraction" && (
+          <div className="mt-10 grid gap-px sm:grid-cols-2">
+            {attractions.map((option) => (
+              <button
+                key={option.id}
+                type="button"
+                onClick={() => {
+                  setAttraction(option.id);
+                  setStep(3);
+                }}
+                aria-pressed={attraction === option.id}
+                className="group border-b border-rule py-5 text-left transition-colors duration-300 hover:bg-paper-sunk sm:pr-8"
+              >
+                <span className="block max-w-[38ch] text-lg leading-snug text-ink transition-colors duration-300 group-hover:text-pine">
+                  {option.label}
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {current === "strengths" && (
+          <div className="mt-8">
+            <p className="max-w-[54ch] text-sm leading-relaxed text-ink-soft">
+              Pick up to {MAX_STRENGTHS}, and pick the ones you could give an
+              example of rather than the ones that sound best. These decide
+              the type of product person the pitch says you are.
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-2">
+              {strengths.map((strength) => {
+                const active = picked.includes(strength.id);
+                return (
+                  <button
+                    key={strength.id}
+                    type="button"
+                    onClick={() => toggleStrength(strength.id)}
+                    aria-pressed={active}
+                    className={`cursor-pointer rounded-full border-2 px-4 py-2.5 text-left text-sm leading-snug transition-colors duration-300 ${
+                      active
+                        ? "border-pine bg-pine text-paper"
+                        : "border-rule text-ink-soft hover:border-rule-strong hover:text-ink"
+                    }`}
+                  >
+                    {strength.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="mt-8 flex flex-wrap items-center gap-6">
+              <button
+                type="button"
+                onClick={() => setStep(4)}
+                disabled={picked.length === 0}
+                className="eyebrow cursor-pointer rounded-full bg-pine px-7 py-4 text-paper transition-colors duration-300 hover:bg-ink disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Continue
+              </button>
+              <p aria-live="polite" className="text-sm text-ink-muted">
+                {picked.length === 0
+                  ? "Pick at least one."
+                  : `${picked.length} of ${MAX_STRENGTHS} chosen.`}
+              </p>
+            </div>
+          </div>
+        )}
+
+        {current === "want" && (
+          <div className="mt-10 grid gap-px sm:grid-cols-2">
+            {wantOptions.map((option) => (
               <button
                 key={option.value}
                 type="button"
@@ -315,21 +448,8 @@ export function PitchBuilder() {
                 </span>
               </button>
             ))}
-
-          {question?.options.map((option, index) => (
-            <button
-              key={option.label}
-              type="button"
-              onClick={() => choose(index)}
-              aria-pressed={answers[boundedStep - 1] === index}
-              className="group border-b border-rule py-5 text-left transition-colors duration-300 hover:bg-paper-sunk sm:pr-8"
-            >
-              <span className="block max-w-[38ch] text-lg leading-snug text-ink transition-colors duration-300 group-hover:text-pine">
-                {option.label}
-              </span>
-            </button>
-          ))}
-        </div>
+          </div>
+        )}
       </fieldset>
     </div>
   );
