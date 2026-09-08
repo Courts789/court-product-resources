@@ -3,4 +3,17 @@
 
 import type { Resource } from "./resources";
 
-export const resources: readonly Resource[] = [];
+export const resources: readonly Resource[] = [
+  {
+    id: "boris-cherny-we-cut-80-of-claude-codes-prompt",
+    title: "Boris Cherny: We Cut 80% of Claude Code's Prompt",
+    by: "Y Combinator",
+    url: "https://www.youtube.com/watch?v=qyPCVqFUyDo",
+    theme: "AI & Evals",
+    media: "Video",
+    time: "36 min watch",
+    added: "2026-09-08",
+    verdict: "Simplifies just how different building AI product is",
+    note: "Claude Code's creator on deleting eighty per cent of the system prompt and finding the model came out smarter for it. A Startup School talk about what building on a fast-moving model does to the way you build everything else.",
+  },
+];

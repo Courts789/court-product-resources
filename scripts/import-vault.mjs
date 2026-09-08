@@ -92,7 +92,12 @@ for (const note of notes) {
 
     if (existing.has(url.replace(/\/$/, ""))) { skipped.push(title); continue; }
     const media = MEDIA[(row.type || "").trim().toLowerCase()] ?? "TODO";
-    const note_ = (row["why i like it"] || "").trim();
+    /*
+     * The table's "why I like it" column is a judgement, not a description,
+     * so it lands in `verdict`. The note says what the thing actually is,
+     * which the table does not capture and a human has to write.
+     */
+    const verdict = (row["why i like it"] || "").trim();
 
     const id = slug(title);
     const target = join(CONTENT, `_${id}.md`);
@@ -113,9 +118,10 @@ for (const note of notes) {
         `media: ${q(media)}`,
         `time: ${q("TODO")}`,
         `added: ${q(new Date().toISOString().slice(0, 10))}`,
+        `verdict: ${q(verdict || "TODO")}`,
         "---",
         "",
-        note_ || "TODO: one sentence on why this earns a place in the collection.",
+        "TODO: what it is and what you get, in two sentences at most.",
         "",
       ].join("\n"),
       "utf8",
