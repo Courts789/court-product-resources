@@ -34,20 +34,6 @@ const mediaFilters: readonly Media[] = [
 const reference = new Date(site.lastUpdated);
 
 /**
- * The human step, named rather than implied. "AI-assisted, human-reviewed"
- * is exactly the vague claim the house style exists to cut, so each entry
- * says which thing a person actually did to it.
- */
-const humanStep: Record<Media, string> = {
-  Article: "Read in full",
-  Guide: "Read in full",
-  Book: "Read in full",
-  Podcast: "Listened in full",
-  Video: "Watched in full",
-  Template: "Tested on a real spec",
-};
-
-/**
  * Fields the search reads, weighted so a match on a title or a person
  * outranks one buried in a note. Title edges out byline so that searching
  * a name surfaces that person's own entry above things they made.
@@ -151,7 +137,7 @@ export function Library() {
       <PageHeader
         eyebrow="The Library"
         title="One episode, one article at a time."
-        intro="No shows to subscribe to and no archives to work through. Every entry is a single specific thing, and tells you upfront what it will cost you in minutes."
+        intro="No shows to subscribe to and no archives to work through. Every entry is a single specific thing, read or watched or listened to in full before it earned a place, and tells you upfront what it will cost you in minutes."
       />
 
       {/* Wrapping the controls and the list together bounds the sticky
@@ -407,9 +393,6 @@ function ResourceList({ items }: { items: readonly Resource[] }) {
               </p>
               <p className="mt-2 max-w-[54ch] text-sm leading-relaxed text-ink-soft">
                 {resource.note}
-              </p>
-              <p className="mt-2 text-xs text-ink-muted">
-                {humanStep[resource.media]} by {site.author}
               </p>
             </div>
 
