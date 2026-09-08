@@ -1,11 +1,24 @@
 /**
- * "Which product specialism fits you?"
+ * "Write your pitch."
  *
- * Deliberately not a persona quiz: no matching people to influencers. It
- * scores what kind of work you actually reach for, then names the
- * specialism that rewards it and what to read next. Answers weight one or
- * two specialisms each, so the result comes from a pattern rather than a
- * single question.
+ * Not a personality test and not a bucket-assigner. It exists because
+ * roles in product are splitting, merging and being invented faster than
+ * the titles can keep up, so "I'm a PM" has stopped telling anyone
+ * anything. When you're job hunting, writing a development plan, or just
+ * answering "so what do you do", you get pushed to squeeze yourself into
+ * whichever bucket the other person already has a name for.
+ *
+ * The alternative is a pitch you wrote yourself. Three parts: who you
+ * are, the kind of product person you are, and what you want next. It
+ * borrows the brag-a-log idea, which is that you cannot describe your
+ * own value from memory under pressure, so you keep a record and work
+ * from it.
+ *
+ * TODO(courtney): confirm the full attribution for the brag-a-log before
+ * this goes live; the copy currently credits the idea, not the person.
+ *
+ * Answers weight one or two specialisms each, so the middle line of the
+ * pitch comes from a pattern rather than from a single question.
  */
 
 export const specialisms = [
@@ -31,6 +44,27 @@ export const startingRoles = [
 ] as const;
 
 export type StartingRole = (typeof startingRoles)[number];
+
+/** What someone wants next: the third line of the pitch. */
+export const wants = [
+  "scope",
+  "depth",
+  "leadership",
+  "hands-on",
+  "mission",
+  "ai",
+] as const;
+
+export type Want = (typeof wants)[number];
+
+export const wantOptions: readonly { value: Want; label: string }[] = [
+  { value: "scope", label: "A bigger, messier problem to own" },
+  { value: "depth", label: "To go deep and be known for one thing" },
+  { value: "leadership", label: "To lead people, not just a product" },
+  { value: "hands-on", label: "To be building again, not coordinating" },
+  { value: "mission", label: "A problem I actually care about" },
+  { value: "ai", label: "A company betting properly on AI" },
+];
 
 export type Option = {
   label: string;
@@ -199,6 +233,12 @@ export type Result = {
   body: string;
   /** Where they'd be strongest, phrased as work rather than job title. */
   strengths: readonly string[];
+  /**
+   * Middle line of the pitch, written to follow "I'm at my best". Kept
+   * as a sentence fragment so the three lines join into something a
+   * person could actually say out loud.
+   */
+  pitch: string;
   /** Resource ids from the library, shown as a reading list. */
   reading: readonly string[];
 };
@@ -215,7 +255,9 @@ export const results: Record<Specialism, Result> = {
       "Continuous customer contact without it becoming a research project",
       "Killing ideas early, and cheaply",
     ],
-    reading: ["product-talk", "continuous-discovery-habits", "svpg-articles"],
+    pitch:
+      "in the messy bit before anyone has decided what to build, turning a vague complaint into a problem a team can act on",
+    reading: ["opportunity-solution-tree", "continuous-discovery-habits", "product-vs-feature-teams"],
   },
   growth: {
     title: "Growth and Monetisation",
@@ -229,7 +271,9 @@ export const results: Record<Specialism, Result> = {
       "Designing experiments that answer a real question",
       "Arguing for profitability, not just growth",
     ],
-    reading: ["elenas-growth-scoop", "reforge-blog", "behind-the-craft"],
+    pitch:
+      "where the product meets the commercial model, arguing about pricing, retention and whether a thing is worth building at all",
+    reading: ["hard-truths-growth", "growth-in-ai-companies", "ai-freemium-playbooks"],
   },
   platform: {
     title: "Platform and Technical",
@@ -242,7 +286,9 @@ export const results: Record<Specialism, Result> = {
       "Evaluating AI features properly instead of vibes-testing them",
       "Seeing the maintenance bill before it arrives",
     ],
-    reading: ["hamel-evals", "hamel-evals-faq", "anthropic-docs"],
+    pitch:
+      "close to the system, making the architecture and the trade-offs legible to the people who have to decide about them",
+    reading: ["hamel-evals", "hamel-evals-faq", "pragmatic-evals"],
   },
   marketing: {
     title: "Product Marketing",
@@ -255,7 +301,9 @@ export const results: Record<Specialism, Result> = {
       "Launches that build on each other rather than one-off moments",
       "Translating what was built into why anyone should care",
     ],
-    reading: ["behind-the-craft", "first-round-review", "looking-glass"],
+    pitch:
+      "connecting what got built to why anyone should care, and making the positioning hold up outside the building",
+    reading: ["what-happens-to-pm", "sharpening-judgement", "ai-freemium-playbooks"],
   },
   delivery: {
     title: "Delivery and Systems",
@@ -268,7 +316,9 @@ export const results: Record<Specialism, Result> = {
       "Seeing the dependency nobody else spotted",
       "Keeping a long-term vision intact while the route changes",
     ],
-    reading: ["irrational-exuberance", "beautiful-mess", "melissa-perri"],
+    pitch:
+      "turning ambiguity into something a team can execute, spotting the dependency nobody else saw",
+    reading: ["tbm-four-prioritization-jobs", "waterline-model", "tbm-why-no-strategy"],
   },
   adoption: {
     title: "Customer and Adoption",
@@ -281,8 +331,45 @@ export const results: Record<Specialism, Result> = {
       "Reading churn as evidence rather than bad luck",
       "Keeping the team honest about what customers experience",
     ],
-    reading: ["escaping-the-build-trap", "product-talk", "the-skip"],
+    pitch:
+      "on everything that happens after launch, where activation, retention and the quiet reasons people leave get decided",
+    reading: ["escaping-the-build-trap", "retention-techniques", "netflix-systems-thinkers"],
   },
+};
+
+/**
+ * Opening line of the pitch, keyed on where someone is coming from. The
+ * point of leading with this is that the route in is the interesting
+ * part, and it is the part people apologise for instead of using.
+ */
+export const origins: Record<StartingRole, string> = {
+  "Product Manager":
+    "a product manager who has stopped trying to be a generalist about it",
+  "Business Analyst":
+    "a product person who came through analysis, so I start from how the thing actually works",
+  "Product Designer":
+    "a product person with a design background, so I start from the person using it",
+  "Product Marketing Manager":
+    "a product person who came through marketing, so I start from whether anyone would pay for it",
+  "Customer Success Manager":
+    "a product person who came through the front line, so I have watched real people fail to use software",
+  "Something else":
+    "a product person who arrived from somewhere else, and treats that as material rather than a gap",
+};
+
+/** Closing line of the pitch: what they want next, said plainly. */
+export const wantClauses: Record<Want, string> = {
+  scope:
+    "a bigger and messier problem to own, with the room to be wrong for a while",
+  depth:
+    "to go deep enough in one area that people come to me for it by name",
+  leadership:
+    "to lead a team, and be measured on what they do rather than on what I ship",
+  "hands-on":
+    "to be building again: closer to the work, further from the coordination",
+  mission:
+    "to work on a problem I actually care about, in a company that means it",
+  ai: "a company betting properly on AI, not bolting it on to look current",
 };
 
 /** Advice keyed on where someone is starting from. */

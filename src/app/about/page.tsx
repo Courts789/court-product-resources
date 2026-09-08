@@ -40,7 +40,7 @@ export default function AboutPage() {
       <main id="main" className="flex-1">
         <PageHeader
           eyebrow="About Me"
-          title="Everything here is curated by me."
+          title="Someone who is passionate about the art of product."
           stock="var(--color-lilac)"
           ink="var(--color-plum)"
         />

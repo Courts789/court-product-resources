@@ -177,7 +177,7 @@
 
 /*
  * Condensed capitals for anything that needs the headline voice without
- * being a heading, chiefly the wordmark and the ticker.
+ * being a heading, chiefly the wordmark and the menu panel.
  */
 @utility headline {
   font-family: var(--font-condensed);
@@ -229,25 +229,3 @@
   }
 }
 
-/*
- * The one motion in the system: a standing rule that runs, marking the
- * seam between sections the way a printed band does. Paused entirely for
- * anyone who has asked for reduced motion, where it becomes a static band.
- */
-@utility ticker-track {
-  display: inline-block;
-  white-space: nowrap;
-  padding-left: 100%;
-  animation: ticker-run 34s linear infinite;
-
-  @media (prefers-reduced-motion: reduce) {
-    animation: none;
-    padding-left: 0;
-  }
-}
-
-@keyframes ticker-run {
-  to {
-    transform: translateX(-100%);
-  }
-}

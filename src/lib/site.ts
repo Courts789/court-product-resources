@@ -6,11 +6,11 @@ export const site = {
   name: "Court's Product Resources",
   tagline: "Curated product management resources, without the noise.",
   description:
-    "A curated collection of product management resources for people transitioning, upskilling, and navigating the industry's largest change ever. Conversations, templates, and summaries, chosen by hand and never by algorithm.",
+    "A curated collection of product management resources for people transitioning, upskilling, and navigating the industry's largest change ever. Specific episodes and specific articles, chosen by a person who consumed them first.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://courtsproductresources.com",
   author: "Courtney Bain",
   locale: "en_AU",
-  lastUpdated: "2026-08-09",
+  lastUpdated: "2026-09-08",
 } as const;
 
 /**
@@ -23,6 +23,7 @@ export const navigation = [
   { href: "/premise", label: "The Premise" },
   { href: "/library", label: "The Library" },
   { href: "/top-picks", label: "Top Picks" },
-  { href: "/quiz", label: "Find Your Fit" },
+  { href: "/book-reviews", label: "Book Reviews" },
+  { href: "/pitch", label: "Your Pitch" },
   { href: "/suggest", label: "Suggest" },
 ] as const;

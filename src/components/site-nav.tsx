@@ -40,13 +40,13 @@ export function SiteNav() {
   }
 
   /*
-   * The panel is hidden from the large step up, where the sections sit in
-   * the masthead instead. Widening the window past that point would
+   * The panel is hidden from the extra-large step up, where the sections
+   * sit in the masthead instead. Widening the window past that point would
    * otherwise take the panel off screen while leaving the page behind it
    * locked, so the state follows the breakpoint.
    */
   useEffect(() => {
-    const wide = window.matchMedia("(min-width: 64rem)");
+    const wide = window.matchMedia("(min-width: 80rem)");
     const sync = () => {
       if (wide.matches) setOpen(false);
     };
@@ -132,7 +132,7 @@ export function SiteNav() {
         aria-expanded={open}
         aria-controls="site-menu"
         aria-label={open ? "Close menu" : "Open menu"}
-        className="-mr-2 flex h-11 w-11 cursor-pointer items-center justify-center text-paper lg:hidden"
+        className="-mr-2 flex h-11 w-11 cursor-pointer items-center justify-center text-paper xl:hidden"
       >
         <span aria-hidden="true" className="relative block h-4 w-6">
           {/* Two rules that cross into a close mark. The bars are the only
@@ -159,7 +159,7 @@ export function SiteNav() {
         ref={panelRef}
         id="site-menu"
         hidden={!open}
-        className="fixed inset-x-0 bottom-0 top-14 z-50 flex flex-col overflow-y-auto bg-ink px-5 pb-10 pt-6 sm:px-8 lg:hidden"
+        className="fixed inset-x-0 bottom-0 top-14 z-50 lg:top-16 flex flex-col overflow-y-auto bg-ink px-5 pb-10 pt-6 sm:px-8 xl:hidden"
       >
         <nav aria-label="Sections">
           <ul className="flex flex-col">
@@ -192,7 +192,7 @@ export function SiteNav() {
         </Link>
 
         <p className="mt-auto pt-10 text-sm leading-relaxed text-paper/60">
-          Chosen by a person, never by an algorithm.
+          One episode, one article at a time. Never a feed.
         </p>
       </div>
     </>

@@ -15,9 +15,9 @@ const destinations = [
   {
     href: "/library",
     eyebrow: "The Library",
-    title: "Everything worth your time, in one place.",
+    title: "One episode, one article at a time.",
     teaser:
-      "Articles, podcasts, videos, books and templates. Searchable, filterable, grouped by theme.",
+      "Never a whole show or a whole newsletter. Every entry is a single specific thing, and says upfront what it costs you in minutes.",
     stock: "var(--color-sage)",
     ink: "var(--color-pine)",
     taste: themes,
@@ -33,36 +33,39 @@ const destinations = [
     taste: voices.map((voice) => voice.name),
   },
   {
-    href: "/quiz",
-    eyebrow: "Find Your Fit",
-    title: "Which product specialism fits you?",
+    href: "/pitch",
+    eyebrow: "Your Pitch",
+    title: "Stop explaining yourself in someone else's bucket.",
     teaser:
-      "Six questions on the work you actually reach for. No personality test, and nobody gets matched to an influencer.",
+      "Seven questions, and you leave with three sentences: who you are, the kind of product person you are, and what you want next.",
     stock: "var(--color-sky)",
     ink: "var(--color-slate)",
-    taste: [
-      "Discovery",
-      "Growth",
-      "Platform",
-      "Marketing",
-      "Delivery",
-      "Adoption",
-    ],
+    taste: ["Who you are", "What you're best at", "What you want"],
   },
   {
     href: "/premise",
     eyebrow: "The Premise",
-    title: "No clickbait. No overwhelming feed.",
+    title: "There is far too much of it now.",
     teaser:
-      "Just conversations, templates, and summaries on product management: to get you in, or lift you up.",
+      "Half of what gets published is repetitive, thin, or selling you something, and the good stuff keeps getting longer. Here's why this exists.",
     stock: "var(--color-blush)",
     ink: "var(--color-rust)",
-    taste: ["Picked by a person", "Never by an algorithm"],
+    taste: ["Consumed properly first", "Never an automated feed"],
+  },
+  {
+    href: "/book-reviews",
+    eyebrow: "Book Reviews",
+    title: "Coming soon. Emphasis on the soon.",
+    teaser:
+      "I am a slow reader. Catastrophically slow. The reviews will tell you which chapters you can skip, once I've reached them.",
+    stock: "var(--color-apricot)",
+    ink: "var(--color-ember)",
+    taste: ["Eventually", "Honestly", "Slowly"],
   },
   {
     href: "/about",
     eyebrow: "About Me",
-    title: "Curated by Courtney Bain.",
+    title: "Someone passionate about the art of product.",
     teaser:
       "Group Product Manager for Small Business at MYOB, who came to product through marketing and never stopped asking whether people would pay for it.",
     stock: "var(--color-lilac)",

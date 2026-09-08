@@ -8,9 +8,10 @@ export function SiteHeader() {
    * separates itself from the page rather than floating above it.
    *
    * One row at every width, and a fixed height so the menu panel can sit
-   * flush beneath it without measuring anything. Below the large step the
-   * sections move behind the menu button: six of them plus the wordmark
-   * will not fit on a tablet without shrinking the labels past reading.
+   * flush beneath it without measuring anything. Below the extra-large
+   * step the sections move behind the menu button: seven of them plus the
+   * wordmark will not fit on a tablet, or on a small laptop, without the
+   * labels wrapping onto a second line.
    */
   return (
     <header className="sticky top-0 z-40 bg-ink text-paper">
@@ -22,15 +23,15 @@ export function SiteHeader() {
           Court&rsquo;s Product Resources
         </Link>
 
-        <nav aria-label="Sections" className="hidden lg:block">
-          <ul className="flex items-center gap-5 xl:gap-6">
+        <nav aria-label="Sections" className="hidden xl:block">
+          <ul className="flex items-center gap-5 2xl:gap-6">
             {navigation
               .filter((item) => item.href !== "/suggest")
               .map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="eyebrow inline-block py-1 text-paper/70 transition-colors duration-300 hover:text-paper"
+                    className="eyebrow inline-block whitespace-nowrap py-1 text-paper/70 transition-colors duration-300 hover:text-paper"
                   >
                     {item.label}
                   </Link>

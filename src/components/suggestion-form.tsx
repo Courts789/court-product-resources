@@ -65,6 +65,7 @@ export function SuggestionForm() {
     email: "",
     link: "",
     reason: "",
+    linkedin: "",
   });
 
   function update(field: keyof typeof values) {
@@ -157,6 +158,29 @@ export function SuggestionForm() {
             aria-invalid={Boolean(state.errors?.reason)}
             aria-describedby={state.errors?.reason ? "reason-error" : undefined}
             className={`${inputClass} resize-y`}
+          />
+        </Field>
+
+        <Field
+          id="linkedin"
+          label="Your LinkedIn (optional)"
+          hint="Only so I can connect with you. Nothing else happens to it."
+          error={state.errors?.linkedin}
+        >
+          <input
+            id="linkedin"
+            name="linkedin"
+            value={values.linkedin}
+            onChange={update("linkedin")}
+            type="url"
+            maxLength={300}
+            placeholder="https://www.linkedin.com/in/"
+            autoComplete="url"
+            aria-invalid={Boolean(state.errors?.linkedin)}
+            aria-describedby={
+              state.errors?.linkedin ? "linkedin-error" : undefined
+            }
+            className={inputClass}
           />
         </Field>
       </div>

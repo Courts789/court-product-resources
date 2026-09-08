@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Hero } from "@/components/hero";
 import { HomeIndex } from "@/components/home-index";
-import { Ticker } from "@/components/ticker";
 import { ArrowUpRight } from "@/components/icons";
 import { site } from "@/lib/site";
 
@@ -34,16 +33,6 @@ export default function Home() {
       />
       <main id="main" className="flex-1">
         <Hero />
-
-        <Ticker
-          items={[
-            "Curated, not crawled",
-            "Six themes",
-            "No algorithm",
-            "Updated by hand",
-            "Read, watched or listened to first",
-          ]}
-        />
 
         <HomeIndex />
 

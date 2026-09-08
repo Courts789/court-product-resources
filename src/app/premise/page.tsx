@@ -4,7 +4,7 @@ import { Premise } from "@/components/premise";
 import { site } from "@/lib/site";
 
 const description =
-  "Why this collection exists: no clickbait, no overwhelming feed, and nothing here because an algorithm decided it should be.";
+  "Why this collection exists: more is published every week than anyone can get through, so this is the specific things that were actually worth the time.";
 
 export const metadata: Metadata = {
   title: "The Premise",
@@ -22,8 +22,8 @@ export default function PremisePage() {
     <main id="main" className="flex-1">
       <PageHeader
         eyebrow="The Premise"
-        title="Why this exists."
-        intro="A person picked every entry here, and can tell you why. That is the whole idea."
+        title="There is far too much of it now."
+        intro="More is published every week than any one person could get through, and a good half of it is repetitive, thin, or quietly selling you something."
         stock="var(--color-blush)"
         ink="var(--color-rust)"
       />

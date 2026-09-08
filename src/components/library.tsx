@@ -134,8 +134,8 @@ export function Library() {
     <>
       <PageHeader
         eyebrow="The Library"
-        title="Everything worth your time, in one place."
-        intro="Articles, podcasts, videos, books and templates. Grouped by theme, searchable, and sorted by hand rather than by an algorithm."
+        title="One episode, one article at a time."
+        intro="No shows to subscribe to and no archives to work through. Every entry is a single specific thing, and tells you upfront what it will cost you in minutes."
       />
 
       {/* Wrapping the controls and the list together bounds the sticky
@@ -383,6 +383,12 @@ function ResourceList({ items }: { items: readonly Resource[] }) {
               </span>
               <span className="eyebrow rounded-full border border-rule px-3 py-1.5 text-ink-muted">
                 {resource.media}
+              </span>
+              {/* The time cost sits with the format, because the two
+                  together are what you decide on: what kind of thing it
+                  is, and whether you have that long tonight. */}
+              <span className="numeral text-xs text-ink-muted">
+                {resource.time}
               </span>
             </div>
 

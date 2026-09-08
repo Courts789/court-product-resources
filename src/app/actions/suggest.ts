@@ -22,6 +22,7 @@ const MAX_LENGTHS = {
   email: 200,
   link: 500,
   reason: 1200,
+  linkedin: 300,
 };
 
 function isEmail(value: string): boolean {
@@ -50,6 +51,7 @@ export async function submitSuggestion(
   const email = String(formData.get("email") ?? "").trim();
   const link = String(formData.get("link") ?? "").trim();
   const reason = String(formData.get("reason") ?? "").trim();
+  const linkedin = String(formData.get("linkedin") ?? "").trim();
 
   const errors: Record<string, string> = {};
 
@@ -69,6 +71,15 @@ export async function submitSuggestion(
   else if (reason.length > MAX_LENGTHS.reason)
     errors.reason = "Please keep this under 1200 characters.";
 
+  /* Optional, so an empty value is fine. Anything else has to be a real
+     LinkedIn profile URL, since the only thing it's for is connecting. */
+  if (linkedin) {
+    if (!isHttpUrl(linkedin) || linkedin.length > MAX_LENGTHS.linkedin)
+      errors.linkedin = "Please use a full link starting with http or https.";
+    else if (!/(^|\.)linkedin\.com$/i.test(new URL(linkedin).hostname))
+      errors.linkedin = "That doesn't look like a LinkedIn profile.";
+  }
+
   if (Object.keys(errors).length > 0) {
     return {
       status: "error",
@@ -82,7 +93,7 @@ export async function submitSuggestion(
   if (!endpoint) {
     console.error(
       "[suggestions] SUGGESTIONS_WEBHOOK_URL is not set, so this submission was not delivered:",
-      { name, email, link, reason },
+      { name, email, link, reason, linkedin },
     );
     return {
       status: "error",
@@ -100,6 +111,7 @@ export async function submitSuggestion(
         email,
         link,
         reason,
+        linkedin: linkedin || null,
         submittedAt: new Date().toISOString(),
       }),
     });

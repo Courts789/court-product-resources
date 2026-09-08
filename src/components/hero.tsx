@@ -9,21 +9,21 @@ export function Hero() {
       <div className="mx-auto grid max-w-[84rem] items-center gap-x-16 gap-y-12 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-12 lg:px-12 lg:py-24">
         <div className="lg:col-span-7">
           <p className="eyebrow text-butter">
-            Curated for product people &middot; by {site.author}
+            Curated for product people by {site.author}
           </p>
 
           <h1
             id="hero-title"
             className="mt-8 max-w-[13ch] text-[length:var(--text-display)] text-paper"
           >
-            Everything worth reading.{" "}
-            <span className="text-butter">Nothing that isn&rsquo;t.</span>
+            Created with AI.{" "}
+            <span className="text-butter">Curated by a human.</span>
           </h1>
 
           <p className="mt-8 max-w-[46ch] text-[length:var(--text-lede)] leading-[1.5] text-paper/80">
             A curated list of product management resources for people
             transitioning, upskilling, and navigating the industry&rsquo;s
-            largest change&hellip;ever.
+            largest change ever.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
@@ -36,10 +36,10 @@ export function Hero() {
             </Link>
 
             <Link
-              href="/quiz"
+              href="/pitch"
               className="eyebrow rounded-full border border-paper/40 px-7 py-4 text-paper transition-colors duration-300 hover:border-paper"
             >
-              Find your fit
+              Write your pitch
             </Link>
           </div>
         </div>

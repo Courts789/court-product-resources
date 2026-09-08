@@ -1,17 +1,22 @@
 import { Asterisk } from "@/components/icons";
 
+/**
+ * The three boxes are the settled part of this page: what it is, what it
+ * isn't, who it's for. Everything above them is the argument for why they
+ * are needed, and it should not restate them.
+ */
 const columns = [
   {
     heading: "What this is",
     stock: "var(--color-sage)",
     ink: "var(--color-pine)",
-    body: "Conversations, templates, and summaries. Articles, podcasts, videos and books, whatever format the good stuff happens to arrive in.",
+    body: "Specific things. This episode, this article, this chapter, with a line on what you get out of it and roughly what it costs you in time.",
   },
   {
     heading: "What this isn't",
     stock: "var(--color-blush)",
     ink: "var(--color-rust)",
-    body: "An automated feed. Nothing lands here because it trended, and nothing is here to be scrolled past on the way to something else.",
+    body: "A feed, a follow list, or a wall of shows to subscribe to. Nothing lands here because it trended, and nothing is here to be scrolled past.",
   },
   {
     heading: "Who it's for",
@@ -26,28 +31,46 @@ export function Premise() {
     <section>
       <div className="mx-auto max-w-[84rem] px-5 py-16 sm:px-8 sm:py-24 lg:px-12">
         <div className="grid gap-y-12 md:grid-cols-12 md:gap-x-16">
-          {/*
-            The one place Georgia appears. Quotation is set apart from the
-            grotesque everything else is in, so it reads as a voice rather
-            than as more of the page.
-          */}
-          <blockquote className="md:col-span-7">
-            <p className="font-serif text-[length:var(--text-section)] leading-[1.18] text-ink">
-              No clickbait. No overwhelming feed. No pointless conference
-              keynotes where you learn nothing.
+          <div className="md:col-span-7">
+            <p className="text-[length:var(--text-lede)] leading-[1.5] text-ink">
+              I have felt the overwhelm since the day I moved into product.
+              The books, the frameworks, the newsletters everyone assumes
+              you&rsquo;ve already read. Then AI arrived and multiplied all of
+              it by about a hundred.
             </p>
-            <p className="mt-6 font-serif text-[length:var(--text-section)] italic leading-[1.18] text-pine">
-              Just conversations, templates, and summaries on product
-              management: to get you in, or lift you up.
+
+            <p className="mt-8 max-w-[68ch] leading-relaxed text-ink-soft">
+              It isn&rsquo;t only that there is more. It&rsquo;s that so much of
+              it is the same thing said again, or thin, or quietly selling you
+              a course at the end. And the good stuff keeps getting longer:
+              podcasts that were forty minutes are now two and a half hours.
+              Keeping up with everything out there stopped being difficult and
+              became genuinely impossible, which means the useful skill is no
+              longer finding things. It&rsquo;s knowing which forty minutes are
+              worth your evening.
             </p>
-          </blockquote>
+
+            {/*
+              The one place Georgia appears. Quotation is set apart from the
+              grotesque everything else is in, so it reads as a voice rather
+              than as more of the page.
+            */}
+            <blockquote className="mt-10 border-l-2 border-pine pl-6">
+              <p className="font-serif text-[length:var(--text-section)] leading-[1.18] text-pine">
+                So nothing here comes from a feed. Every entry is something I
+                read, watched or listened to properly, and thought was good
+                enough to be worth amplifying.
+              </p>
+            </blockquote>
+          </div>
 
           <div className="flex items-start self-start rounded-card bg-butter p-6 md:col-span-4 md:col-start-9">
             <Asterisk className="mt-1 h-4 w-4 shrink-0 text-olive" />
             <p className="ml-4 text-sm leading-relaxed text-ink-soft">
-              There are podcast episodes, videos and keynote recordings in here.
-              The good ones. Every entry was picked by a person who read,
-              watched or listened to it first.
+              I genuinely love this part: consuming it, arguing with it, and
+              passing on what stuck. Half the value of a good episode is the
+              conversation afterwards, so treat everything here as an opening
+              argument rather than a verdict. Tell me where I&rsquo;m wrong.
             </p>
           </div>
         </div>
