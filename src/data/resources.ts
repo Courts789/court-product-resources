@@ -43,6 +43,12 @@ export type Resource = {
    * lead line already says everything she wrote.
    */
   note: string;
+  /**
+   * Search words from the theme line of the vault note, such as "vibe-coding"
+   * or "anthropic". Never shown, only searched: the folder the note is filed
+   * in sets the theme.
+   */
+  tags: readonly string[];
 };
 
 /**

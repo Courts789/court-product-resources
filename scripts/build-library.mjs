@@ -92,6 +92,13 @@ for (const file of files) {
   if (fields.url && !/^https?:\/\//.test(fields.url)) {
     problems.push(`${file}: url "${fields.url}" is not an http(s) link.`);
   }
+  /*
+   * One entry is one link. A vault note once joined three links with "and",
+   * which still starts with http and would have shipped as a broken address.
+   */
+  if (fields.url && (/\s|%20/.test(fields.url) || (fields.url.match(/https?:\/\//g) ?? []).length > 1)) {
+    problems.push(`${file}: url holds more than one link. Split it into one note per link.`);
+  }
 
   /*
    * Drafts from the vault carry TODOs and the vault's raw reasons in a
@@ -117,7 +124,16 @@ for (const file of files) {
   const sentences = note.split(/[.!?](?:\s|$)/).filter((s) => s.trim()).length;
   if (sentences > 3) problems.push(`${file}: note runs to ${sentences} sentences, max is 3.`);
 
-  entries.push({ id, ...fields, note });
+  /*
+   * Tags are the vault note's own theme line: search words, not a section.
+   * The folder the note lives in is what sets the theme.
+   */
+  const tags = (fields.tags ?? "")
+    .split(/[,;]/)
+    .map((tag) => tag.trim())
+    .filter((tag, index, all) => tag && all.findIndex((t) => t.toLowerCase() === tag.toLowerCase()) === index);
+
+  entries.push({ id, ...fields, tags, note });
 }
 
 const seen = new Map();
@@ -157,6 +173,7 @@ const body = entries
       `    added: ${str(e.added)},`,
       `    verdict: ${str(e.verdict)},`,
       `    note: ${str(e.note)},`,
+      `    tags: ${JSON.stringify(e.tags)},`,
       "  },",
     ].join("\n"),
   )

@@ -51,7 +51,7 @@ export default function Home() {
               <div className="md:col-span-5">
                 <Link
                   href="/suggest"
-                  className="group inline-flex items-baseline gap-3 rounded-full bg-pine px-7 py-4 text-paper transition-colors duration-300 hover:bg-ink"
+                  className="group inline-flex items-baseline gap-3 rounded-full bg-forest px-7 py-4 text-cream transition-colors duration-300 hover:bg-night"
                 >
                   <span className="eyebrow">Send it in</span>
                   <ArrowUpRight className="h-3.5 w-3.5 shrink-0 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
