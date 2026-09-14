@@ -60,7 +60,7 @@ export default function BookReviewsPage() {
               <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
                 <Link
                   href="/library"
-                  className="group inline-flex items-baseline gap-3 rounded-full bg-pine px-7 py-4 text-paper transition-colors duration-300 hover:bg-ink"
+                  className="group inline-flex items-baseline gap-3 rounded-full bg-forest px-7 py-4 text-cream transition-colors duration-300 hover:bg-night"
                 >
                   <span className="eyebrow">Something shorter</span>
                   <ArrowUpRight className="h-3.5 w-3.5 shrink-0 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />

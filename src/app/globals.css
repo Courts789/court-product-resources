@@ -13,10 +13,15 @@
  * shift on load. Condensed grotesque for headlines, the system UI face for
  * everything read at length, Georgia italic reserved for quotation.
  *
- * The design commits to a single light treatment, the way a printed guide
- * does. There is no dark variant, and nothing here should acquire one
- * piecemeal.
+ * Light is the printed edition. Dark is the same guide read by lamplight:
+ * soft green-grey stock, cream ink, the pastels sunk to deep tints of their
+ * own hue. It lives entirely in the token overrides below, so components
+ * name a role and never a theme. Never pure black.
  */
+
+/* `dark:` for the rare thing that must differ beyond a token swap. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 
 @theme {
   /* ── Stock and ink ──────────────────────────────────────────────────── */
@@ -34,6 +39,19 @@
   --color-pine: #1d4a31;
   /* Pressed and hover states, and pine set as text on a pine tint. */
   --color-pine-deep: #143523;
+
+  /*
+   * ── Slabs ─────────────────────────────────────────────────────────────
+   * The masthead, footer and pine blocks stay dark in both themes, so they
+   * cannot borrow ink and paper, which swap places in the dark treatment.
+   * In light these equal ink, paper, pine and butter exactly.
+   */
+  --color-night: #14180f;
+  --color-forest: #1d4a31;
+  /* Type and marks set on a slab. */
+  --color-cream: #efece1;
+  /* The butter accent on a slab: highlighted words, the slab CTA. */
+  --color-highlight: #eee0ab;
 
   /*
    * ── Section stocks ────────────────────────────────────────────────────
@@ -99,6 +117,58 @@
 
   /* Cards are the one rounded thing in the system. Everything else is cut. */
   --radius-card: 14px;
+}
+
+/*
+ * ── Dark treatment ──────────────────────────────────────────────────────
+ * Set on <html> by the inline script in the root layout, from the saved
+ * choice or the system preference. Same roles, measured again: body and
+ * muted ink clear AA on paper and on every stock, section inks clear AA
+ * on both.
+ */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-paper: #1f221e;
+  --color-paper-sunk: #191c18;
+  --color-ink: #ebe8dc;
+  --color-ink-soft: #cac7b9;
+  --color-ink-muted: #a4a597;
+
+  --color-rule: rgba(235, 232, 220, 0.14);
+  --color-rule-strong: rgba(235, 232, 220, 0.3);
+  --color-rule-field: rgba(235, 232, 220, 0.52);
+
+  /* Pine lifts to a light sage so links and focus rings read on dark. */
+  --color-pine: #8cc5a0;
+  --color-pine-deep: #b3dbc0;
+
+  /* The masthead sits a step above the page rather than below it. */
+  --color-night: #2b2f2a;
+  --color-forest: #2b5a3f;
+  --color-cream: #ebe8dc;
+  --color-highlight: #e3d49b;
+
+  --color-sage: #2e3a2b;
+  --color-butter: #3b3723;
+  --color-lilac: #35303f;
+  --color-blush: #3d312c;
+  --color-sky: #2b3641;
+  --color-apricot: #3e3427;
+  --color-mint: #283a34;
+  --color-rose: #3e2d35;
+  --color-lime: #353a25;
+
+  --color-olive: #d6c77c;
+  --color-plum: #c9b1e0;
+  --color-rust: #e8a283;
+  --color-slate: #a2c3de;
+  --color-ember: #e6ae75;
+  --color-teal: #8ccbbd;
+  --color-berry: #e59db8;
+  --color-moss: #b8cc7d;
+
+  --color-alarm: #f29186;
 }
 
 @layer base {

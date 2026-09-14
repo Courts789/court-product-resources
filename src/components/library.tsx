@@ -207,7 +207,7 @@ export function Library() {
                 >
                   Filters
                   {activeFilters > 0 && (
-                    <span className="rounded-full bg-pine px-1.5 py-0.5 text-paper">
+                    <span className="rounded-full bg-forest px-1.5 py-0.5 text-cream">
                       {activeFilters}
                     </span>
                   )}

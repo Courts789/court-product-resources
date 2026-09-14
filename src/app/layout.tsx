@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { themeStorageKey } from "@/lib/theme";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -61,7 +62,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en-AU" className="h-full antialiased">
+    <html lang="en-AU" className="h-full antialiased" suppressHydrationWarning>
+      <head>
+        {/*
+          Runs while the HTML parses, before first paint, so a dark reader
+          never sees the cream page flash. A saved choice wins; otherwise
+          the system preference decides. suppressHydrationWarning above
+          lets React accept the attribute this adds.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var t;try{t=localStorage.getItem("${themeStorageKey}")}catch(e){}if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})()`,
+          }}
+        />
+      </head>
       {/*
         Browser extensions commonly inject attributes onto <body> before
         React hydrates (ColorZilla's cz-shortcut-listen, Grammarly, and
@@ -75,7 +89,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       >
         <a
           href="#main"
-          className="eyebrow sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:text-butter"
+          className="eyebrow sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-night focus:px-5 focus:py-3 focus:text-highlight"
         >
           Skip to content
         </a>
