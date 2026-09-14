@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Library drafts are rebuilt from the Obsidian vault on every sync,
+# so only the README in content/library starts with an underscore.
+content/library/_*.md
+!content/library/_README.md

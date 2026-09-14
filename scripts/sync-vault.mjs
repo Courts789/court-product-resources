@@ -1,30 +1,35 @@
 /**
- * Brings the Obsidian vault up to date with the library, without guessing.
+ * Keeps the library in step with the Obsidian vault, taking the vault at its
+ * word.
  *
  * Each note in the vault is one entry: loose `key: value` lines followed by
- * the reasons it is worth your time. This script does the part a machine
- * can do honestly. It checks the title, byline and runtime against the
- * source itself, and writes a draft for anything new. It leaves the theme,
- * the verdict and the note alone: the theme is a judgement, and the verdict
- * and note are Courtney's own words, which need piecing together by hand.
+ * the reasons it is worth your time. Whatever Courtney wrote is what the site
+ * shows. The title, byline, format, time and date come straight from the
+ * note, the folder the note is filed in is the theme, and the note's theme
+ * line becomes search tags. Nothing is looked up or recalculated, so the
+ * script makes no network calls.
  *
- * Drafts start with an underscore, so the build ignores them until a person
- * (or a scheduled Claude run) has written those three things.
+ * It writes a draft for anything new and brings published entries back into
+ * line when the note changes. The verdict and note are the one thing it
+ * cannot do, because they are her why lines pieced into sentences, so it
+ * flags those for a person (or the scheduled Claude run) instead.
  *
- * Run it with `npm run library:sync`. Add `--json` for a machine-readable
- * report.
+ * Drafts start with an underscore, so the build ignores them until the
+ * verdict and note are written.
+ *
+ * Run it with `npm run library:sync`. `--json` prints a machine-readable
+ * report. `--mark-current <entry.md>` records that an entry's verdict and
+ * note have been updated to match its why lines.
  */
 import { createHash } from "node:crypto";
-import { existsSync, readFileSync, readdirSync, unlinkSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync, unlinkSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
-import { join } from "node:path";
+import { basename, dirname, join, relative, sep } from "node:path";
 
 /** The vault this site draws from, by Obsidian's own id for it. */
 const VAULT_ID = "990c09e10e7b4b0b";
 const CONTENT = "content/library";
-const WORDS_PER_MINUTE = 230;
-const UA =
-  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Safari/537.36";
+const SOURCE = "src/data/resources.ts";
 
 /**
  * Obsidian keeps a registry of vault ids to paths and rewrites it when a
@@ -45,7 +50,7 @@ function vaultPath() {
 
 /* ── Reading the vault ───────────────────────────────────────────────────── */
 
-const KEYS = ["title", "by", "url", "theme", "media", "time", "added"];
+const KEYS = ["title", "by", "url", "theme", "format", "media", "time", "added"];
 const WHY = /^why\s+it['’]?s\s+worth\s+(?:reading|watching|listening|it)\s*:\s*(.*)$/i;
 
 /**
@@ -73,33 +78,17 @@ function parseNote(raw) {
       fields[pair[1].toLowerCase()] = pair[2].trim();
     }
   }
+  /* The template says "format"; older notes said "media". */
+  if (!fields.format && fields.media) fields.format = fields.media;
   return { fields, reasons };
 }
 
-/** Tracking parameters say who shared a link, not what it is. */
-function cleanUrl(value) {
-  try {
-    const url = new URL(value.trim());
-    for (const key of [...url.searchParams.keys()]) {
-      if (/^(r|s|ref|source|triedRedirect|showWelcome|utm_.*|si|feature)$/i.test(key)) {
-        url.searchParams.delete(key);
-      }
-    }
-    return url.toString();
-  } catch {
-    return value.trim();
-  }
-}
-
-const sameUrl = (a, b) => a.replace(/\/$/, "") === b.replace(/\/$/, "");
-
-/** "1 September 2026" to 2026-09-01, in local time so the day never shifts. */
-function isoDate(value) {
-  const parsed = new Date(value);
-  const date = Number.isNaN(parsed.getTime()) ? new Date() : parsed;
-  const pad = (n) => String(n).padStart(2, "0");
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
-}
+/** The site's themes, read from the file that owns them. */
+const THEMES = (() => {
+  const block = /export const themes = \[([\s\S]*?)\] as const;/.exec(readFileSync(SOURCE, "utf8"));
+  if (!block) throw new Error(`Could not read themes out of ${SOURCE}.`);
+  return [...block[1].matchAll(/"([^"]+)"/g)].map((m) => m[1]);
+})();
 
 const MEDIA = {
   article: "Article", video: "Video", podcast: "Podcast",
@@ -108,81 +97,119 @@ const MEDIA = {
 
 const VERB = { Article: "read", Guide: "read", Book: "read", Template: "read", Video: "watch", Podcast: "listen" };
 
-function costOf(minutes, media) {
-  const verb = VERB[media] ?? "read";
-  return minutes >= 120 ? `~${Math.round(minutes / 60)} hr ${verb}` : `${Math.max(1, minutes)} min ${verb}`;
-}
-
-/* ── Checking the source ─────────────────────────────────────────────────── */
-
-async function getText(url) {
-  const response = await fetch(url, { headers: { "User-Agent": UA, "Accept-Language": "en" } });
-  if (!response.ok) throw new Error(`${response.status} from ${url}`);
-  return response.text();
-}
-
-function youtubeId(url) {
-  const match = /(?:youtube\.com\/watch\?(?:.*&)?v=|youtu\.be\/)([\w-]{11})/.exec(url);
-  return match?.[1];
-}
-
 /**
- * What the source says about itself. YouTube's oEmbed gives the title and
- * channel, and the watch page carries the exact length. Substack, including
- * custom domains, answers /api/v1/posts/<slug> with the word count or the
- * episode length. Anything else returns nothing, and the vault's own values
- * stand, marked as unverified.
+ * The theme is the nearest folder above the note whose name is a theme, so
+ * "Court's Product Resources/AI/note.md" is AI. Case does not matter.
  */
-async function verify(url) {
-  const id = youtubeId(url);
-  if (id) {
-    const watch = `https://www.youtube.com/watch?v=${id}`;
-    const oembed = JSON.parse(
-      await getText(`https://www.youtube.com/oembed?url=${encodeURIComponent(watch)}&format=json`),
-    );
-    const page = await getText(watch);
-    const seconds = Number(/"lengthSeconds":"(\d+)"/.exec(page)?.[1]);
-    return {
-      source: "YouTube",
-      url: watch,
-      title: oembed.title,
-      by: oembed.author_name,
-      media: "Video",
-      minutes: seconds ? Math.round(seconds / 60) : undefined,
-    };
-  }
-
-  const slug = /\/p\/([^/?#]+)/.exec(url)?.[1];
-  if (slug) {
-    const origin = new URL(url).origin;
-    try {
-      const post = JSON.parse(await getText(`${origin}/api/v1/posts/${slug}`));
-      const podcast = post.type === "podcast" && post.podcast_duration;
-      return {
-        source: "Substack",
-        url: post.canonical_url ?? url,
-        title: post.title,
-        by: post.publishedBylines?.[0]?.name,
-        media: podcast ? "Podcast" : "Article",
-        minutes: podcast
-          ? Math.round(post.podcast_duration / 60)
-          : post.wordcount
-            ? Math.round(post.wordcount / WORDS_PER_MINUTE)
-            : undefined,
-      };
-    } catch {
-      return null;
-    }
+function themeOf(path, vault) {
+  const folders = relative(vault, dirname(path)).split(sep).reverse();
+  for (const folder of folders) {
+    const theme = THEMES.find((t) => t.toLowerCase() === folder.trim().toLowerCase());
+    if (theme) return theme;
   }
   return null;
 }
 
+/** Every note in the vault, however deep, except the Drafts folder and Obsidian's own files. */
+function notesIn(dir) {
+  const found = [];
+  for (const name of readdirSync(dir).sort()) {
+    const path = join(dir, name);
+    if (statSync(path).isDirectory()) {
+      if (name.startsWith(".") || /^drafts?$/i.test(name)) continue;
+      found.push(...notesIn(path));
+    } else if (name.endsWith(".md") && !/^template\.md$/i.test(name)) {
+      found.push(path);
+    }
+  }
+  return found;
+}
+
+/** The theme line, split into tags: "vibe-coding, AI" to "vibe-coding, AI". */
+const tagsOf = (line) =>
+  (line ?? "")
+    .split(/[,;]/)
+    .map((tag) => tag.trim())
+    .filter((tag, index, all) => tag && all.findIndex((t) => t.toLowerCase() === tag.toLowerCase()) === index)
+    .join(", ");
+
+/**
+ * "10 minutes" on an article becomes "10 min read". The number is hers; only
+ * the wording follows the site's style, and anything already in that style,
+ * or not a plain number of minutes, is kept exactly as written.
+ */
+function timeOf(value, media) {
+  const written = (value ?? "").trim();
+  const minutes = /^(\d+)\s*(?:m|mins?|minutes?)$/i.exec(written)?.[1];
+  const hours = /^(\d+(?:\.\d+)?)\s*(?:h|hrs?|hours?)$/i.exec(written)?.[1];
+  const verb = VERB[media];
+  if (minutes && verb) return `${minutes} min ${verb}`;
+  if (hours && verb) return `${hours} hr ${verb}`;
+  return written;
+}
+
+/** "1 September 2026" to 2026-09-01, in local time so the day never shifts. */
+function isoDate(value) {
+  const written = (value ?? "").trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(written)) return written;
+  const parsed = new Date(written);
+  if (Number.isNaN(parsed.getTime())) return "";
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${parsed.getFullYear()}-${pad(parsed.getMonth() + 1)}-${pad(parsed.getDate())}`;
+}
+
+/** What the vault says each site field should be. Empty means she left it blank. */
+function fromVault(fields, path, vault) {
+  const media = MEDIA[(fields.format ?? "").toLowerCase()] ?? "";
+  return {
+    url: (fields.url ?? "").trim(),
+    title: fields.title ?? "",
+    by: fields.by ?? "",
+    theme: themeOf(path, vault) ?? "",
+    media,
+    time: timeOf(fields.time, media),
+    added: isoDate(fields.added),
+    tags: tagsOf(fields.theme),
+  };
+}
+
 /* ── Comparing with the library ──────────────────────────────────────────── */
+
+const quote = (value) => `"${String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
+const unquote = (value) => (value ?? "").replace(/^"|"$/g, "").replace(/\\"/g, '"').replace(/\\\\/g, "\\");
+/**
+ * Two links are the same page if they only differ by a share code such as
+ * Substack's `?r=`, so re-sharing a link never creates a duplicate entry.
+ * The url itself is still kept exactly as written.
+ */
+const pageOf = (value) => {
+  try {
+    const url = new URL(value.trim());
+    for (const key of [...url.searchParams.keys()]) {
+      if (/^(r|s|ref|source|si|feature|triedRedirect|showWelcome|utm_.*)$/i.test(key)) url.searchParams.delete(key);
+    }
+    return url.toString().replace(/\/$/, "");
+  } catch {
+    return value.trim().replace(/\/$/, "");
+  }
+};
+const sameUrl = (a, b) => pageOf(a) === pageOf(b);
 
 function readEntry(file) {
   const raw = readFileSync(join(CONTENT, file), "utf8");
-  const get = (key) => new RegExp(`^${key}:\\s*"?(.*?)"?\\s*$`, "m").exec(raw)?.[1];
-  return { file, url: get("url"), vaultHash: get("vaultHash"), draft: file.startsWith("_") };
+  const get = (key) => unquote(new RegExp(`^${key}:\\s*(.*?)\\s*$`, "m").exec(raw)?.[1]);
+  const fields = Object.fromEntries(["title", "by", "url", "theme", "media", "time", "added", "tags", "vaultHash"].map((k) => [k, get(k)]));
+  return { file, draft: file.startsWith("_"), ...fields };
+}
+
+/** Set one frontmatter field in an entry file, adding the line if it is missing. */
+function setField(file, key, value) {
+  const path = join(CONTENT, file);
+  const raw = readFileSync(path, "utf8");
+  const line = `${key}: ${quote(value)}`;
+  const pattern = new RegExp(`^${key}:.*$`, "m");
+  const next = pattern.test(raw) ? raw.replace(pattern, () => line) : raw.replace(/\n---\n/, () => `\n${line}\n---\n`);
+  writeFileSync(path, next, "utf8");
 }
 
 const slugify = (title) => {
@@ -191,88 +218,90 @@ const slugify = (title) => {
   return base.slice(0, 61).replace(/-[^-]*$/, "");
 };
 
-const hash = (text) => createHash("sha1").update(text.replace(/\s+/g, " ").trim()).digest("hex").slice(0, 12);
-const quote = (value) => `"${String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
+/**
+ * Fingerprints only the why lines. Those are the words the verdict and note
+ * are pieced from, so they are the only edit that needs a person. Every
+ * other field is copied across by this script on its own.
+ */
+const hash = (reasons) =>
+  createHash("sha1").update(reasons.join("\n").replace(/\s+/g, " ").trim()).digest("hex").slice(0, 12);
 
 /* ── Run ─────────────────────────────────────────────────────────────────── */
+
+const SYNCED = ["title", "by", "url", "theme", "media", "time", "added", "tags"];
 
 const vault = vaultPath();
 const entries = readdirSync(CONTENT)
   .filter((f) => f.endsWith(".md") && f !== "_README.md")
   .map(readEntry);
 
-const report = { vault, created: [], refreshed: [], pending: [], changed: [], unchanged: [], skipped: [], mismatches: [], unverified: [] };
+const markIndex = process.argv.indexOf("--mark-current");
+const markFile = markIndex > -1 ? basename(process.argv[markIndex + 1] ?? "") : null;
 
-for (const name of readdirSync(vault).filter((f) => f.endsWith(".md")).sort()) {
-  const raw = readFileSync(join(vault, name), "utf8");
-  const { fields, reasons } = parseNote(raw);
+const report = {
+  vault, created: [], refreshed: [], pending: [], changed: [], updated: [], unchanged: [],
+  blanks: [], split: [], skipped: [],
+};
 
-  if (/^template\.md$/i.test(name) || !fields.url || !fields.title) {
+for (const path of notesIn(vault)) {
+  const name = relative(vault, path);
+  const { fields, reasons } = parseNote(readFileSync(path, "utf8"));
+
+  if (!fields.url || !fields.title) {
     report.skipped.push(name);
     continue;
   }
 
-  const url = cleanUrl(fields.url);
-  const noteHash = hash(raw);
-  const existing = entries.find((entry) => entry.url && sameUrl(entry.url, url));
-
-  if (existing && !existing.draft) {
-    if (existing.vaultHash === noteHash) report.unchanged.push(existing.file);
-    else report.changed.push({ vault: name, entry: existing.file, reasons });
+  const url = fields.url.trim();
+  if ((url.match(/https?:\/\//g) ?? []).length > 1 || /\s/.test(url)) {
+    report.split.push(name);
     continue;
   }
 
-  if (existing?.draft && existing.vaultHash === noteHash) {
+  const wanted = fromVault(fields, path, vault);
+  const blank = Object.entries({ ...wanted, why: reasons.join("") })
+    .filter(([key, value]) => key !== "tags" && !value)
+    .map(([key]) => (key === "media" ? "format" : key === "theme" ? "theme folder" : key));
+  if (blank.length) report.blanks.push({ vault: name, missing: blank });
+
+  const noteHash = hash(reasons);
+  const existing = entries.find((entry) => entry.url && sameUrl(entry.url, url));
+
+  if (existing && !existing.draft) {
+    const changes = SYNCED.filter((key) => wanted[key] && existing[key] !== wanted[key]);
+    for (const key of changes) setField(existing.file, key, wanted[key]);
+    if (changes.length) report.updated.push({ entry: existing.file, fields: changes });
+
+    if (markFile === existing.file) {
+      setField(existing.file, "vaultHash", noteHash);
+      report.unchanged.push(existing.file);
+    } else if (existing.vaultHash === noteHash) {
+      report.unchanged.push(existing.file);
+    } else {
+      report.changed.push({ vault: name, entry: existing.file, reasons });
+    }
+    continue;
+  }
+
+  if (existing?.draft && existing.vaultHash === noteHash && SYNCED.every((key) => existing[key] === (wanted[key] || "TODO") || key === "tags")) {
     report.pending.push({ vault: name, draft: existing.file });
     continue;
   }
 
-  let checked = null;
-  try {
-    checked = await verify(url);
-  } catch (error) {
-    report.unverified.push({ vault: name, reason: error.message });
-  }
-  if (!checked) report.unverified.push({ vault: name, reason: "No source this script knows how to check." });
-
-  const vaultMedia = MEDIA[(fields.media ?? "").toLowerCase()];
-  const vaultMinutes = Number(/\d+/.exec(fields.time ?? "")?.[0]) || undefined;
-  const media = checked?.media ?? vaultMedia ?? "TODO";
-  const minutes = checked?.minutes ?? vaultMinutes;
-  const title = checked?.title ?? fields.title;
-  /*
-   * A YouTube channel often hosts other people, so a byline written in the
-   * vault beats the channel name. Substack bylines are the actual author.
-   */
-  const by = (checked?.source === "YouTube" ? fields.by || checked.by : checked?.by || fields.by) || "TODO";
-
-  const differs = (label, ours, theirs) => {
-    if (ours && theirs && String(ours).trim().toLowerCase() !== String(theirs).trim().toLowerCase()) {
-      report.mismatches.push({ vault: name, field: label, vaultSays: ours, sourceSays: theirs });
-    }
-  };
-  if (checked) {
-    differs("title", fields.title.replace(/[’]/g, "'"), checked.title?.replace(/[’]/g, "'"));
-    if (checked.source !== "YouTube") differs("by", fields.by, checked.by);
-    differs("media", vaultMedia, checked.media);
-    if (vaultMinutes && checked.minutes && Math.abs(vaultMinutes - checked.minutes) > 1) {
-      differs("time", `${vaultMinutes} min`, `${checked.minutes} min`);
-    }
-  }
-
-  const file = `_${slugify(title)}.md`;
+  const file = `_${slugify(wanted.title)}.md`;
   if (existing?.draft && existing.file !== file) unlinkSync(join(CONTENT, existing.file));
 
   const draft = [
     "---",
-    `title: ${quote(title)}`,
-    `by: ${quote(by)}`,
-    `url: ${quote(checked?.url ?? url)}`,
-    `theme: "TODO"`,
-    `media: ${quote(media)}`,
-    `time: ${quote(minutes ? costOf(minutes, media) : "TODO")}`,
-    `added: ${quote(isoDate(fields.added))}`,
+    `title: ${quote(wanted.title)}`,
+    `by: ${quote(wanted.by || "TODO")}`,
+    `url: ${quote(url)}`,
+    `theme: ${quote(wanted.theme || "TODO")}`,
+    `media: ${quote(wanted.media || "TODO")}`,
+    `time: ${quote(wanted.time || "TODO")}`,
+    `added: ${quote(wanted.added || "TODO")}`,
     `verdict: "TODO"`,
+    `tags: ${quote(wanted.tags)}`,
     `vaultHash: ${quote(noteHash)}`,
     "---",
     "",
@@ -280,7 +309,6 @@ for (const name of readdirSync(vault).filter((f) => f.endsWith(".md")).sort()) {
     "",
     "<!-- From the vault, for whoever writes the verdict and note.",
     `note: ${name}`,
-    `tags: ${fields.theme || "(none)"}`,
     "why:",
     ...(reasons.length ? reasons.map((r) => `- ${r}`) : ["- (none given)"]),
     "-->",
@@ -288,7 +316,7 @@ for (const name of readdirSync(vault).filter((f) => f.endsWith(".md")).sort()) {
   ].join("\n");
 
   writeFileSync(join(CONTENT, file), draft, "utf8");
-  (existing ? report.refreshed : report.created).push({ vault: name, draft: file, verifiedBy: checked?.source ?? null });
+  (existing ? report.refreshed : report.created).push({ vault: name, draft: file });
 }
 
 if (process.argv.includes("--json")) {
@@ -300,14 +328,15 @@ if (process.argv.includes("--json")) {
     for (const item of items) console.log(`  · ${show(item)}`);
   };
   console.log(`Vault: ${vault}`);
-  list("New drafts", report.created, (i) => `${i.draft}  ← ${i.vault}${i.verifiedBy ? `, checked on ${i.verifiedBy}` : ""}`);
+  list("New drafts", report.created, (i) => `${i.draft}  ← ${i.vault}`);
   list("Drafts refreshed", report.refreshed, (i) => `${i.draft}  ← ${i.vault}`);
   list("Drafts still waiting for a verdict and note", report.pending, (i) => `${i.draft}  ← ${i.vault}`);
-  list("Published, but edited in the vault since", report.changed, (i) => `${i.entry}  ← ${i.vault}`);
-  list("Source disagrees with the vault (source used)", report.mismatches, (i) => `${i.vault}: ${i.field} is "${i.vaultSays}" in the vault, "${i.sourceSays}" at the source`);
-  list("Could not verify (vault values used)", report.unverified, (i) => `${i.vault}: ${i.reason}`);
-  list("Skipped", report.skipped, (i) => i);
-  if (!report.created.length && !report.refreshed.length && !report.changed.length) {
+  list("Published entries updated to match the vault", report.updated, (i) => `${i.entry}: ${i.fields.join(", ")}`);
+  list("Published, but the why lines changed, so the verdict and note need redoing", report.changed, (i) => `${i.entry}  ← ${i.vault}`);
+  list("Left blank in the vault", report.blanks, (i) => `${i.vault}: ${i.missing.join(", ")}`);
+  list("Holds more than one link, split into one note per link", report.split, (i) => i);
+  list("Skipped, no title or url", report.skipped, (i) => i);
+  if (!report.created.length && !report.refreshed.length && !report.pending.length && !report.changed.length && !report.updated.length) {
     console.log("\nNothing new in the vault.");
   }
 }
