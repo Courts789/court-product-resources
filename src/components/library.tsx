@@ -14,7 +14,6 @@ import { site } from "@/lib/site";
 import { scoreItem } from "@/lib/fuzzy";
 import { themeInk, themeStock } from "@/lib/accents";
 import { PageHeader } from "@/components/page-header";
-import { ArrowUpRight } from "@/components/icons";
 
 type ThemeFilter = Theme | "All";
 type Sort = "theme" | "newest";
@@ -215,7 +214,7 @@ export function Library() {
                 {/* Kept for screen readers so filtering still announces a
                   result, without putting a counter back on the page. */}
                 <p aria-live="polite" className="sr-only">
-                  {visible.length} {visible.length === 1 ? "entry" : "entries"}
+                  {visible.length} {visible.length === 1 ? "resource" : "resources"}
                 </p>
               </div>
             </div>
@@ -339,7 +338,7 @@ export function Library() {
                       className="eyebrow ml-auto"
                     >
                       {section.items.length}{" "}
-                      {section.items.length === 1 ? "entry" : "entries"}
+                      {section.items.length === 1 ? "resource" : "resources"}
                     </span>
                   </h2>
                   <ResourceList items={section.items} />
@@ -361,7 +360,7 @@ function ResourceList({ items }: { items: readonly Resource[] }) {
             href={resource.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group grid gap-x-8 gap-y-3 border-b border-rule py-7 transition-colors duration-300 hover:bg-paper-sunk md:grid-cols-12"
+            className="group grid gap-x-8 gap-y-3 border-b border-rule px-5 py-7 transition-colors duration-300 hover:bg-paper-sunk md:grid-cols-12"
           >
             <span
               aria-hidden="true"
@@ -374,7 +373,6 @@ function ResourceList({ items }: { items: readonly Resource[] }) {
             <div className="md:col-span-4">
               <h3 className="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-xl text-ink lg:text-2xl">
                 <span className="rule-link">{resource.title}</span>
-                <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-ink-muted transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 {isNew(resource, reference) && (
                   <span className="eyebrow rounded-full bg-butter px-2.5 py-1 text-ink">
                     New
@@ -387,12 +385,12 @@ function ResourceList({ items }: { items: readonly Resource[] }) {
             <div className="md:col-span-5">
               <p
                 style={{ color: themeInk[resource.theme] }}
-                className="eyebrow"
+                className="eyebrow leading-normal"
               >
                 {resource.verdict}
               </p>
               {resource.note && (
-                <p className="mt-2 max-w-[54ch] text-sm leading-relaxed text-ink-soft">
+                <p className="mt-3 max-w-[54ch] text-sm leading-relaxed text-ink-soft">
                   {resource.note}
                 </p>
               )}
