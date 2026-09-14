@@ -18,7 +18,7 @@ export function HeroPlate({ className }: PlateProps) {
       viewBox="0 0 420 460"
       className={className}
       role="img"
-      aria-label="Flat composition of stacked shapes in sage, butter, blush and sky"
+      aria-label="Loose clippings scattering above a single highlighted pick, settling into stacked sage, butter and blush bands"
     >
       <defs>
         <clipPath id="plate-frame">
@@ -29,49 +29,90 @@ export function HeroPlate({ className }: PlateProps) {
       <g clipPath="url(#plate-frame)">
         <rect width="420" height="460" fill="var(--color-paper)" />
 
-        {/* Six bands, one per theme, read bottom-up like a stratum column */}
-        <rect y="330" width="420" height="130" fill="var(--color-sage)" />
-        <rect y="266" width="420" height="64" fill="var(--color-butter)" />
-        <rect y="214" width="420" height="52" fill="var(--color-blush)" />
+        {/* Clippings: an unsorted field, cut square, no radius */}
+        <g stroke="var(--color-rule-strong)">
+          <rect x="60" y="40" width="16" height="16" fill="var(--color-blush)" />
+          <rect
+            x="104"
+            y="34"
+            width="16"
+            height="10"
+            fill="var(--color-sky)"
+            transform="rotate(-10 112 39)"
+          />
+          <rect x="164" y="58" width="12" height="12" fill="none" strokeWidth="1.5" />
+          <rect
+            x="206"
+            y="30"
+            width="12"
+            height="12"
+            fill="var(--color-apricot)"
+            transform="rotate(14 212 36)"
+          />
+          <line x1="248" y1="46" x2="266" y2="58" strokeWidth="2.5" strokeLinecap="round" />
+          <rect x="296" y="36" width="14" height="14" fill="var(--color-lilac)" />
+          <rect
+            x="330"
+            y="54"
+            width="14"
+            height="8"
+            fill="var(--color-butter)"
+            transform="rotate(-7 337 58)"
+          />
+          <rect x="362" y="34" width="10" height="10" fill="none" strokeWidth="1.5" />
+          <rect x="42" y="90" width="10" height="10" fill="var(--color-butter)" />
+          <rect
+            x="144"
+            y="88"
+            width="12"
+            height="12"
+            fill="var(--color-blush)"
+            transform="rotate(11 150 94)"
+          />
+          <line x1="228" y1="86" x2="244" y2="98" strokeWidth="2.5" strokeLinecap="round" />
+          <rect x="312" y="92" width="12" height="12" fill="var(--color-sky)" />
+          <rect x="376" y="82" width="14" height="14" fill="none" strokeWidth="1.5" />
+          <rect x="196" y="102" width="8" height="8" fill="var(--color-lilac)" />
+        </g>
 
-        {/* Disc rising out of the bands, split into two stocks */}
-        <circle cx="210" cy="300" r="118" fill="var(--color-sky)" />
+        {/* The pick: one chip riding the sorting line */}
+        <line
+          x1="34"
+          y1="150"
+          x2="386"
+          y2="150"
+          stroke="var(--color-rule-strong)"
+          strokeWidth="2"
+        />
+        <rect x="178" y="143.5" width="64" height="13" rx="6.5" fill="var(--color-apricot)" />
+
+        {/* Settled: the field resolves into stock, bottom-up */}
+        <rect y="160" width="420" height="40" fill="var(--color-blush)" />
+        <rect y="200" width="420" height="45" fill="var(--color-butter)" />
+        <rect y="245" width="420" height="215" fill="var(--color-sage)" />
+
+        <circle cx="210" cy="300" r="92" fill="var(--color-sky)" />
         <path
-          d="M 92 300 A 118 118 0 0 1 328 300 Z"
+          d="M 118 300 A 92 92 0 0 1 302 300 Z"
           fill="var(--color-lilac)"
         />
 
-        {/* Pine keyline arc, the primary asserting itself once */}
+        {/* Pine keyline: the primary asserting itself once */}
         <circle
           cx="210"
           cy="300"
-          r="118"
+          r="92"
           fill="none"
           stroke="var(--color-pine)"
           strokeWidth="2"
         />
         <line
-          x1="92"
+          x1="118"
           y1="300"
-          x2="328"
+          x2="302"
           y2="300"
           stroke="var(--color-pine)"
           strokeWidth="2"
-        />
-
-        {/* Ruled band at the head, like a guide's leading rules */}
-        <g stroke="var(--color-rule-strong)" strokeWidth="2">
-          {[40, 56, 72].map((y) => (
-            <line key={y} x1="34" y1={y} x2="386" y2={y} />
-          ))}
-        </g>
-        <rect
-          x="34"
-          y="104"
-          width="86"
-          height="14"
-          rx="7"
-          fill="var(--color-apricot)"
         />
       </g>
     </svg>
