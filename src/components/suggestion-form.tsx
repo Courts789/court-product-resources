@@ -13,7 +13,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="eyebrow mt-8 cursor-pointer rounded-full bg-pine px-7 py-4 text-paper transition-colors duration-300 hover:bg-ink disabled:cursor-wait disabled:opacity-70"
+      className="eyebrow mt-8 cursor-pointer rounded-full bg-forest px-7 py-4 text-cream transition-colors duration-300 hover:bg-night disabled:cursor-wait disabled:opacity-70"
     >
       {pending ? "Sending" : "Send suggestion"}
     </button>

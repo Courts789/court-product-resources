@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { navigation } from "@/lib/site";
 import { SiteNav } from "@/components/site-nav";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export function SiteHeader() {
   /*
@@ -14,42 +15,46 @@ export function SiteHeader() {
    * labels wrapping onto a second line.
    */
   return (
-    <header className="sticky top-0 z-40 bg-ink text-paper">
+    <header className="sticky top-0 z-40 bg-night text-cream">
       <div className="mx-auto flex h-14 max-w-[84rem] items-center justify-between gap-4 px-5 sm:px-8 lg:h-16 lg:gap-8 lg:px-12">
         <Link
           href="/"
-          className="headline shrink-0 text-base text-paper transition-colors duration-300 hover:text-butter sm:text-lg lg:text-xl"
+          className="headline shrink-0 text-base text-cream transition-colors duration-300 hover:text-highlight sm:text-lg lg:text-xl"
         >
           Court&rsquo;s Product Resources
         </Link>
 
-        <nav aria-label="Sections" className="hidden xl:block">
-          <ul className="flex items-center gap-5 2xl:gap-6">
-            {navigation
-              .filter((item) => item.href !== "/suggest")
-              .map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="eyebrow inline-block whitespace-nowrap py-1 text-paper/70 transition-colors duration-300 hover:text-paper"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            {/* Suggest is the only ask on the site, so it gets the button. */}
-            <li>
-              <Link
-                href="/suggest"
-                className="eyebrow inline-block rounded-full bg-butter px-4 py-2 text-ink transition-colors duration-300 hover:bg-paper"
-              >
-                Suggest
-              </Link>
-            </li>
-          </ul>
-        </nav>
+        <div className="flex items-center gap-1 xl:gap-4">
+          <nav aria-label="Sections" className="hidden xl:block">
+            <ul className="flex items-center gap-5 2xl:gap-6">
+              {navigation
+                .filter((item) => item.href !== "/suggest")
+                .map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="eyebrow inline-block whitespace-nowrap py-1 text-cream/70 transition-colors duration-300 hover:text-cream"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              {/* Suggest is the only ask on the site, so it gets the button. */}
+              <li>
+                <Link
+                  href="/suggest"
+                  className="eyebrow inline-block rounded-full bg-highlight px-4 py-2 text-night transition-colors duration-300 hover:bg-cream"
+                >
+                  Suggest
+                </Link>
+              </li>
+            </ul>
+          </nav>
 
-        <SiteNav />
+          {/* Beside the menu button on narrow screens, after Suggest on wide. */}
+          <ThemeToggle />
+          <SiteNav />
+        </div>
       </div>
     </header>
   );

@@ -245,7 +245,7 @@ export function PitchBuilder() {
           <button
             type="button"
             onClick={restart}
-            className="eyebrow cursor-pointer rounded-full bg-pine px-7 py-4 text-paper transition-colors duration-300 hover:bg-ink"
+            className="eyebrow cursor-pointer rounded-full bg-forest px-7 py-4 text-cream transition-colors duration-300 hover:bg-night"
           >
             Start again
           </button>
@@ -347,7 +347,7 @@ export function PitchBuilder() {
               <button
                 type="button"
                 onClick={() => setStep(2)}
-                className="eyebrow cursor-pointer rounded-full bg-pine px-7 py-4 text-paper transition-colors duration-300 hover:bg-ink"
+                className="eyebrow cursor-pointer rounded-full bg-forest px-7 py-4 text-cream transition-colors duration-300 hover:bg-night"
               >
                 Continue
               </button>
@@ -405,7 +405,7 @@ export function PitchBuilder() {
                     aria-pressed={active}
                     className={`cursor-pointer rounded-full border-2 px-4 py-2.5 text-left text-sm leading-snug transition-colors duration-300 ${
                       active
-                        ? "border-pine bg-pine text-paper"
+                        ? "border-pine bg-forest text-cream"
                         : "border-rule text-ink-soft hover:border-rule-strong hover:text-ink"
                     }`}
                   >
@@ -420,7 +420,7 @@ export function PitchBuilder() {
                 type="button"
                 onClick={() => setStep(4)}
                 disabled={picked.length === 0}
-                className="eyebrow cursor-pointer rounded-full bg-pine px-7 py-4 text-paper transition-colors duration-300 hover:bg-ink disabled:cursor-not-allowed disabled:opacity-40"
+                className="eyebrow cursor-pointer rounded-full bg-forest px-7 py-4 text-cream transition-colors duration-300 hover:bg-night disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Continue
               </button>
