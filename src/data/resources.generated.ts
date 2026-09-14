@@ -3,7 +3,34 @@
 
 import type { Resource } from "./resources";
 
+/** The newest entry's date, so the site's last-updated date follows the library. */
+export const libraryUpdated = "2026-09-14";
+
 export const resources: readonly Resource[] = [
+  {
+    id: "vercel-cpo-v0",
+    title: "Behind v0 (Top AI Prototyping Tool): Tutorial and Story from the CPO in 2026",
+    by: "Aakash Gupta",
+    url: "https://www.news.aakashg.com/p/tom-occhino-podcast",
+    theme: "The Craft",
+    media: "Podcast",
+    time: "75 min listen",
+    added: "2026-09-14",
+    verdict: "Worth it, but keep writing the PRD",
+    note: "Vercel's CPO on how the team runs, from its Notion, Slack and Linear setup to its layered roadmaps, plus a full walkthrough of v0. The episode calls the prototype the new PRD; I would keep both, because a prototype cannot carry everything a spec needs to.",
+  },
+  {
+    id: "spec-based-ai-development",
+    title: "From Vibe Coding to Production: The 5-Step Spec-Based Framework",
+    by: "Mahesh Yadav",
+    url: "https://www.youtube.com/watch?v=6tDwGtMmqmc",
+    theme: "The Craft",
+    media: "Video",
+    time: "52 min watch",
+    added: "2026-09-04",
+    verdict: "Worth it for non-technical PMs",
+    note: "Why a vibe-coded app is not production ready: no auth, no telemetry, no cost budget, and a prompt loop that rewrites whole blocks every time you ask for a fix. The five-step spec is the clearest breakdown of the development lifecycle I have found for PMs without an engineering background.",
+  },
   {
     id: "boris-cherny-we-cut-80-of-claude-codes-prompt",
     title: "Boris Cherny: We Cut 80% of Claude Code's Prompt",
@@ -12,8 +39,20 @@ export const resources: readonly Resource[] = [
     theme: "AI & Evals",
     media: "Video",
     time: "36 min watch",
-    added: "2026-09-08",
-    verdict: "Simplifies just how different building AI product is",
-    note: "Claude Code's creator on deleting eighty per cent of the system prompt and finding the model came out smarter for it. A Startup School talk about what building on a fast-moving model does to the way you build everything else.",
+    added: "2026-09-01",
+    verdict: "Worth it, especially if you still iterate",
+    note: "Claude Code's creator lifts the hood on deleting most of its system prompt and getting a smarter model for it. It is the clearest case I have seen for how different building AI product is: at this pace you throw work out rather than iterate on it.",
+  },
+  {
+    id: "stop-using-claude-chat",
+    title: "Stop Using Claude Chat. Get Into the Terminal.",
+    by: "Veronika Wax",
+    url: "https://veronikawax.substack.com/p/stop-using-claude-chat-get-into-the",
+    theme: "Templates & Tools",
+    media: "Article",
+    time: "8 min read",
+    added: "2026-09-14",
+    verdict: "Worth it if your work still lives in chat",
+    note: "Why GTM work done in a chat window never compounds, and a step by step path from browser tabs to a git repo. In a chat you get an answer; in a repo you get an asset, with memory, skills and scheduled tasks behind it.",
   },
 ];

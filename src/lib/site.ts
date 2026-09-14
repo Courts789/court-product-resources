@@ -1,3 +1,12 @@
+import { libraryUpdated } from "@/data/resources.generated";
+
+/**
+ * A copy edit moves this by hand. A new library entry moves the site's date
+ * on its own, because entries now arrive from the vault on a schedule and a
+ * hand-kept date would always lag behind them, hiding the "New" badge.
+ */
+const edited = "2026-09-08";
+
 /**
  * Single source of truth for site-wide identity and SEO strings.
  * Update NEXT_PUBLIC_SITE_URL in the environment when the domain is live.
@@ -10,7 +19,7 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://courtsproductresources.com",
   author: "Courtney Bain",
   locale: "en_AU",
-  lastUpdated: "2026-09-08",
+  lastUpdated: libraryUpdated > edited ? libraryUpdated : edited,
 } as const;
 
 /**
