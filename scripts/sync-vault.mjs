@@ -5,8 +5,8 @@
  * the reasons it is worth your time. This script does the part a machine
  * can do honestly. It checks the title, byline and runtime against the
  * source itself, and writes a draft for anything new. It leaves the theme,
- * the verdict and the note alone, because those are judgements, and says
- * clearly which entries still need one.
+ * the verdict and the note alone: the theme is a judgement, and the verdict
+ * and note are Courtney's own words, which need piecing together by hand.
  *
  * Drafts start with an underscore, so the build ignores them until a person
  * (or a scheduled Claude run) has written those three things.
@@ -276,7 +276,7 @@ for (const name of readdirSync(vault).filter((f) => f.endsWith(".md")).sort()) {
     `vaultHash: ${quote(noteHash)}`,
     "---",
     "",
-    "TODO: what it is and what you get, in two sentences at most.",
+    "TODO: the rest of the why lines, pieced into sentences. Delete this line if the verdict uses them all.",
     "",
     "<!-- From the vault, for whoever writes the verdict and note.",
     `note: ${name}`,

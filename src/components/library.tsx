@@ -391,9 +391,11 @@ function ResourceList({ items }: { items: readonly Resource[] }) {
               >
                 {resource.verdict}
               </p>
-              <p className="mt-2 max-w-[54ch] text-sm leading-relaxed text-ink-soft">
-                {resource.note}
-              </p>
+              {resource.note && (
+                <p className="mt-2 max-w-[54ch] text-sm leading-relaxed text-ink-soft">
+                  {resource.note}
+                </p>
+              )}
             </div>
 
             <div className="flex items-center gap-2 md:col-span-2 md:flex-col md:items-end">

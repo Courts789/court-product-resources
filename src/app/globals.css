@@ -38,10 +38,11 @@
   /*
    * ── Section stocks ────────────────────────────────────────────────────
    * One pastel per theme, used as a card fill with --color-ink set on top.
-   * Chosen so all eight stay distinct at a glance, including the two warm
-   * neighbours (blush is pink, apricot is orange). Mint and rose joined
-   * later and were measured against the rest: each sits further from its
-   * nearest neighbour than blush does from apricot, the closest original pair.
+   * Chosen so all nine stay distinct at a glance, including the two warm
+   * neighbours (blush is pink, apricot is orange). Mint, rose and lime
+   * joined later and were measured against the rest: each sits further from
+   * its nearest neighbour than blush does from apricot, the closest original
+   * pair.
    */
   --color-sage: #d3e0c9;
   --color-butter: #eee0ab;
@@ -51,10 +52,11 @@
   --color-apricot: #f0dcc0;
   --color-mint: #c9e3dc;
   --color-rose: #ebcad6;
+  --color-lime: #dde5b6;
 
   /*
    * ── Section inks ──────────────────────────────────────────────────────
-   * The same eight hues taken dark enough to carry text, on paper and on
+   * The same nine hues taken dark enough to carry text, on paper and on
    * their own stock. Used for labels, rules and numerals, never for body
    * copy, which always stays --color-ink-soft.
    */
@@ -65,6 +67,7 @@
   --color-ember: #7e4a18;
   --color-teal: #1e5249;
   --color-berry: #7a2f4a;
+  --color-moss: #3f5212;
 
   /* Failure state, on cream. Distinct from rust, which is decorative. */
   --color-alarm: #9b2c2c;

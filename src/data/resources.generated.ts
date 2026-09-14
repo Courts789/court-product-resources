@@ -16,8 +16,8 @@ export const resources: readonly Resource[] = [
     media: "Video",
     time: "52 min watch",
     added: "2026-09-04",
-    verdict: "Worth it for non-technical PMs",
-    note: "Why a vibe-coded app is not production ready: no auth, no telemetry, no cost budget, and a prompt loop that rewrites whole blocks every time you ask for a fix. The five-step spec is the clearest breakdown of the development lifecycle I have found for PMs without an engineering background.",
+    verdict: "Breaks down SDLC for non-technical PMs",
+    note: "",
   },
   {
     id: "vercel-cpo-v0",
@@ -28,8 +28,8 @@ export const resources: readonly Resource[] = [
     media: "Podcast",
     time: "75 min listen",
     added: "2026-09-14",
-    verdict: "Worth it, but keep writing the PRD",
-    note: "Vercel's CPO on how the team runs, from its Notion, Slack and Linear setup to its layered roadmaps, plus a full walkthrough of v0. The episode calls the prototype the new PRD; I would keep both, because a prototype cannot carry everything a spec needs to.",
+    verdict: "The era of personalised software",
+    note: "Insight into Vercel's operating model from its CPO, such as Notion, Slack and Linear cohesion and L3 to L1 roadmaps. Workflow flexibility: take the codebase and put it into your own process, with work underway at Vercel to make the flow even smoother. You can't capture all the content required in a demo or prototype, but don't double up with a PRD; they should be complementary.",
   },
   {
     id: "boris-cherny-we-cut-80-of-claude-codes-prompt",
@@ -40,8 +40,8 @@ export const resources: readonly Resource[] = [
     media: "Video",
     time: "36 min watch",
     added: "2026-09-01",
-    verdict: "Worth it, especially if you still iterate",
-    note: "Claude Code's creator lifts the hood on deleting most of its system prompt and getting a smarter model for it. It is the clearest case I have seen for how different building AI product is: at this pace you throw work out rather than iterate on it.",
+    verdict: "Simplifies just how different building AI product is",
+    note: "Lifts the hood. At the pace things are moving, you'll need to throw out rather than just iterate.",
   },
   {
     id: "stop-using-claude-chat",
@@ -52,7 +52,7 @@ export const resources: readonly Resource[] = [
     media: "Article",
     time: "8 min read",
     added: "2026-09-14",
-    verdict: "Worth it if your work still lives in chat",
-    note: "Why GTM work done in a chat window never compounds, and a step by step path from browser tabs to a git repo. In a chat you get an answer; in a repo you get an asset, with memory, skills and scheduled tasks behind it.",
+    verdict: "In a chat you get an answer. In a repo you get an asset.",
+    note: "The inefficiency of continuing to work in Chat and Cowork environments: you lose your edge and get lower quality outputs. Memory, skills, and repeated or scheduled tasks, with step by step instructions and a simple breakdown.",
   },
 ];

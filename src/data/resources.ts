@@ -1,10 +1,11 @@
 export const themes = [
-  "Getting In",
   "The Craft",
   "Operating Model",
+  "Design",
   "AI",
   "Evals",
   "Growth",
+  "PMM",
   "Career",
   "Templates & Tools",
 ] as const;
@@ -33,11 +34,14 @@ export type Resource = {
   /** ISO date this entry was added, drives "new" badges and sorting. */
   added: string;
   /**
-   * The call, in a few words: worth it, worth it for one thing only, or
-   * skip it. Never "it depends" without saying what it depends on.
+   * Why it is worth your time, as Courtney put it: the lead line of her own
+   * notes on it. Never an opinion she did not write.
    */
   verdict: string;
-  /** What it is and what you get, in two sentences at most. */
+  /**
+   * The rest of her notes, pieced together into sentences. Empty when the
+   * lead line already says everything she wrote.
+   */
   note: string;
 };
 
