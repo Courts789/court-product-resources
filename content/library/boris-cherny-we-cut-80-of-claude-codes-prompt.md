@@ -7,7 +7,7 @@ media: "Video"
 time: "36 min watch"
 added: "2026-09-01"
 verdict: "Simplifies just how different building AI product is"
-vaultHash: "b724209d7e44"
+vaultHash: "c7a080bc7ee6"
 ---
 
 Lifts the hood. At the pace things are moving, you'll need to throw out rather than just iterate.
