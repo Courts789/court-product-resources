@@ -2,7 +2,7 @@
 title: "Behind v0 (Top AI Prototyping Tool): Tutorial and Story from the CPO in 2026"
 by: "Aakash Gupta"
 url: "https://www.news.aakashg.com/p/tom-occhino-podcast"
-theme: "The Craft"
+theme: "Operating Model"
 media: "Podcast"
 time: "75 min listen"
 added: "2026-09-14"

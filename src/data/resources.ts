@@ -1,7 +1,9 @@
 export const themes = [
   "Getting In",
   "The Craft",
-  "AI & Evals",
+  "Operating Model",
+  "AI",
+  "Evals",
   "Growth",
   "Career",
   "Templates & Tools",

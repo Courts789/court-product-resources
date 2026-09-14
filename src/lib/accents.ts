@@ -11,7 +11,9 @@ import type { Theme } from "@/data/resources";
 export const themeStock: Record<Theme, string> = {
   "Getting In": "var(--color-sage)",
   "The Craft": "var(--color-butter)",
-  "AI & Evals": "var(--color-lilac)",
+  "Operating Model": "var(--color-rose)",
+  AI: "var(--color-lilac)",
+  Evals: "var(--color-mint)",
   Growth: "var(--color-blush)",
   Career: "var(--color-sky)",
   "Templates & Tools": "var(--color-apricot)",
@@ -20,7 +22,9 @@ export const themeStock: Record<Theme, string> = {
 export const themeInk: Record<Theme, string> = {
   "Getting In": "var(--color-pine)",
   "The Craft": "var(--color-olive)",
-  "AI & Evals": "var(--color-plum)",
+  "Operating Model": "var(--color-berry)",
+  AI: "var(--color-plum)",
+  Evals: "var(--color-teal)",
   Growth: "var(--color-rust)",
   Career: "var(--color-slate)",
   "Templates & Tools": "var(--color-ember)",

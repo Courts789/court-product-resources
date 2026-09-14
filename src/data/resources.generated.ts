@@ -8,18 +8,6 @@ export const libraryUpdated = "2026-09-14";
 
 export const resources: readonly Resource[] = [
   {
-    id: "vercel-cpo-v0",
-    title: "Behind v0 (Top AI Prototyping Tool): Tutorial and Story from the CPO in 2026",
-    by: "Aakash Gupta",
-    url: "https://www.news.aakashg.com/p/tom-occhino-podcast",
-    theme: "The Craft",
-    media: "Podcast",
-    time: "75 min listen",
-    added: "2026-09-14",
-    verdict: "Worth it, but keep writing the PRD",
-    note: "Vercel's CPO on how the team runs, from its Notion, Slack and Linear setup to its layered roadmaps, plus a full walkthrough of v0. The episode calls the prototype the new PRD; I would keep both, because a prototype cannot carry everything a spec needs to.",
-  },
-  {
     id: "spec-based-ai-development",
     title: "From Vibe Coding to Production: The 5-Step Spec-Based Framework",
     by: "Mahesh Yadav",
@@ -32,11 +20,23 @@ export const resources: readonly Resource[] = [
     note: "Why a vibe-coded app is not production ready: no auth, no telemetry, no cost budget, and a prompt loop that rewrites whole blocks every time you ask for a fix. The five-step spec is the clearest breakdown of the development lifecycle I have found for PMs without an engineering background.",
   },
   {
+    id: "vercel-cpo-v0",
+    title: "Behind v0 (Top AI Prototyping Tool): Tutorial and Story from the CPO in 2026",
+    by: "Aakash Gupta",
+    url: "https://www.news.aakashg.com/p/tom-occhino-podcast",
+    theme: "Operating Model",
+    media: "Podcast",
+    time: "75 min listen",
+    added: "2026-09-14",
+    verdict: "Worth it, but keep writing the PRD",
+    note: "Vercel's CPO on how the team runs, from its Notion, Slack and Linear setup to its layered roadmaps, plus a full walkthrough of v0. The episode calls the prototype the new PRD; I would keep both, because a prototype cannot carry everything a spec needs to.",
+  },
+  {
     id: "boris-cherny-we-cut-80-of-claude-codes-prompt",
     title: "Boris Cherny: We Cut 80% of Claude Code's Prompt",
     by: "Y Combinator",
     url: "https://www.youtube.com/watch?v=qyPCVqFUyDo",
-    theme: "AI & Evals",
+    theme: "AI",
     media: "Video",
     time: "36 min watch",
     added: "2026-09-01",

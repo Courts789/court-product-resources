@@ -48,8 +48,8 @@ vaultHash: "9865bd6e7e10"
 What it is and what you get, in two sentences at most.
 ```
 
-`theme` must be one of: Getting In, The Craft, AI & Evals, Growth, Career,
-Templates & Tools. `media` must be one of: Article, Podcast, Video, Book,
+`theme` must be one of: Getting In, The Craft, Operating Model, AI, Evals,
+Growth, Career, Templates & Tools. `media` must be one of: Article, Podcast, Video, Book,
 Guide, Template. Both lists live in `src/data/resources.ts`, so add to them
 there first if you need a new one.
 
