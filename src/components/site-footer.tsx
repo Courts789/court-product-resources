@@ -13,23 +13,29 @@ export function SiteFooter() {
           Drafted with AI. Read by a human before it&rsquo;s listed.
         </p>
 
-        <p className="eyebrow mt-12 text-cream/50">Sections</p>
-        <ul className="mt-6 grid gap-x-8 gap-y-3 sm:grid-cols-2 lg:flex lg:flex-wrap lg:gap-x-10">
-          {navigation.map((item) => (
-            <li key={item.href}>
-              <Link
-                href={item.href}
-                className="text-sm text-cream/85 transition-colors duration-300 hover:text-highlight"
-              >
-                {item.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {/* Named apart from the masthead's "Sections" nav, so the two
+            landmarks can be told apart in a screen reader's list. */}
+        <nav aria-label="Footer">
+          <p className="eyebrow mt-12 text-cream/60">
+            Sections
+          </p>
+          <ul className="mt-6 grid gap-x-8 gap-y-3 sm:grid-cols-2 lg:flex lg:flex-wrap lg:gap-x-10">
+            {navigation.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className="text-sm text-cream/85 transition-colors duration-300 hover:text-highlight"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
         <div className="mt-12 flex flex-col gap-3 border-t border-cream/20 pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="eyebrow text-cream/50">{site.name}</p>
-          <p className="eyebrow text-cream/50">
+          <p className="eyebrow text-cream/60">{site.name}</p>
+          <p className="eyebrow text-cream/60">
             &copy; {new Date().getFullYear()} {site.author}
           </p>
         </div>

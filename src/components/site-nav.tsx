@@ -97,7 +97,12 @@ export function SiteNav() {
 
       if (event.key !== "Tab") return;
 
-      const items = focusable();
+      /* The close button lives in the masthead, outside the panel, but it
+         is part of the dialog: without it in the cycle, Tab can never
+         reach the one visible way out. */
+      const items = [trigger, ...focusable()].filter(
+        (item): item is HTMLElement => item !== null,
+      );
       if (items.length === 0) return;
 
       const first = items[0];
