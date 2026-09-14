@@ -46,6 +46,7 @@ function searchFields(resource: Resource) {
     { value: resource.media, weight: 1.5 },
     { value: resource.note, weight: 1 },
     { value: resource.verdict, weight: 1 },
+    { value: resource.tags.join(" ").replace(/-/g, " "), weight: 1.5 },
   ];
 }
 

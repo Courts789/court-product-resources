@@ -7,5 +7,6 @@ media: "Video"
 time: "52 min watch"
 added: "2026-09-04"
 verdict: "Breaks down SDLC for non-technical PMs"
-vaultHash: "117b2b63be8f"
+vaultHash: "f115510bd5ea"
+tags: "AI, spec-driven development, operating model"
 ---
