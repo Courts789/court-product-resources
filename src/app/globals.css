@@ -28,6 +28,12 @@
 
   --color-rule: rgba(20, 24, 15, 0.16);
   --color-rule-strong: rgba(20, 24, 15, 0.34);
+  /*
+   * The resting underline or outline of a text field. Unlike a rule, it is
+   * the only thing that says "you can type here", so it has to clear 3:1
+   * against every stock a field sits on (measured 3.9:1 on the lightest).
+   */
+  --color-rule-field: rgba(20, 24, 15, 0.58);
 
   /* ── Primary ────────────────────────────────────────────────────────── */
   /* Pine carries every deliberate act: links, buttons, the active state. */
@@ -164,6 +170,9 @@
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
+      /* Staggered delays would otherwise leave copy invisible for a beat. */
+      animation-delay: 0ms !important;
+      transition-delay: 0ms !important;
     }
   }
 }
@@ -218,6 +227,78 @@
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.02em;
+}
+
+/*
+ * ── Motion ──────────────────────────────────────────────────────────────
+ * Page turns, not fireworks. Everything eases out on the same curve, and
+ * the reduced-motion rule in the base layer flattens all of it.
+ */
+@keyframes turn-forward {
+  from {
+    opacity: 0;
+    transform: translate3d(2.5rem, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes turn-back {
+  from {
+    opacity: 0;
+    transform: translate3d(-2.5rem, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 1.25rem, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility turn-forward {
+  animation: turn-forward 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@utility turn-back {
+  animation: turn-back 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Staggered by an inline --delay, so a list can arrive one line at a time. */
+@utility rise {
+  animation: rise 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+/*
+ * Scroll reveal. Only hidden when scripting is on, so the observer that
+ * sets data-shown is guaranteed to exist; without it the copy just shows.
+ */
+@utility reveal {
+  @media (scripting: enabled) {
+    opacity: 0;
+    transform: translate3d(0, 2rem, 0);
+    transition:
+      opacity 800ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--delay, 0ms);
+
+    [data-shown] & {
+      opacity: 1;
+      transform: none;
+    }
+  }
 }
 
 /* Underline that draws itself in on hover rather than snapping on. */
