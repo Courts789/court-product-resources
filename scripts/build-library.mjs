@@ -34,7 +34,7 @@ function vocabulary() {
 
 /**
  * Minimal frontmatter reader: `key: "value"` pairs, one per line, everything
- * after the closing fence is the note. Deliberately not a YAML parser — the
+ * after the closing fence is the note. Deliberately not a YAML parser, as the
  * schema is seven flat strings and a dependency would earn its keep at none.
  */
 function parse(file, raw) {
@@ -93,6 +93,15 @@ for (const file of files) {
     problems.push(`${file}: url "${fields.url}" is not an http(s) link.`);
   }
   if (!note) problems.push(`${file}: no note. Every entry needs its one sentence.`);
+
+  /*
+   * Drafts from the vault carry TODOs and the vault's raw reasons in a
+   * comment. Dropping the underscore before those are gone would publish
+   * the scaffolding, so a published entry may contain neither.
+   */
+  const everything = `${Object.values(fields).join(" ")} ${note}`;
+  if (/\bTODO\b/.test(everything)) problems.push(`${file}: still has a TODO.`);
+  if (note.includes("<!--")) problems.push(`${file}: still has the vault comment. Delete it before publishing.`);
 
   /*
    * House style, enforced rather than remembered. The banned list and the
@@ -160,6 +169,9 @@ writeFileSync(
 // Do not edit by hand: edit the markdown and run \`npm run library\`.
 
 import type { Resource } from "./resources";
+
+/** The newest entry's date, so the site's last-updated date follows the library. */
+export const libraryUpdated = ${JSON.stringify(entries.reduce((latest, e) => (e.added > latest ? e.added : latest), ""))};
 
 export const resources: readonly Resource[] = [${body ? `\n${body}\n` : ""}];
 `,

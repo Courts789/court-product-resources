@@ -5,8 +5,9 @@ url: "https://www.youtube.com/watch?v=qyPCVqFUyDo"
 theme: "AI & Evals"
 media: "Video"
 time: "36 min watch"
-added: "2026-09-08"
-verdict: "Simplifies just how different building AI product is"
+added: "2026-09-01"
+verdict: "Worth it, especially if you still iterate"
+vaultHash: "b724209d7e44"
 ---
 
-Claude Code's creator on deleting eighty per cent of the system prompt and finding the model came out smarter for it. A Startup School talk about what building on a fast-moving model does to the way you build everything else.
+Claude Code's creator lifts the hood on deleting most of its system prompt and getting a smarter model for it. It is the clearest case I have seen for how different building AI product is: at this pace you throw work out rather than iterate on it.

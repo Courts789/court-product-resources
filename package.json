@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "library": "node scripts/build-library.mjs",
-    "library:import": "node scripts/import-vault.mjs"
+    "library:sync": "node scripts/sync-vault.mjs"
   },
   "dependencies": {
     "next": "16.3.0",
