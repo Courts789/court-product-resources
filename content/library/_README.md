@@ -25,7 +25,8 @@ Step by step instructions and simple break down.
 here named with a leading underscore. It checks the title, byline and runtime
 against the source (YouTube and Substack so far) and uses the source when the
 two disagree, listing every disagreement so nothing changes silently. It
-never writes the theme, verdict or note, because those are judgements.
+never writes the theme, verdict or note: the theme is a judgement, and the
+other two are my own words, pieced together by hand.
 
 A scheduled Claude run does that part every morning and opens a pull request.
 Merging it deploys.
@@ -41,21 +42,24 @@ theme: "Templates & Tools"
 media: "Article"
 time: "8 min read"
 added: "2026-09-14"
-verdict: "Worth it if your work still lives in chat"
+verdict: "In a chat you get an answer. In a repo you get an asset."
 vaultHash: "9865bd6e7e10"
 ---
 
-What it is and what you get, in two sentences at most.
+The rest of the why lines, pieced together. Empty if the verdict says it all.
 ```
 
-`theme` must be one of: Getting In, The Craft, AI & Evals, Growth, Career,
-Templates & Tools. `media` must be one of: Article, Podcast, Video, Book,
+`theme` must be one of: The Craft, Operating Model, Design, AI, Evals,
+Growth, PMM, Career, Templates & Tools. `media` must be one of: Article, Podcast, Video, Book,
 Guide, Template. Both lists live in `src/data/resources.ts`, so add to them
 there first if you need a new one.
 
-`verdict` is the call in a few words, such as "Worth it", "Start here" or
-"Worth it for one chapter", and never "it depends" without saying on what.
-The note describes the thing; the verdict is what I think of it.
+`verdict` and the note come only from the "why it's worth reading" lines in
+the vault note, never from anyone else's opinion or a summary of the source.
+The verdict is the lead line. The note is the rest, pieced together into
+sentences with only the joining words and punctuation needed, and it is left
+empty when the verdict already uses every line. A banned word in the notes is
+swapped for its plainest equivalent.
 
 `vaultHash` fingerprints the vault note the entry came from. When the note is
 edited, the sync notices and lists the entry as changed.

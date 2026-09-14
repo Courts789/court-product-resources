@@ -92,7 +92,6 @@ for (const file of files) {
   if (fields.url && !/^https?:\/\//.test(fields.url)) {
     problems.push(`${file}: url "${fields.url}" is not an http(s) link.`);
   }
-  if (!note) problems.push(`${file}: no note. Every entry needs its one sentence.`);
 
   /*
    * Drafts from the vault carry TODOs and the vault's raw reasons in a

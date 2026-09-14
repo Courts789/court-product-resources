@@ -6,8 +6,8 @@ theme: "Templates & Tools"
 media: "Article"
 time: "8 min read"
 added: "2026-09-14"
-verdict: "Worth it if your work still lives in chat"
+verdict: "In a chat you get an answer. In a repo you get an asset."
 vaultHash: "9865bd6e7e10"
 ---
 
-Why GTM work done in a chat window never compounds, and a step by step path from browser tabs to a git repo. In a chat you get an answer; in a repo you get an asset, with memory, skills and scheduled tasks behind it.
+The inefficiency of continuing to work in Chat and Cowork environments: you lose your edge and get lower quality outputs. Memory, skills, and repeated or scheduled tasks, with step by step instructions and a simple breakdown.

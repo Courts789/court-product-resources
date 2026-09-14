@@ -33,7 +33,7 @@ const jsonLd = {
       "@type": "ListItem",
       position: index + 1,
       name: resource.title,
-      description: resource.note,
+      description: resource.note || resource.verdict,
       url: resource.url,
     })),
   },
