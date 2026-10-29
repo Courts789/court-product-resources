@@ -4,7 +4,7 @@
 import type { Resource } from "./resources";
 
 /** The newest entry's date, so the site's last-updated date follows the library. */
-export const libraryUpdated = "2026-09-14";
+export const libraryUpdated = "2026-09-15";
 
 export const resources: readonly Resource[] = [
   {
@@ -19,6 +19,19 @@ export const resources: readonly Resource[] = [
     verdict: "Breaks down SDLC for non-technical PMs",
     note: "",
     tags: ["AI","spec-driven development","operating model"],
+  },
+  {
+    id: "mcp-explained-simply",
+    title: "MCP Explained Simply: What It Is and Why It Exists",
+    by: "Nana Janashia",
+    url: "https://www.youtube.com/watch?v=oblaHqULUHk",
+    theme: "AI",
+    media: "Video",
+    time: "30 min watch",
+    added: "2026-09-15",
+    verdict: "Great, easy to follow summary of why MCPs exist and how they are built, with some relatable examples throughout",
+    note: "Please note the disclaimer that this was created before the MCP stateless protocol update on 28 July 2026. It's still a worthwhile starting point if you use MCPs but don't know why they are different to APIs, etc.",
+    tags: ["MCP","AI","API"],
   },
   {
     id: "vercel-cpo-v0",
