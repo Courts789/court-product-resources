@@ -22,7 +22,7 @@ export const resources: readonly Resource[] = [
   },
   {
     id: "mcp-explained-simply",
-    title: "MCP Explained Simply — What It Is and Why It Exists",
+    title: "MCP Explained Simply: What It Is and Why It Exists",
     by: "Nana Janashia",
     url: "https://www.youtube.com/watch?v=oblaHqULUHk",
     theme: "AI",
