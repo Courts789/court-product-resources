@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { submitSuggestion, type SuggestionState } from "@/app/actions/suggest";
 
@@ -38,7 +38,11 @@ function Field({
       <label htmlFor={id} className="eyebrow block text-ink">
         {label}
       </label>
-      {hint && <p className="mt-2 text-xs text-ink-muted">{hint}</p>}
+      {hint && (
+        <p id={`${id}-hint`} className="mt-2 text-xs text-ink-muted">
+          {hint}
+        </p>
+      )}
       <div className="mt-2">{children}</div>
       {error && (
         <p id={`${id}-error`} className="mt-2 text-xs text-alarm">
@@ -49,11 +53,39 @@ function Field({
   );
 }
 
+/*
+ * No outline ring: focus is the underline turning pine and doubling in
+ * weight, which is visible without the colour change too.
+ */
 const inputClass =
-  "w-full border-b-2 border-rule bg-transparent pb-2 text-lg text-ink outline-none transition-colors duration-300 placeholder:text-ink-muted focus:border-pine";
+  "w-full border-b-2 border-rule-field bg-transparent pb-2 text-lg text-ink outline-none transition-[border-color,box-shadow] duration-300 placeholder:text-ink-muted focus:border-pine focus:shadow-[0_2px_0_0_var(--color-pine)]";
+
+/** Hint first, then the error, so a screen reader hears the rule before the problem. */
+function describedBy(id: string, hint: boolean, error?: string) {
+  const ids = [hint && `${id}-hint`, error && `${id}-error`].filter(Boolean);
+  return ids.length > 0 ? ids.join(" ") : undefined;
+}
+
+const fieldOrder = ["name", "email", "link", "reason", "linkedin"] as const;
 
 export function SuggestionForm() {
   const [state, formAction] = useActionState(submitSuggestion, initialState);
+  const form = useRef<HTMLFormElement>(null);
+  const thanks = useRef<HTMLDivElement>(null);
+
+  /*
+   * Submitting swaps what is on screen without a page load, so focus has to
+   * be put somewhere deliberate: on the first field that needs fixing, or on
+   * the thank-you once the form itself has gone.
+   */
+  useEffect(() => {
+    if (state.status === "success") {
+      thanks.current?.focus();
+      return;
+    }
+    const first = fieldOrder.find((field) => state.errors?.[field]);
+    if (first) form.current?.querySelector<HTMLElement>(`#${first}`)?.focus();
+  }, [state]);
 
   /*
    * React resets a form after a server action runs, which would wipe
@@ -75,7 +107,12 @@ export function SuggestionForm() {
 
   if (state.status === "success") {
     return (
-      <div className="rounded-card bg-sage p-7">
+      <div
+        ref={thanks}
+        role="status"
+        tabIndex={-1}
+        className="rounded-card bg-sage p-7 focus:outline-none"
+      >
         <p className="text-[length:var(--text-lede)] leading-[1.45] text-ink">
           {state.message}
         </p>
@@ -84,7 +121,7 @@ export function SuggestionForm() {
   }
 
   return (
-    <form action={formAction} className="max-w-xl">
+    <form ref={form} action={formAction} className="max-w-xl">
       <div className="grid gap-8 sm:grid-cols-2">
         <Field id="name" label="Your name" error={state.errors?.name}>
           <input
@@ -97,7 +134,7 @@ export function SuggestionForm() {
             maxLength={120}
             autoComplete="name"
             aria-invalid={Boolean(state.errors?.name)}
-            aria-describedby={state.errors?.name ? "name-error" : undefined}
+            aria-describedby={describedBy("name", false, state.errors?.name)}
             className={inputClass}
           />
         </Field>
@@ -113,7 +150,7 @@ export function SuggestionForm() {
             maxLength={200}
             autoComplete="email"
             aria-invalid={Boolean(state.errors?.email)}
-            aria-describedby={state.errors?.email ? "email-error" : undefined}
+            aria-describedby={describedBy("email", false, state.errors?.email)}
             className={inputClass}
           />
         </Field>
@@ -136,7 +173,7 @@ export function SuggestionForm() {
             maxLength={500}
             placeholder="https://"
             aria-invalid={Boolean(state.errors?.link)}
-            aria-describedby={state.errors?.link ? "link-error" : undefined}
+            aria-describedby={describedBy("link", true, state.errors?.link)}
             className={inputClass}
           />
         </Field>
@@ -156,7 +193,7 @@ export function SuggestionForm() {
             rows={3}
             maxLength={1200}
             aria-invalid={Boolean(state.errors?.reason)}
-            aria-describedby={state.errors?.reason ? "reason-error" : undefined}
+            aria-describedby={describedBy("reason", true, state.errors?.reason)}
             className={`${inputClass} resize-y`}
           />
         </Field>
@@ -177,9 +214,11 @@ export function SuggestionForm() {
             placeholder="https://www.linkedin.com/in/"
             autoComplete="url"
             aria-invalid={Boolean(state.errors?.linkedin)}
-            aria-describedby={
-              state.errors?.linkedin ? "linkedin-error" : undefined
-            }
+            aria-describedby={describedBy(
+              "linkedin",
+              true,
+              state.errors?.linkedin,
+            )}
             className={inputClass}
           />
         </Field>

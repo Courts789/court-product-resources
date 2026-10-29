@@ -229,6 +229,16 @@
     border-radius: 2px;
   }
 
+  /*
+   * Pine on the night masthead and footer measures 1.8:1, and on the forest
+   * hero and 404 it vanishes entirely. Anything focused inside a dark slab
+   * takes a highlight ring instead. Descendants only, so a forest button
+   * sitting on cream keeps its pine ring.
+   */
+  :where(.bg-night, .bg-forest) :focus-visible {
+    outline-color: var(--color-highlight);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;

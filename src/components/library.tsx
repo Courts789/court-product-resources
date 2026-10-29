@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   isNew,
   resources,
@@ -71,8 +71,38 @@ function useMastheadHeight(): number {
   return height;
 }
 
+/**
+ * Tabbing backwards through the list scrolls each row to the top of the
+ * viewport, where the masthead and the sticky filter bar would sit over
+ * it. Reserving their combined height as scroll padding keeps the focused
+ * row in the clear, and the reservation is lifted on the way out.
+ */
+function useStickyScrollPadding(
+  bar: React.RefObject<HTMLElement | null>,
+  mastheadHeight: number,
+) {
+  useEffect(() => {
+    const element = bar.current;
+    if (!element) return;
+    const root = document.documentElement;
+    const previous = root.style.scrollPaddingTop;
+
+    const observer = new ResizeObserver(([entry]) => {
+      const barHeight = entry.target.getBoundingClientRect().height;
+      root.style.scrollPaddingTop = `${mastheadHeight + barHeight + 16}px`;
+    });
+    observer.observe(element);
+    return () => {
+      observer.disconnect();
+      root.style.scrollPaddingTop = previous;
+    };
+  }, [bar, mastheadHeight]);
+}
+
 export function Library() {
   const mastheadHeight = useMastheadHeight();
+  const controls = useRef<HTMLDivElement>(null);
+  useStickyScrollPadding(controls, mastheadHeight);
   const [query, setQuery] = useState("");
   const [theme, setTheme] = useState<ThemeFilter>("All");
   const [media, setMedia] = useState<Media | null>(null);
@@ -145,6 +175,7 @@ export function Library() {
           the list instead of hovering over whatever follows. */}
       <div className="relative">
         <div
+          ref={controls}
           style={{ top: mastheadHeight }}
           className="sticky z-30 border-b border-rule bg-paper"
         >
@@ -160,7 +191,7 @@ export function Library() {
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
                   placeholder="Search by title, person or topic"
-                  className="w-full border-b-2 border-rule bg-transparent pb-2 text-base text-ink outline-none transition-colors duration-300 placeholder:text-ink-muted focus:border-pine sm:text-lg"
+                  className="w-full border-b-2 border-rule-field bg-transparent pb-2 text-base text-ink outline-none transition-[border-color,box-shadow] duration-300 placeholder:text-ink-muted focus:border-pine focus:shadow-[0_2px_0_0_var(--color-pine)] sm:text-lg"
                 />
               </div>
 
@@ -345,7 +376,16 @@ export function Library() {
                   <ResourceList items={section.items} />
                 </section>
               ))
-            : visible.length > 0 && <ResourceList items={visible} />}
+            : visible.length > 0 && (
+                <section>
+                  {/* Not shown: the page already reads as one list here,
+                      but the entries are h3s and need an h2 above them. */}
+                  <h2 className="sr-only">
+                    {query !== "" ? "Search results" : "Newest first"}
+                  </h2>
+                  <ResourceList items={visible} />
+                </section>
+              )}
         </div>
       </div>
     </>

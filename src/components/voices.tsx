@@ -4,8 +4,13 @@ import { initials, voiceInks, voiceStocks } from "@/lib/accents";
 
 export function Voices() {
   return (
-    <section>
+    <section aria-labelledby="voices-title">
       <div className="mx-auto max-w-[84rem] px-5 pb-16 sm:px-8 sm:pb-24 lg:px-12">
+        {/* The page heading already introduces the list; this keeps the
+            names (h3) from sitting directly under the h1. */}
+        <h2 id="voices-title" className="sr-only">
+          The five people
+        </h2>
         <ol className="border-t border-rule">
           {voices.map((voice, index) => {
             const stock = voiceStocks[index % voiceStocks.length];
